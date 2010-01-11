@@ -435,14 +435,6 @@
     <Parameter Name="ClientId" Parameter="clientId" Type="System.Int32" DbType="Int" />
     <Return Type="System.Int32" />
   </Function>
-  <Function Name="dbo.SalesDelete" Method="SalesDelete">
-    <Parameter Name="Id" Parameter="id" Type="System.Int32" DbType="Int" />
-    <Parameter Name="Menu" Parameter="menu" Type="System.Int32" DbType="Int" />
-    <Parameter Name="Quantity" Parameter="quantity" Type="System.Decimal" DbType="Decimal" />
-    <Parameter Name="Source" Parameter="source" Type="System.Int32" DbType="Int" />
-    <Parameter Name="SourceType" Parameter="sourceType" Type="System.String" DbType="VarChar(100)" />
-    <Return Type="System.Int32" />
-  </Function>
   <Function Name="dbo.SalesEdit" Method="SalesEdit">
     <Parameter Name="Id" Parameter="id" Type="System.Int32" DbType="Int" />
     <Parameter Name="Menu" Parameter="menu" Type="System.Int32" DbType="Int" />
@@ -463,6 +455,14 @@
   </Function>
   <Function Name="dbo.SelectItemByType" Method="SelectItemByType">
     <Parameter Name="Type" Parameter="type" Type="System.String" DbType="VarChar(100)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.SalesDelete" Method="SalesDelete">
+    <Parameter Name="Id" Parameter="id" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Menu" Parameter="menu" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Quantity" Parameter="quantity" Type="System.Decimal" DbType="Decimal" />
+    <Parameter Name="Source" Parameter="source" Type="System.Int32" DbType="Int" />
+    <Parameter Name="SourceType" Parameter="sourceType" Type="System.String" DbType="VarChar(100)" />
     <Return Type="System.Int32" />
   </Function>
 </Database>

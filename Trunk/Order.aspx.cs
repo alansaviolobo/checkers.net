@@ -46,7 +46,7 @@ public partial class Order : System.Web.UI.Page
                     DdlQuantity.Items.Add(new ListItem(Quantity.ToString()));
 
 
-                if (Checkers.Contacts.Where(C=>C.Contact_Id.Equals(int.Parse(Session["UserId"].ToString()))).Select(C=>C.Contact_Type).Single().Equals("Administrator"))
+                if (Checkers.Contacts.Where(C => C.Contact_Id.Equals(int.Parse(Session["UserId"].ToString()))).Select(C => C.Contact_Type).Single().Equals("Administrator"))
                     BtnAdministration.Visible = true;
             }
             FillTables();
@@ -148,7 +148,7 @@ public partial class Order : System.Web.UI.Page
         int SalesId = int.Parse(e.Item.Cells[0].Text); ;
         int Menu = (from S in Checkers.Sales where S.Sales_Id == SalesId select S.Sales_Menu.Value).Single();
 
-        Status = Checkers.SalesDelete(SalesId, int.Parse(DdlItem.SelectedItem.Value), decimal.Parse(DdlQuantity.SelectedItem.Text), int.Parse(HdnTableId.Value), "Table");
+        Status = Checkers.SalesDelete(SalesId, Menu, decimal.Parse(e.Item.Cells[2].Text), int.Parse(HdnTableId.Value), "Table");
         LtrMessage.Text = Status == 1 ? "Item " + e.Item.Cells[1].Text + " For Table No. " + HdnTableId.Value + " Deleted" : "Error Occurred";
 
         var MenuConverter = Checkers.Converters.Where(C => C.Converter_Menu == Menu && C.Converter_Status == 1).Select(C => C);
@@ -160,6 +160,7 @@ public partial class Order : System.Web.UI.Page
 
         FillOt();
         ShowOrders();
+        OrderInformation();
     }
 
     protected void BtnBill_Click(object sender, EventArgs e)
@@ -195,7 +196,7 @@ public partial class Order : System.Web.UI.Page
                 var OrderList = from O in Checkers.Sales
                                 from M in Checkers.Menus
                                 where O.Sales_Source == (from S in Checkers.Sources
-                                                         where S.Source_Number == int.Parse(HdnTableId.Value) && S.Source_Status == 1
+                                                         where S.Source_Number == int.Parse(HdnTableId.Value) && S.Source_Status == 2
                                                          select S.Source_Id).Single() && O.Sales_Status == 1
                                                          && O.Sales_Menu == M.Menu_Id
                                 select new { O.Sales_Id, M.Menu_Name, O.Sales_Quantity, O.Sales_Cost };

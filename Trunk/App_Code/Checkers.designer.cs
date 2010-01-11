@@ -510,13 +510,6 @@ public partial class CheckersDataContext : System.Data.Linq.DataContext
 		return ((int)(result.ReturnValue));
 	}
 	
-	[Function(Name="dbo.SalesDelete")]
-	public int SalesDelete([Parameter(Name="Id", DbType="Int")] System.Nullable<int> id, [Parameter(Name="Menu", DbType="Int")] System.Nullable<int> menu, [Parameter(Name="Quantity", DbType="Decimal")] System.Nullable<decimal> quantity, [Parameter(Name="Source", DbType="Int")] System.Nullable<int> source, [Parameter(Name="SourceType", DbType="VarChar(100)")] string sourceType)
-	{
-		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id, menu, quantity, source, sourceType);
-		return ((int)(result.ReturnValue));
-	}
-	
 	[Function(Name="dbo.SalesEdit")]
 	public int SalesEdit([Parameter(Name="Id", DbType="Int")] System.Nullable<int> id, [Parameter(Name="Menu", DbType="Int")] System.Nullable<int> menu, [Parameter(Name="Quantity", DbType="Decimal")] System.Nullable<decimal> quantity, [Parameter(Name="Source", DbType="Int")] System.Nullable<int> source, [Parameter(Name="SourceType", DbType="VarChar(100)")] string sourceType, [Parameter(Name="Package", DbType="Int")] System.Nullable<int> package)
 	{
@@ -535,6 +528,13 @@ public partial class CheckersDataContext : System.Data.Linq.DataContext
 	public int SelectItemByType([Parameter(Name="Type", DbType="VarChar(100)")] string type)
 	{
 		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), type);
+		return ((int)(result.ReturnValue));
+	}
+	
+	[Function(Name="dbo.SalesDelete")]
+	public int SalesDelete([Parameter(Name="Id", DbType="Int")] System.Nullable<int> id, [Parameter(Name="Menu", DbType="Int")] System.Nullable<int> menu, [Parameter(Name="Quantity", DbType="Decimal")] System.Nullable<decimal> quantity, [Parameter(Name="Source", DbType="Int")] System.Nullable<int> source, [Parameter(Name="SourceType", DbType="VarChar(100)")] string sourceType)
+	{
+		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id, menu, quantity, source, sourceType);
 		return ((int)(result.ReturnValue));
 	}
 }
