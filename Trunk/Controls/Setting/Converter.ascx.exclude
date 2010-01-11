@@ -1,0 +1,253 @@
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="Converter.ascx.cs" Inherits="Controls_Setting_Converter" %>
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="atk" %>
+
+<script type="text/javascript">
+    function ItemShow(sender, eventArgs) {
+        Checkers.GetItemDetails(sender._element.value, ItemShowSuccess, Error);
+    }
+
+    function ItemShowSuccess(result) {
+        document.getElementById('<%=HdnFldItemId.ClientID %>').value = result["Id"];
+    }
+
+    function ConverterShow(sender, eventArgs) {
+        Checkers.GetItemDetails(sender._element.value, ItemShowSuccess, Error);
+        Checkers.GetConverterDetails(sender._element.value, ConverterShowSuccess, Error);
+    }
+
+    function ConverterShowSuccess(result) {
+        var j = 1;
+        for (var i in result) {
+            var TempArray = result[i].split(":");
+            document.getElementById('ctl00_HldrContent_ctl00_HdnFld' + j).value = TempArray[0].toString();
+            document.getElementById('ctl00_HldrContent_ctl00_DdlItemName' + j).value = TempArray[1];
+            document.getElementById('ctl00_HldrContent_ctl00_TxtItemQnty' + j).value = TempArray[2];
+            j++;
+        }
+    }
+
+    function Error(result) {
+        alert(result.value);
+    }
+</script>
+
+<asp:ScriptManager ID="ScrMgrPurchase" runat="server">
+    <Services>
+        <asp:ServiceReference Path="~/Service/Checkers.asmx" />
+    </Services>
+</asp:ScriptManager>
+<asp:UpdatePanel ID="PnlConverter" runat="server">
+    <ContentTemplate>
+        <div id="Message" runat="server">
+            <asp:Label ID="LblMessage" runat="server" />
+            &nbsp;&nbsp;
+            <asp:LinkButton ID="BtnYes" runat="server" Visible="false" OnClick="BtnYes_Click">Yes</asp:LinkButton>
+            &nbsp;
+            <asp:LinkButton ID="BtnNo" runat="server" Visible="false" OnClick="BtnNo_Click">No</asp:LinkButton>
+        </div>
+        <table id="TblItemSearch" runat="server">
+            <tr>
+                <td>
+                    Item Name :
+                </td>
+                <td>
+                    <atk:AutoCompleteExtender ID="AutoCompItemSearch" runat="server" TargetControlID="TxtSearchItemName"
+                        ServicePath="~/Service/Checkers.asmx" ServiceMethod="ItemNameList" CompletionInterval="100"
+                        CompletionSetCount="10" MinimumPrefixLength="1" OnClientItemSelected="ConverterShow" />
+                    <asp:TextBox ID="TxtSearchItemName" runat="server" />
+                </td>
+            </tr>
+        </table>
+        <br />
+        <br />
+        Item Name :
+        <asp:Label ID="LblItemName" runat="server" />
+        <br />
+        Item Quantity : 1
+        <table id="TblConverter">
+            <thead>
+                <tr>
+                    <th>
+                    </th>
+                    <th>
+                        Item No.
+                    </th>
+                    <th>
+                        Item Name
+                    </th>
+                    <th>
+                        Quantity (Units)
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <asp:HiddenField ID="HdnFld1" runat="server" />
+                    </td>
+                    <td>
+                        1
+                    </td>
+                    <td>
+                        <asp:DropDownList ID="DdlItemName1" runat="server" AppendDataBoundItems="true" OnSelectedIndexChanged="DdlItemName_SelectedIndexChanged">
+                            <asp:ListItem Text="" Value="" />
+                        </asp:DropDownList>
+                    </td>
+                    <td>
+                        <asp:TextBox ID="TxtItemQnty1" runat="server" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <asp:HiddenField ID="HdnFld2" runat="server" />
+                    </td>
+                    <td>
+                        2
+                    </td>
+                    <td>
+                        <asp:DropDownList ID="DdlItemName2" runat="server" AppendDataBoundItems="true" OnSelectedIndexChanged="DdlItemName_SelectedIndexChanged">
+                            <asp:ListItem Text="" Value="" />
+                        </asp:DropDownList>
+                    </td>
+                    <td>
+                        <asp:TextBox ID="TxtItemQnty2" runat="server" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <asp:HiddenField ID="HdnFld3" runat="server" />
+                    </td>
+                    <td>
+                        3
+                    </td>
+                    <td>
+                        <asp:DropDownList ID="DdlItemName3" runat="server" AppendDataBoundItems="true" onselectedindexchanged="DdlItemName_SelectedIndexChanged" >
+                            <asp:ListItem Text="" Value="" />
+                        </asp:DropDownList>
+                    </td>
+                    <td>
+                        <asp:TextBox ID="TxtItemQnty3" runat="server" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <asp:HiddenField ID="HdnFld4" runat="server" />
+                    </td>
+                    <td>
+                        4
+                    </td>
+                    <td>
+                        <asp:DropDownList ID="DdlItemName4" runat="server" AppendDataBoundItems="true" onselectedindexchanged="DdlItemName_SelectedIndexChanged" >
+                            <asp:ListItem Text="" Value="" />
+                        </asp:DropDownList>
+                    </td>
+                    <td>
+                        <asp:TextBox ID="TxtItemQnty4" runat="server" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <asp:HiddenField ID="HdnFld5" runat="server" />
+                    </td>
+                    <td>
+                        5
+                    </td>
+                    <td>
+                        <asp:DropDownList ID="DdlItemName5" runat="server" AppendDataBoundItems="true" onselectedindexchanged="DdlItemName_SelectedIndexChanged" >
+                            <asp:ListItem Text="" Value="" />
+                        </asp:DropDownList>
+                    </td>
+                    <td>
+                        <asp:TextBox ID="TxtItemQnty5" runat="server" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <asp:HiddenField ID="HdnFld6" runat="server" />
+                    </td>
+                    <td>
+                        6
+                    </td>
+                    <td>
+                        <asp:DropDownList ID="DdlItemName6" runat="server" AppendDataBoundItems="true" onselectedindexchanged="DdlItemName_SelectedIndexChanged" >
+                            <asp:ListItem Text="" Value="" />
+                        </asp:DropDownList>
+                    </td>
+                    <td>
+                        <asp:TextBox ID="TxtItemQnty6" runat="server" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <asp:HiddenField ID="HdnFld7" runat="server" />
+                    </td>
+                    <td>
+                        7
+                    </td>
+                    <td>
+                        <asp:DropDownList ID="DdlItemName7" runat="server" AppendDataBoundItems="true" onselectedindexchanged="DdlItemName_SelectedIndexChanged" >
+                            <asp:ListItem Text="" Value="" />
+                        </asp:DropDownList>
+                    </td>
+                    <td>
+                        <asp:TextBox ID="TxtItemQnty7" runat="server" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <asp:HiddenField ID="HdnFld8" runat="server" />
+                    </td>
+                    <td>
+                        8
+                    </td>
+                    <td>
+                        <asp:DropDownList ID="DdlItemName8" runat="server" AppendDataBoundItems="true" onselectedindexchanged="DdlItemName_SelectedIndexChanged" >
+                            <asp:ListItem Text="" Value="" />
+                        </asp:DropDownList>
+                    </td>
+                    <td>
+                        <asp:TextBox ID="TxtItemQnty8" runat="server" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <asp:HiddenField ID="HdnFld9" runat="server" />
+                    </td>
+                    <td>
+                        9
+                    </td>
+                    <td>
+                        <asp:DropDownList ID="DdlItemName9" runat="server" AppendDataBoundItems="true" onselectedindexchanged="DdlItemName_SelectedIndexChanged" >
+                            <asp:ListItem Text="" Value="" />
+                        </asp:DropDownList>
+                    </td>
+                    <td>
+                        <asp:TextBox ID="TxtItemQnty9" runat="server" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <asp:HiddenField ID="HdnFld10" runat="server" />
+                    </td>
+                    <td>
+                        10
+                    </td>
+                    <td>
+                        <asp:DropDownList ID="DdlItemName10" runat="server" AppendDataBoundItems="true" onselectedindexchanged="DdlItemName_SelectedIndexChanged" >
+                            <asp:ListItem Text="" Value="" />
+                        </asp:DropDownList>
+                    </td>
+                    <td>
+                        <asp:TextBox ID="TxtItemQnty10" runat="server" />
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <asp:Button ID="BtnSubmit" runat="server" OnClick="BtnSubmit_Click" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <asp:HiddenField ID="HdnFldItemId" runat="server" Value="0" />
+    </ContentTemplate>
+</asp:UpdatePanel>

@@ -1,0 +1,154 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.Services;
+
+public partial class Controls_Setting_Converter: System.Web.UI.UserControl
+{
+    public CheckersDataContext Checkers;
+    public static string Operation;
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        Context.Items["Operation"] = "New";
+
+        Checkers = new CheckersDataContext();
+        FillData();
+
+        if (!Page.IsPostBack)
+        {
+            Operation = Context.Items["Operation"].ToString();
+        }
+
+        AutoCompItemSearch.ContextKey = "Converter";
+
+        if (Operation.Equals("New"))
+        {
+            BtnSubmit.Text = "Add New";
+            BtnYes.Visible = false;
+            BtnNo.Visible = false;
+        }
+        else if (Operation.Equals("Update")) BtnSubmit.Text = "Update";
+        else if (Operation.Equals("Delete")) BtnSubmit.Text = "Delete";
+    }
+    protected void BtnSubmit_Click(object sender, EventArgs e)
+    {
+        var Status = 0;
+        Checkers = new CheckersDataContext();
+
+        if (Operation.Equals("New"))
+        {
+            if (ValidateValues().Equals(1))
+            {
+                for (int i = 1; i < 11; i++)
+                {
+                    if (((TextBox)FindControl("TxtItemQnty" + i)).Text != "")
+                    {
+                        Status = Checkers.SP_Converter(0, int.Parse(HdnFldItemId.Value), 1, int.Parse(((DropDownList)FindControl("DdlItemName" + i)).SelectedValue), int.Parse(((TextBox)FindControl("TxtItemQnty" + i)).Text), int.Parse(Session["UserId"].ToString()), "New");
+                        LblMessage.Text = Status == 1 ? "Operation Successful" : "Entries Already Exists For Item " + TxtSearchItemName.Text;
+                    }
+                }
+            }
+        }
+        else if (Operation.Equals("Update"))
+        {
+            if (ValidateValues().Equals(1))
+            {
+                for (int i = 1; i < 11; i++)
+                {
+                    if (((HiddenField)FindControl("HdnFld" + i)).Value != null)//((TextBox)FindControl("TxtItemQnty" + i)).Text != "")
+                    {
+                        Status = Checkers.SP_Converter(int.Parse(((HiddenField)FindControl("HdnFld" + i)).Value), int.Parse(HdnFldItemId.Value), 1, int.Parse(((DropDownList)FindControl("DdlItemName" + i)).SelectedValue), int.Parse(((TextBox)FindControl("TxtItemQnty" + i)).Text), int.Parse(Session["UserId"].ToString()), "Update");
+                        LblMessage.Text = Status == 1 ? "Operation Successful" : "Entries Already Exists For Item " + TxtSearchItemName.Text;
+                    }
+                }
+            }
+        }
+        else if (Operation.Equals("Delete"))
+        {
+            if (HdnFldItemId.Value != "")
+            {
+                LblMessage.Text = "Deleting Item " + TxtSearchItemName.Text + " Inventory Will Effect The Sales. This Action Cannot Be UnDone.<br />";
+                LblMessage.Text += "Are You Sure You Want To Proceed ? ";
+                BtnYes.Visible = true;
+                BtnNo.Visible = true;
+            }
+        }
+    }
+    private void FillData()
+    {
+        Checkers = new CheckersDataContext();
+        ListItem DdlItem;
+
+        var Item = from I in Checkers.Items
+                   where I.Itm_Purchase == true && I.Itm_Status == true
+                   select new { I.Itm_Id, I.Itm_Name };
+
+        for (int i = 1; i < 11; i++)
+        {
+            foreach (var Itm in Item)
+            {
+                DdlItem = new ListItem();
+                DdlItem.Text = Itm.Itm_Name.ToString();
+                DdlItem.Value = Itm.Itm_Id.ToString();
+
+                ((DropDownList)FindControl("DdlItemName" + i)).Items.Add(DdlItem);
+            }
+        }
+    }
+    private int ValidateValues()
+    {
+        int Status = 1;
+
+        for (int i = 1; i < 11; i++)
+        {
+            if (((TextBox)FindControl("TxtItemQnty" + i)).Text == "" && ((DropDownList)FindControl("DdlItemName" + i)).SelectedItem.Text != "")
+            {
+                LblMessage.Text = "Please Enter Quantity For Item " + i;
+                Status = 0; break;
+            }
+            else if (((TextBox)FindControl("TxtItemQnty" + i)).Text != "" && ((DropDownList)FindControl("DdlItemName" + i)).SelectedItem.Text == "")
+            {
+                LblMessage.Text = "Please Select The ItemName For Item " + i;
+                Status = 0; break;
+            }
+        }
+
+        return Status;
+    }
+    protected void BtnYes_Click(object sender, EventArgs e)
+    {
+        var Status = 0;
+        Checkers = new CheckersDataContext();
+
+        if (Operation.Equals("Delete"))
+        {
+            Status = Checkers.SP_Converter(0, int.Parse(HdnFldItemId.Value), 1, 0, 0, int.Parse(Session["UserId"].ToString()), "Delete");
+            LblMessage.Text = Status == 1 ? "Deletion Successful" : "";
+        }
+
+        ClearForm();
+    }
+    protected void BtnNo_Click(object sender, EventArgs e)
+    {
+        LblMessage.Text = "Operation Cancelled By The User";
+        ClearForm();
+    }
+    private void ClearForm()
+    {
+        for (int i = 1; i < 11; i++)
+        {
+            ((TextBox)FindControl("TxtItemQnty" + i)).Text = "";
+            ((DropDownList)FindControl("DdlItemName" + i)).SelectedIndex = 0;
+            BtnYes.Visible = false;
+            BtnNo.Visible = false;
+        }
+    }
+    protected void DdlItemName_SelectedIndexChanged(object sender, EventArgs e)
+    {
+
+    }
+}

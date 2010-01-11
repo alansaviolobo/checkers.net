@@ -1,0 +1,104 @@
+﻿body
+{
+	font-family: calibri;
+	font-size: medium;
+}
+
+#Container
+{
+	width: 1000px;
+	height: 550px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.Menu
+{
+	width: 190px;
+	float: left;
+	padding: 1%;
+}
+
+.Content
+{
+	width: 750px;
+	float: right;
+	padding: 1%;
+}
+
+#Header
+{
+	text-align: left;
+	padding: 1%;
+}
+
+#Footer
+{
+	clear: both;
+	text-align: center;
+	border-top: 1px silver solid;
+	margin-top: 15px;
+	padding: 10px;
+	font-size: small;
+}
+
+.PaneHeader
+{
+	font-weight: bold;
+	padding: 5px;
+	background: #DB91E3;
+	color: White;
+	cursor: pointer;
+	border: 1px dotted black;
+}
+
+.PaneSelected
+{
+	font-weight: bold;
+	padding: 5px;
+	background: #916096;
+	color: White;
+	cursor: pointer;
+	text-decoration: underline;
+}
+
+.PaneContent
+{
+	padding: 5px;
+	padding-left: 15px;
+	color: Black;
+	line-height: 25px;
+}
+
+#Message
+{
+	background-color: #F9EAFB;
+	text-transform:capitalize;
+	text-align: center;
+	margin-bottom: 15px;
+	padding: 6px;
+	font-weight: bold;
+}
+
+#Title
+{
+	font-size: larger;
+	font-weight: bold;
+	text-transform: uppercase;
+}
+
+#Viewer
+{
+	padding-top: 30px;
+	padding-bottom: 30px;
+}
+#LinkOrder
+{
+	text-align: center;
+	clear:both;
+}
+.Search
+{
+	padding: 10px;
+	padding-bottom: 15px;
+}

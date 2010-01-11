@@ -1,0 +1,127 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="Common.master.cs" Inherits="Common" %>
+
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="Ajax" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+    <link href="~/Assets/Style/Common.css" rel="stylesheet" type="text/css" />
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="FrmCommon" runat="server">
+    <asp:ScriptManager ID="ScrMgrMaster" runat="server">
+        <Services>
+            <asp:ServiceReference Path="~/CheckersWebService.asmx" />
+        </Services>
+    </asp:ScriptManager>
+    <div id="Container">
+        <div id="Header">
+            <table style="width: 98%">
+                <tr>
+                    <td style="width: 180px;">
+                        <img src="Assets/Image/QuatroSmall.png" alt="" />
+                    </td>
+                    <td style="width: 726px; padding-left: 20px;">
+                        Hi <strong>
+                            <asp:Literal ID="LtrUserLoggedIn" runat="server" /></strong>&nbsp;!<br />
+                        <asp:LinkButton ID="BtnLogout" Text="Logout" runat="server" OnClick="BtnLogout_Click" />
+                    </td>
+                    <td>
+                        <asp:ImageButton ImageUrl="~/Assets/Image/OrderSystem.png" ToolTip="Proceed To Order System"
+                            ID="BtnOrderSystem" runat="server" onclick="BtnOrderSystem_Click" />
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="Menu">
+            <Ajax:Accordion ID="AccMenu" runat="server" ContentCssClass="PaneContent" HeaderCssClass="PaneHeader"
+                HeaderSelectedCssClass="PaneSelected" AutoSize="None">
+                <Panes>
+                    <Ajax:AccordionPane runat="server" ID="PaneMenu">
+                        <Header>
+                            Menu</Header>
+                        <Content>
+                            <a href="Operation.aspx?Section=Menu&Action=New">New</a><br />
+                            <a href="Operation.aspx?Section=Menu&Action=Edit">Edit</a><br />
+                            <a href="Operation.aspx?Section=Menu&Action=Delete">Delete</a>
+                        </Content>
+                    </Ajax:AccordionPane>
+                    <Ajax:AccordionPane runat="server" ID="PaneIngredient">
+                        <Header>
+                            Ingredient</Header>
+                        <Content>
+                            <a href="Operation.aspx?Section=Inventory&Action=New">New</a><br />
+                            <a href="Operation.aspx?Section=Inventory&Action=Edit">Edit</a><br />
+                            <a href="Operation.aspx?Section=Inventory&Action=Delete">Delete</a><br />
+                            <a href="Operation.aspx?Section=Converter">Converter</a><br />
+                            <a href="Operation.aspx?Section=Purchase">Purchase</a>
+                        </Content>
+                    </Ajax:AccordionPane>
+                    <Ajax:AccordionPane runat="server" ID="PaneContact">
+                        <Header>
+                            Contact</Header>
+                        <Content>
+                            <a href="Operation.aspx?Section=Contact&Action=New">New</a><br />
+                            <a href="Operation.aspx?Section=Contact&Action=Edit">Edit</a><br />
+                            <a href="Operation.aspx?Section=Contact&Action=Delete">Delete</a><br />
+                            <a href="Operation.aspx?Section=Credit">Credit</a>
+                        </Content>
+                    </Ajax:AccordionPane>
+                    <Ajax:AccordionPane runat="server" ID="PaneUser">
+                        <Header>
+                            User</Header>
+                        <Content>
+                            <a href="Operation.aspx?Section=User&Action=New">New</a><br />
+                            <a href="Operation.aspx?Section=User&Action=Edit">Edit</a><br />
+                            <a href="Operation.aspx?Section=User&Action=Delete">Delete</a><br />
+                            <a href="Operation.aspx?Section=Password">Password</a>
+                        </Content>
+                    </Ajax:AccordionPane>
+                    <Ajax:AccordionPane runat="server" ID="PanePettyAccount">
+                        <Header>
+                            PettyAccount</Header>
+                        <Content>
+                            <a href="Operation.aspx?Section=PettyCash">PettyCash</a><br />
+                            <a href="Operation.aspx?Section=PettyExpense">PettyExpense</a>
+                        </Content>
+                    </Ajax:AccordionPane>
+                    <Ajax:AccordionPane runat="server" ID="PaneEvent">
+                        <Header>
+                            Event</Header>
+                        <Content>
+                            <a href="Operation.aspx?Section=Event&Action=New">New</a><br />
+                            <a href="Operation.aspx?Section=Event&Action=Edit">Edit</a><br />
+                            <a href="Operation.aspx?Section=Event&Action=Delete">Delete</a>
+                        </Content>
+                    </Ajax:AccordionPane>
+                    <Ajax:AccordionPane runat="server" ID="PanePackage">
+                        <Header>
+                            Package</Header>
+                        <Content>
+                            <a href="Operation.aspx?Section=Package&Action=New">New</a><br />
+                            <a href="Operation.aspx?Section=Package&Action=Edit">Edit</a><br />
+                            <a href="Operation.aspx?Section=Package&Action=Delete">Delete</a>
+                        </Content>
+                    </Ajax:AccordionPane>
+                    <Ajax:AccordionPane runat="server" ID="PaneDatabase">
+                        <Header>
+                            Database</Header>
+                        <Content>
+                            <a href="Operation.aspx?Section=DatabaseBackup">Backup</a><br />
+                            <a href="Operation.aspx?Section=DatabaseRestore">Restore</a>
+                        </Content>
+                    </Ajax:AccordionPane>
+                </Panes>
+            </Ajax:Accordion>
+        </div>
+        <asp:ContentPlaceHolder ID="Content" runat="server">
+        </asp:ContentPlaceHolder>
+        <div id="Footer">
+            <img src="Assets/Image/CheckersSmall.png" alt="" /><br />
+            Product of Technotrix</div>
+    </div>
+    </form>
+</body>
+</html>

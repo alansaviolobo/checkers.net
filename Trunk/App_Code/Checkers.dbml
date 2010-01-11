@@ -1,0 +1,468 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Database Name="Checkers" Class="CheckersDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=localhost;Initial Catalog=Checkers;Persist Security Info=True;User ID=sa" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="CheckersConnectionString1" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.Token" Member="Tokens">
+    <Type Name="Token">
+      <Column Name="Token_Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Token_Type" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Token_Menu" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Token_Quantity" Type="System.Decimal" DbType="Decimal(6,2)" CanBeNull="true" />
+      <Column Name="Token_Source" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Token_Status" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Token_TimeStamp" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Catalog" Member="Catalogs">
+    <Type Name="Catalog">
+      <Column Name="Catalog_Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Catalog_Name" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="Catalog_Type" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Catalog_Status" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Catalog_TimeStamp" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Contact" Member="Contacts">
+    <Type Name="Contact">
+      <Column Name="Contact_Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Contact_Name" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="Contact_UserName" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="Contact_Password" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="Contact_Type" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="Contact_Phone" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="Contact_Address" Type="System.String" DbType="VarChar(200)" CanBeNull="true" />
+      <Column Name="Contact_Email" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="Contact_OrganizationName" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="Contact_OrganizationPhone" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="Contact_OrganizationAddress" Type="System.String" DbType="VarChar(200)" CanBeNull="true" />
+      <Column Name="Contact_Credit" Type="System.Decimal" DbType="Decimal(6,2)" CanBeNull="true" />
+      <Column Name="Contact_Status" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Contact_TimeStamp" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Content" Member="Contents">
+    <Type Name="Content">
+      <Column Name="Content_Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Content_Material" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Content_Quantity" Type="System.Decimal" DbType="Decimal(6,2)" CanBeNull="true" />
+      <Column Name="Content_UnitPrice" Type="System.Decimal" DbType="Decimal(6,2)" CanBeNull="true" />
+      <Column Name="Content_Discount" Type="System.Decimal" DbType="Decimal(6,2)" CanBeNull="true" />
+      <Column Name="Content_Cost" Type="System.Decimal" DbType="Decimal(6,2)" CanBeNull="true" />
+      <Column Name="Content_Package" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Content_Status" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Content_TimeStamp" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Converter" Member="Converters">
+    <Type Name="Converter">
+      <Column Name="Converter_Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Converter_Menu" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Converter_Inventory" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Converter_InventoryQuantity" Type="System.Decimal" DbType="Decimal(6,2)" CanBeNull="true" />
+      <Column Name="Converter_Status" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Converter_TimeStamp" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Event" Member="Events">
+    <Type Name="Event">
+      <Column Name="Event_Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Event_Name" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="Event_FromTimeStamp" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Event_ToTimeStamp" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Event_Organizer" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Event_Venue" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="Event_Status" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Event_TimeStamp" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Inventory" Member="Inventories">
+    <Type Name="Inventory">
+      <Column Name="Inventory_Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Inventory_Name" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="Inventory_BuyingPrice" Type="System.Decimal" DbType="Decimal(6,2)" CanBeNull="true" />
+      <Column Name="Inventory_Threshold" Type="System.Decimal" DbType="Decimal(6,2)" CanBeNull="true" />
+      <Column Name="Inventory_Quantity" Type="System.Decimal" DbType="Decimal(6,2)" CanBeNull="true" />
+      <Column Name="Inventory_PurchaseUnit" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="Inventory_ConversionUnit" Type="System.Decimal" DbType="Decimal(6,2)" CanBeNull="true" />
+      <Column Name="Inventory_Status" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Inventory_TimeStamp" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Invoice" Member="Invoices">
+    <Type Name="Invoice">
+      <Column Name="Invoice_Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Invoice_Amount" Type="System.Decimal" DbType="Decimal(6,2)" CanBeNull="true" />
+      <Column Name="Invoice_Discount" Type="System.Decimal" DbType="Decimal(6,2)" CanBeNull="true" />
+      <Column Name="Invoice_Tax" Type="System.Decimal" DbType="Decimal(6,2)" CanBeNull="true" />
+      <Column Name="Invoice_Type" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Invoice_Source" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Invoice_PaymentMode" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="Invoice_Reason" Type="System.String" DbType="VarChar(200)" CanBeNull="true" />
+      <Column Name="Invoice_Client" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Invoice_Status" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Invoice_TimeStamp" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Menu" Member="Menus">
+    <Type Name="Menu">
+      <Column Name="Menu_Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Menu_Name" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="Menu_Category" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="Menu_SellingPrice" Type="System.Decimal" DbType="Decimal(6,2)" CanBeNull="true" />
+      <Column Name="Menu_Status" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Menu_TimeStamp" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Package" Member="Packages">
+    <Type Name="Package">
+      <Column Name="Package_Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Package_Name" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="Package_Type" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Package_Comments" Type="System.String" DbType="VarChar(200)" CanBeNull="true" />
+      <Column Name="Package_Status" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Package_TimeStamp" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.PettyCash" Member="PettyCashes">
+    <Type Name="PettyCash">
+      <Column Name="PettyCash_Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="PettyCash_Amount" Type="System.Decimal" DbType="Decimal(6,2)" CanBeNull="true" />
+      <Column Name="PettyCash_Balance" Type="System.Decimal" DbType="Decimal(6,2)" CanBeNull="true" />
+      <Column Name="PettyCash_GivenBy" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="PettyCash_ReceivedBy" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="PettyCash_TimeStamp" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.PettyExpense" Member="PettyExpenses">
+    <Type Name="PettyExpense">
+      <Column Name="PettyExpense_Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="PettyExpense_Amount" Type="System.Decimal" DbType="Decimal(6,2)" CanBeNull="true" />
+      <Column Name="PettyExpense_Merchandise" Type="System.String" DbType="VarChar(200)" CanBeNull="true" />
+      <Column Name="PettyExpense_Quantity" Type="System.Decimal" DbType="Decimal(6,2)" CanBeNull="true" />
+      <Column Name="PettyExpense_ReceivedBy" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="PettyExpense_TimeStamp" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Purchase" Member="Purchases">
+    <Type Name="Purchase">
+      <Column Name="Purchase_Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Purchase_Inventory" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Purchase_Quantity" Type="System.Decimal" DbType="Decimal(6,2)" CanBeNull="true" />
+      <Column Name="Purchase_Status" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Purchase_TimeStamp" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Sales" Member="Sales">
+    <Type Name="Sale">
+      <Column Name="Sales_Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Sales_Menu" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Sales_Quantity" Type="System.Decimal" DbType="Decimal(6,2)" CanBeNull="true" />
+      <Column Name="Sales_Cost" Type="System.Decimal" DbType="Decimal(6,2)" CanBeNull="true" />
+      <Column Name="Sales_Source" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Sales_Package" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Sales_Status" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Sales_TimeStamp" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Source" Member="Sources">
+    <Type Name="Source">
+      <Column Name="Source_Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Source_Type" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Source_Number" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Source_AmountPayable" Type="System.Decimal" DbType="Decimal(6,2)" CanBeNull="true" />
+      <Column Name="Source_Status" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Source_TimeStamp" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Activity" Member="Activities">
+    <Type Name="Activity">
+      <Column Name="Activity_Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Activity_Action" Type="System.String" DbType="VarChar(1000)" CanBeNull="true" />
+      <Column Name="Activity_User" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Activity_TimeStamp" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Function Name="dbo.ActivityNew" Method="ActivityNew">
+    <Parameter Name="Action" Parameter="action" Type="System.String" DbType="VarChar(1000)" />
+    <Parameter Name="User" Parameter="user" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.TokenNew" Method="TokenNew">
+    <Parameter Name="Type" Parameter="type" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="Menu" Parameter="menu" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Quantity" Parameter="quantity" Type="System.Decimal" DbType="Decimal" />
+    <Parameter Name="Source" Parameter="source" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.CatalogDelete" Method="CatalogDelete">
+    <Parameter Name="Id" Parameter="id" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.CatalogEdit" Method="CatalogEdit">
+    <Parameter Name="Id" Parameter="id" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Name" Parameter="name" Type="System.String" DbType="VarChar(100)" />
+    <Parameter Name="Type" Parameter="type" Type="System.String" DbType="VarChar(50)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.CatalogNew" Method="CatalogNew">
+    <Parameter Name="Id" Parameter="id" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Name" Parameter="name" Type="System.String" DbType="VarChar(100)" />
+    <Parameter Name="Type" Parameter="type" Type="System.String" DbType="VarChar(50)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.ChangePassword" Method="ChangePassword">
+    <Parameter Name="Id" Parameter="id" Type="System.Int32" DbType="Int" />
+    <Parameter Name="OldPassword" Parameter="oldPassword" Type="System.String" DbType="VarChar(100)" />
+    <Parameter Name="NewPassword" Parameter="newPassword" Type="System.String" DbType="VarChar(100)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.ContactDelete" Method="ContactDelete">
+    <Parameter Name="Id" Parameter="id" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.ContactEdit" Method="ContactEdit">
+    <Parameter Name="Id" Parameter="id" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Name" Parameter="name" Type="System.String" DbType="VarChar(100)" />
+    <Parameter Name="UserName" Parameter="userName" Type="System.String" DbType="VarChar(100)" />
+    <Parameter Name="Password" Parameter="password" Type="System.String" DbType="VarChar(100)" />
+    <Parameter Name="Type" Parameter="type" Type="System.String" DbType="VarChar(100)" />
+    <Parameter Name="Phone" Parameter="phone" Type="System.String" DbType="VarChar(100)" />
+    <Parameter Name="Address" Parameter="address" Type="System.String" DbType="VarChar(200)" />
+    <Parameter Name="Email" Parameter="email" Type="System.String" DbType="VarChar(100)" />
+    <Parameter Name="OrganizationName" Parameter="organizationName" Type="System.String" DbType="VarChar(100)" />
+    <Parameter Name="OrganizationAddress" Parameter="organizationAddress" Type="System.String" DbType="VarChar(200)" />
+    <Parameter Name="OrganizationPhone" Parameter="organizationPhone" Type="System.String" DbType="VarChar(100)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.ContactNew" Method="ContactNew">
+    <Parameter Name="Id" Parameter="id" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Name" Parameter="name" Type="System.String" DbType="VarChar(100)" />
+    <Parameter Name="UserName" Parameter="userName" Type="System.String" DbType="VarChar(100)" />
+    <Parameter Name="Password" Parameter="password" Type="System.String" DbType="VarChar(100)" />
+    <Parameter Name="Type" Parameter="type" Type="System.String" DbType="VarChar(100)" />
+    <Parameter Name="Phone" Parameter="phone" Type="System.String" DbType="VarChar(100)" />
+    <Parameter Name="Address" Parameter="address" Type="System.String" DbType="VarChar(200)" />
+    <Parameter Name="Email" Parameter="email" Type="System.String" DbType="VarChar(100)" />
+    <Parameter Name="OrganizationName" Parameter="organizationName" Type="System.String" DbType="VarChar(100)" />
+    <Parameter Name="OrganizationAddress" Parameter="organizationAddress" Type="System.String" DbType="VarChar(200)" />
+    <Parameter Name="OrganizationPhone" Parameter="organizationPhone" Type="System.String" DbType="VarChar(100)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.ConverterDelete" Method="ConverterDelete">
+    <Parameter Name="Id" Parameter="id" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.ConverterEdit" Method="ConverterEdit">
+    <Parameter Name="Id" Parameter="id" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Menu" Parameter="menu" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Inventory" Parameter="inventory" Type="System.Int32" DbType="Int" />
+    <Parameter Name="InventoryQuantity" Parameter="inventoryQuantity" Type="System.Decimal" DbType="Decimal" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.ConverterNew" Method="ConverterNew">
+    <Parameter Name="Menu" Parameter="menu" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Inventory" Parameter="inventory" Type="System.Int32" DbType="Int" />
+    <Parameter Name="InventoryQuantity" Parameter="inventoryQuantity" Type="System.Decimal" DbType="Decimal" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.EventDelete" Method="EventDelete">
+    <Parameter Name="Id" Parameter="id" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.EventEdit" Method="EventEdit">
+    <Parameter Name="Id" Parameter="id" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Name" Parameter="name" Type="System.String" DbType="VarChar(100)" />
+    <Parameter Name="From" Parameter="from" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="To" Parameter="to" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="Organizer" Parameter="organizer" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Venue" Parameter="venue" Type="System.String" DbType="VarChar(100)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.EventNew" Method="EventNew">
+    <Parameter Name="Name" Parameter="name" Type="System.String" DbType="VarChar(100)" />
+    <Parameter Name="From" Parameter="from" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="To" Parameter="to" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="Organizer" Parameter="organizer" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Venue" Parameter="venue" Type="System.String" DbType="VarChar(100)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.InventoryAdd" Method="InventoryAdd">
+    <Parameter Name="Id" Parameter="id" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Quantity" Parameter="quantity" Type="System.Decimal" DbType="Decimal" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.InventoryDelete" Method="InventoryDelete">
+    <Parameter Name="Id" Parameter="id" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.InventoryEdit" Method="InventoryEdit">
+    <Parameter Name="Id" Parameter="id" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Name" Parameter="name" Type="System.String" DbType="VarChar(100)" />
+    <Parameter Name="BuyingPrice" Parameter="buyingPrice" Type="System.Decimal" DbType="Decimal" />
+    <Parameter Name="Threshold" Parameter="threshold" Type="System.Decimal" DbType="Decimal" />
+    <Parameter Name="PurchaseUnit" Parameter="purchaseUnit" Type="System.String" DbType="VarChar(100)" />
+    <Parameter Name="ConversionUnit" Parameter="conversionUnit" Type="System.Decimal" DbType="Decimal" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.InventoryNew" Method="InventoryNew">
+    <Parameter Name="Name" Parameter="name" Type="System.String" DbType="VarChar(100)" />
+    <Parameter Name="BuyingPrice" Parameter="buyingPrice" Type="System.Decimal" DbType="Decimal" />
+    <Parameter Name="Threshold" Parameter="threshold" Type="System.Decimal" DbType="Decimal" />
+    <Parameter Name="PurchaseUnit" Parameter="purchaseUnit" Type="System.String" DbType="VarChar(100)" />
+    <Parameter Name="ConversionUnit" Parameter="conversionUnit" Type="System.Decimal" DbType="Decimal" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.InventorySubtract" Method="InventorySubtract">
+    <Parameter Name="Id" Parameter="id" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Quantity" Parameter="quantity" Type="System.Decimal" DbType="Decimal" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.InvoiceClose" Method="InvoiceClose">
+    <Parameter Name="Id" Parameter="id" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Source" Parameter="source" Type="System.Int32" DbType="Int" />
+    <Parameter Name="PaymentMode" Parameter="paymentMode" Type="System.String" DbType="VarChar(100)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.InvoiceCloseCredit" Method="InvoiceCloseCredit">
+    <Parameter Name="Id" Parameter="id" Type="System.Int32" DbType="Int" />
+    <Parameter Name="ClientId" Parameter="clientId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Source" Parameter="source" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.InvoiceCloseZeroBilling" Method="InvoiceCloseZeroBilling">
+    <Parameter Name="Id" Parameter="id" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Source" Parameter="source" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.InvoiceDelete" Method="InvoiceDelete">
+    <Parameter Name="Id" Parameter="id" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Source" Parameter="source" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Reason" Parameter="reason" Type="System.String" DbType="VarChar(200)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.InvoiceEdit" Method="InvoiceEdit">
+    <Parameter Name="Id" Parameter="id" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Amount" Parameter="amount" Type="System.Decimal" DbType="Decimal" />
+    <Parameter Name="Discount" Parameter="discount" Type="System.Decimal" DbType="Decimal" />
+    <Parameter Name="Tax" Parameter="tax" Type="System.Decimal" DbType="Decimal" />
+    <Parameter Name="Type" Parameter="type" Type="System.String" DbType="VarChar(100)" />
+    <Parameter Name="Source" Parameter="source" Type="System.Int32" DbType="Int" />
+    <Parameter Name="PaymentMode" Parameter="paymentMode" Type="System.String" DbType="VarChar(100)" />
+    <Parameter Name="Status" Parameter="status" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Reason" Parameter="reason" Type="System.String" DbType="VarChar(200)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.InvoiceNew" Method="InvoiceNew">
+    <Parameter Name="Id" Parameter="id" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Amount" Parameter="amount" Type="System.Decimal" DbType="Decimal" />
+    <Parameter Name="Discount" Parameter="discount" Type="System.Decimal" DbType="Decimal" />
+    <Parameter Name="Tax" Parameter="tax" Type="System.Decimal" DbType="Decimal" />
+    <Parameter Name="Type" Parameter="type" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="Source" Parameter="source" Type="System.Int32" DbType="Int" />
+    <Parameter Name="PaymentMode" Parameter="paymentMode" Type="System.String" DbType="VarChar(100)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.MenuDelete" Method="MenuDelete">
+    <Parameter Name="Id" Parameter="id" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.MenuEdit" Method="MenuEdit">
+    <Parameter Name="Id" Parameter="id" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Name" Parameter="name" Type="System.String" DbType="VarChar(100)" />
+    <Parameter Name="Category" Parameter="category" Type="System.String" DbType="VarChar(100)" />
+    <Parameter Name="Price" Parameter="price" Type="System.Decimal" DbType="Decimal" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.MenuNew" Method="MenuNew">
+    <Parameter Name="Id" Parameter="id" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Name" Parameter="name" Type="System.String" DbType="VarChar(100)" />
+    <Parameter Name="Category" Parameter="category" Type="System.String" DbType="VarChar(100)" />
+    <Parameter Name="Price" Parameter="price" Type="System.Decimal" DbType="Decimal" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.PackageDelete" Method="PackageDelete">
+    <Parameter Name="Id" Parameter="id" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.PackageEdit" Method="PackageEdit">
+    <Parameter Name="Id" Parameter="id" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Name" Parameter="name" Type="System.String" DbType="VarChar(100)" />
+    <Parameter Name="Type" Parameter="type" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="Comments" Parameter="comments" Type="System.String" DbType="VarChar(200)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.PackageNew" Method="PackageNew">
+    <Parameter Name="Name" Parameter="name" Type="System.String" DbType="VarChar(100)" />
+    <Parameter Name="Type" Parameter="type" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="Comments" Parameter="comments" Type="System.String" DbType="VarChar(200)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.PettyCashNew" Method="PettyCashNew">
+    <Parameter Name="Amount" Parameter="amount" Type="System.Decimal" DbType="Decimal" />
+    <Parameter Name="GivenBy" Parameter="givenBy" Type="System.Int32" DbType="Int" />
+    <Parameter Name="ReceivedBy" Parameter="receivedBy" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.PettyExpenseNew" Method="PettyExpenseNew">
+    <Parameter Name="Amount" Parameter="amount" Type="System.Decimal" DbType="Decimal" />
+    <Parameter Name="Merchandise" Parameter="merchandise" Type="System.String" DbType="VarChar(200)" />
+    <Parameter Name="Quantity" Parameter="quantity" Type="System.Decimal" DbType="Decimal" />
+    <Parameter Name="ReceivedBy" Parameter="receivedBy" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.PurchaseDelete" Method="PurchaseDelete">
+    <Parameter Name="Id" Parameter="id" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.PurchaseEdit" Method="PurchaseEdit">
+    <Parameter Name="Id" Parameter="id" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Inventory" Parameter="inventory" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Quantity" Parameter="quantity" Type="System.Decimal" DbType="Decimal" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.PurchaseNew" Method="PurchaseNew">
+    <Parameter Name="Inventory" Parameter="inventory" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Quantity" Parameter="quantity" Type="System.Decimal" DbType="Decimal" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.ReceiptDelete" Method="ReceiptDelete">
+    <Parameter Name="Id" Parameter="id" Type="System.Int32" DbType="Int" />
+    <Parameter Name="ClientId" Parameter="clientId" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.ReceiptNew" Method="ReceiptNew">
+    <Parameter Name="Amount" Parameter="amount" Type="System.Decimal" DbType="Decimal" />
+    <Parameter Name="PaymentMode" Parameter="paymentMode" Type="System.String" DbType="VarChar(100)" />
+    <Parameter Name="ClientId" Parameter="clientId" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.SalesDelete" Method="SalesDelete">
+    <Parameter Name="Id" Parameter="id" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Menu" Parameter="menu" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Quantity" Parameter="quantity" Type="System.Decimal" DbType="Decimal" />
+    <Parameter Name="Source" Parameter="source" Type="System.Int32" DbType="Int" />
+    <Parameter Name="SourceType" Parameter="sourceType" Type="System.String" DbType="VarChar(100)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.SalesEdit" Method="SalesEdit">
+    <Parameter Name="Id" Parameter="id" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Menu" Parameter="menu" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Quantity" Parameter="quantity" Type="System.Decimal" DbType="Decimal" />
+    <Parameter Name="Source" Parameter="source" Type="System.Int32" DbType="Int" />
+    <Parameter Name="SourceType" Parameter="sourceType" Type="System.String" DbType="VarChar(100)" />
+    <Parameter Name="Package" Parameter="package" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.SalesNew" Method="SalesNew">
+    <Parameter Name="Id" Parameter="id" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Menu" Parameter="menu" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Quantity" Parameter="quantity" Type="System.Decimal" DbType="Decimal" />
+    <Parameter Name="Source" Parameter="source" Type="System.Int32" DbType="Int" />
+    <Parameter Name="SourceType" Parameter="sourceType" Type="System.String" DbType="VarChar(100)" />
+    <Parameter Name="Package" Parameter="package" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.SelectItemByType" Method="SelectItemByType">
+    <Parameter Name="Type" Parameter="type" Type="System.String" DbType="VarChar(100)" />
+    <Return Type="System.Int32" />
+  </Function>
+</Database>
