@@ -9,6 +9,10 @@ public partial class Controls_Report : System.Web.UI.UserControl
 {
     protected void Page_Load(object sender, EventArgs e)
     {
+        ((AjaxControlToolkit.Accordion)Page.Master.FindControl("AccMenu")).SelectedIndex = 8;
+    }
+    protected void BtnCreate_Click(object sender, EventArgs e)
+    {
 
     }
 }

@@ -113,6 +113,13 @@
                             <a href="Operation.aspx?Section=DatabaseRestore">Restore</a>
                         </Content>
                     </Ajax:AccordionPane>
+                    <Ajax:AccordionPane runat="server" ID="PaneReport">
+                        <Header>
+                            Report</Header>
+                        <Content>
+                            <a href="Operation.aspx?Section=Report">Report</a>
+                        </Content>
+                    </Ajax:AccordionPane>
                 </Panes>
             </Ajax:Accordion>
         </div>
