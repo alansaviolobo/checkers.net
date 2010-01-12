@@ -117,7 +117,7 @@
                         <Header>
                             Report</Header>
                         <Content>
-                            <a href="Operation.aspx?Section=Report">Report</a>
+                            <a href="Report.aspx">Report</a>
                         </Content>
                     </Ajax:AccordionPane>
                 </Panes>

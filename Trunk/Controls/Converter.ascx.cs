@@ -17,9 +17,9 @@ public partial class Controls_Converter : System.Web.UI.UserControl
             Action = Request.QueryString["Action"] != null ? Request.QueryString["Action"].ToString() : "Add";
             switch (Action)
             {
-                //case "New": AutoCompSearch.Visible = true; break;
-                //case "Edit": AutoCompSearch.Visible = true; break;
-                //case "Delete": AutoCompSearch.Visible = true; BtnDelete.Visible = true; break;
+                //case "New": AutoCompMenuSearch.Visible = true; break;
+                //case "Edit": AutoCompMenuSearch.Visible = true; break;
+                //case "Delete": AutoCompMenuSearch.Visible = true; BtnDelete.Visible = true; break;
             }
             ClearForm();
         }
@@ -69,12 +69,13 @@ public partial class Controls_Converter : System.Web.UI.UserControl
         else
         {
             LtrMessage.Text = "No Converter Values Present For The Item " + LtrMenuName.Text;
-            TxtInventoryName.Text = "";
-            TxtInventoryQuantity.Text = "";
+            //TxtInventoryName.Text = "";
+            //TxtInventoryQuantity.Text = "";
         }
     }
     protected void BtnSearch_Click(object sender, EventArgs e)
     {
+        LtrMenuName.Text = TxtMenuName.Text;
         GridFill();
     }
     protected void DgConverterList_DeleteCommand(object source, DataGridCommandEventArgs e)

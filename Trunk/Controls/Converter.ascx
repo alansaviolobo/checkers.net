@@ -2,12 +2,12 @@
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="Ajax" %>
 
 <script type="text/javascript" language="javascript">
-    function DisplayMenuDetails(sender, eventArgs) {
-        CheckersWebService.GetMenuDetails(sender._element.value, OnMenuSuccess, OnError);
+    function GetMenuId(sender, eventArgs) {
+        CheckersWebService.GetMenuId(sender._element.value, OnMenuSuccess, OnError);
     }
 
-    function DisplayInventoryDetails(sender, eventArgs) {
-        CheckersWebService.GetInventoryDetails(sender._element.value, OnInventorySuccess, OnError);
+    function GetInventoryId(sender, eventArgs) {
+        CheckersWebService.GetInventoryId(sender._element.value, OnInventorySuccess, OnError);
     }
 
     function OnMenuSuccess(result) {
@@ -40,7 +40,7 @@
                 <asp:TextBox ID="TxtMenuName" runat="server" />
                 <Ajax:AutoCompleteExtender ID="AutoCompMenuSearch" runat="server" TargetControlID="TxtMenuName"
                     ServiceMethod="GetMenuList" CompletionInterval="100" CompletionSetCount="10"
-                    ServicePath="~/CheckersWebService.asmx" MinimumPrefixLength="1" OnClientItemSelected="DisplayMenuDetails" />
+                    ServicePath="~/CheckersWebService.asmx" MinimumPrefixLength="1" OnClientItemSelected="GetMenuId" />
                 <asp:Button ID="BtnSearch" runat="server" Text="Search" Visible="True" OnClick="BtnSearch_Click" />
             </td>
         </tr>
@@ -59,7 +59,7 @@
                 <asp:TextBox ID="TxtInventoryName" runat="server" />
                 <Ajax:AutoCompleteExtender ID="AutoCompleteExtender1" runat="server" TargetControlID="TxtInventoryName"
                     ServiceMethod="GetInventoryList" CompletionInterval="100" CompletionSetCount="10"
-                    ServicePath="~/CheckersWebService.asmx" MinimumPrefixLength="1" OnClientItemSelected="DisplayInventoryDetails" />
+                    ServicePath="~/CheckersWebService.asmx" MinimumPrefixLength="1" OnClientItemSelected="GetInventoryId" />
             </td>
         </tr>
         <tr>

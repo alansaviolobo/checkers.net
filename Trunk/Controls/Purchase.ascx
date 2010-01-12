@@ -2,8 +2,8 @@
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="Ajax" %>
 
 <script type="text/javascript" language="javascript">
-    function DisplayInventoryDetails(sender, eventArgs) {
-        CheckersWebService.GetInventoryDetails(sender._element.value, OnSuccess, OnError);
+    function GetInventoryId(sender, eventArgs) {
+        CheckersWebService.GetInventoryId(sender._element.value, OnSuccess, OnError);
     }
 
     function OnSuccess(result) {
@@ -28,7 +28,7 @@
                 <asp:TextBox ID="TxtName" runat="server" />
                 <Ajax:AutoCompleteExtender ID="AutoCompSearch" runat="server" TargetControlID="TxtName"
                     ServiceMethod="GetInventoryList" CompletionInterval="100" CompletionSetCount="10"
-                    ServicePath="~/CheckersWebService.asmx" MinimumPrefixLength="1" OnClientItemSelected="DisplayInventoryDetails" />
+                    ServicePath="~/CheckersWebService.asmx" MinimumPrefixLength="1" OnClientItemSelected="GetInventoryId" />
                 <asp:Button ID="BtnSearch" runat="server" Text="Search" OnClick="BtnSearch_Click" />
             </td>
         </tr>

@@ -21,7 +21,7 @@ public class CheckersWebService : System.Web.Services.WebService
     }
 
     [WebMethod]
-    public int GetMenuDetails(string MenuName)
+    public int GetMenuId(string MenuName)
     {
         CheckersDataContext Checkers = new CheckersDataContext();
 

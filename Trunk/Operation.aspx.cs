@@ -12,12 +12,12 @@ public partial class Operation : System.Web.UI.Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        if (Session["UserId"] == null)
-        {
-            Response.Redirect("~/Default.aspx");
-        }
-        else
-        {
+        //if (Session["UserId"] == null)
+        //{
+        //    Response.Redirect("~/Default.aspx");
+        //}
+        //else
+        //{
             if (!Page.IsPostBack)
             {
 
@@ -37,7 +37,7 @@ public partial class Operation : System.Web.UI.Page
                 }
             }
 
-            CntrlHolder.Controls.Add(LoadControl("~/Controls/" + Section + ".ascx"));
-        }
+            CntrlHolder.Controls.Add(LoadControl("~/Controls/"+Section+".ascx"));
+        //}
     }
 }

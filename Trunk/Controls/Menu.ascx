@@ -2,7 +2,7 @@
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="Ajax" %>
 
 <script type="text/javascript" language="javascript">
-    function DisplayMenuDetails(sender, eventArgs) {
+    function GetMenuId(sender, eventArgs) {
         CheckersWebService.GetMenuDetails(sender._element.value, OnSuccess, OnError);
     }
 
@@ -32,7 +32,7 @@
                 <asp:TextBox ID="TxtName" runat="server" />
                 <Ajax:AutoCompleteExtender ID="AutoCompSearch" runat="server" TargetControlID="TxtName"
                     ServiceMethod="GetMenuList" CompletionInterval="100" CompletionSetCount="10"
-                    ServicePath="~/CheckersWebService.asmx" MinimumPrefixLength="1" OnClientItemSelected="DisplayMenuDetails"
+                    ServicePath="~/CheckersWebService.asmx" MinimumPrefixLength="1" OnClientItemSelected="GetMenuId"
                     Enabled="false" />
                 <asp:Button ID="BtnSearch" runat="server" Text="Search" Visible="False" OnClick="BtnSearch_Click" />
             </td>

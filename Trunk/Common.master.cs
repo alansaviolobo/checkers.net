@@ -12,6 +12,7 @@ public partial class Common : System.Web.UI.MasterPage
     protected void Page_Load(object sender, EventArgs e)
     {
         Checkers = new CheckersDataContext();
+        Session["UserId"] = 1;
 
         if (!Page.IsPostBack)
         {

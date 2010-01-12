@@ -29,6 +29,9 @@ public partial class CheckersDataContext : System.Data.Linq.DataContext
 	
   #region Extensibility Method Definitions
   partial void OnCreated();
+  partial void InsertActivity(Activity instance);
+  partial void UpdateActivity(Activity instance);
+  partial void DeleteActivity(Activity instance);
   partial void InsertToken(Token instance);
   partial void UpdateToken(Token instance);
   partial void DeleteToken(Token instance);
@@ -74,9 +77,6 @@ public partial class CheckersDataContext : System.Data.Linq.DataContext
   partial void InsertSource(Source instance);
   partial void UpdateSource(Source instance);
   partial void DeleteSource(Source instance);
-  partial void InsertActivity(Activity instance);
-  partial void UpdateActivity(Activity instance);
-  partial void DeleteActivity(Activity instance);
   #endregion
 	
 	public CheckersDataContext() : 
@@ -107,6 +107,14 @@ public partial class CheckersDataContext : System.Data.Linq.DataContext
 			base(connection, mappingSource)
 	{
 		OnCreated();
+	}
+	
+	public System.Data.Linq.Table<Activity> Activities
+	{
+		get
+		{
+			return this.GetTable<Activity>();
+		}
 	}
 	
 	public System.Data.Linq.Table<Token> Tokens
@@ -229,25 +237,17 @@ public partial class CheckersDataContext : System.Data.Linq.DataContext
 		}
 	}
 	
-	public System.Data.Linq.Table<Activity> Activities
+	[Function(Name="dbo.TokenNew")]
+	public int TokenNew([Parameter(Name="Type", DbType="VarChar(50)")] string type, [Parameter(Name="Menu", DbType="Int")] System.Nullable<int> menu, [Parameter(Name="Quantity", DbType="Decimal")] System.Nullable<decimal> quantity, [Parameter(Name="Source", DbType="Int")] System.Nullable<int> source)
 	{
-		get
-		{
-			return this.GetTable<Activity>();
-		}
+		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), type, menu, quantity, source);
+		return ((int)(result.ReturnValue));
 	}
 	
 	[Function(Name="dbo.ActivityNew")]
 	public int ActivityNew([Parameter(Name="Action", DbType="VarChar(1000)")] string action, [Parameter(Name="User", DbType="Int")] System.Nullable<int> user)
 	{
 		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), action, user);
-		return ((int)(result.ReturnValue));
-	}
-	
-	[Function(Name="dbo.TokenNew")]
-	public int TokenNew([Parameter(Name="Type", DbType="VarChar(50)")] string type, [Parameter(Name="Menu", DbType="Int")] System.Nullable<int> menu, [Parameter(Name="Quantity", DbType="Decimal")] System.Nullable<decimal> quantity, [Parameter(Name="Source", DbType="Int")] System.Nullable<int> source)
-	{
-		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), type, menu, quantity, source);
 		return ((int)(result.ReturnValue));
 	}
 	
@@ -510,6 +510,27 @@ public partial class CheckersDataContext : System.Data.Linq.DataContext
 		return ((int)(result.ReturnValue));
 	}
 	
+	[Function(Name="dbo.ReportPettyCash")]
+	public int ReportPettyCash([Parameter(Name="FromDate", DbType="Char(10)")] string fromDate, [Parameter(Name="ToDate", DbType="Char(10)")] string toDate)
+	{
+		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), fromDate, toDate);
+		return ((int)(result.ReturnValue));
+	}
+	
+	[Function(Name="dbo.ReportPurchase")]
+	public int ReportPurchase([Parameter(Name="FromDate", DbType="Char(10)")] string fromDate, [Parameter(Name="ToDate", DbType="Char(10)")] string toDate)
+	{
+		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), fromDate, toDate);
+		return ((int)(result.ReturnValue));
+	}
+	
+	[Function(Name="dbo.SalesDelete")]
+	public int SalesDelete([Parameter(Name="Id", DbType="Int")] System.Nullable<int> id, [Parameter(Name="Menu", DbType="Int")] System.Nullable<int> menu, [Parameter(Name="Quantity", DbType="Decimal")] System.Nullable<decimal> quantity, [Parameter(Name="Source", DbType="Int")] System.Nullable<int> source, [Parameter(Name="SourceType", DbType="VarChar(100)")] string sourceType)
+	{
+		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id, menu, quantity, source, sourceType);
+		return ((int)(result.ReturnValue));
+	}
+	
 	[Function(Name="dbo.SalesEdit")]
 	public int SalesEdit([Parameter(Name="Id", DbType="Int")] System.Nullable<int> id, [Parameter(Name="Menu", DbType="Int")] System.Nullable<int> menu, [Parameter(Name="Quantity", DbType="Decimal")] System.Nullable<decimal> quantity, [Parameter(Name="Source", DbType="Int")] System.Nullable<int> source, [Parameter(Name="SourceType", DbType="VarChar(100)")] string sourceType, [Parameter(Name="Package", DbType="Int")] System.Nullable<int> package)
 	{
@@ -531,11 +552,145 @@ public partial class CheckersDataContext : System.Data.Linq.DataContext
 		return ((int)(result.ReturnValue));
 	}
 	
-	[Function(Name="dbo.SalesDelete")]
-	public int SalesDelete([Parameter(Name="Id", DbType="Int")] System.Nullable<int> id, [Parameter(Name="Menu", DbType="Int")] System.Nullable<int> menu, [Parameter(Name="Quantity", DbType="Decimal")] System.Nullable<decimal> quantity, [Parameter(Name="Source", DbType="Int")] System.Nullable<int> source, [Parameter(Name="SourceType", DbType="VarChar(100)")] string sourceType)
+	[Function(Name="dbo.SpContent")]
+	public int SpContent([Parameter(Name="Id", DbType="Int")] System.Nullable<int> id, [Parameter(Name="Material", DbType="Int")] System.Nullable<int> material, [Parameter(Name="Quantity", DbType="Decimal")] System.Nullable<decimal> quantity, [Parameter(Name="UnitPrice", DbType="Decimal")] System.Nullable<decimal> unitPrice, [Parameter(Name="Discount", DbType="Decimal")] System.Nullable<decimal> discount, [Parameter(Name="Cost", DbType="Decimal")] System.Nullable<decimal> cost, [Parameter(Name="Package", DbType="Int")] System.Nullable<int> package, [Parameter(Name="Status", DbType="Int")] System.Nullable<int> status, [Parameter(Name="Operation", DbType="VarChar(50)")] string operation)
 	{
-		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id, menu, quantity, source, sourceType);
+		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id, material, quantity, unitPrice, discount, cost, package, status, operation);
 		return ((int)(result.ReturnValue));
+	}
+}
+
+[Table(Name="dbo.Activity")]
+public partial class Activity : INotifyPropertyChanging, INotifyPropertyChanged
+{
+	
+	private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+	
+	private int _Activity_Id;
+	
+	private string _Activity_Action;
+	
+	private System.Nullable<int> _Activity_User;
+	
+	private System.Nullable<System.DateTime> _Activity_TimeStamp;
+	
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnActivity_IdChanging(int value);
+    partial void OnActivity_IdChanged();
+    partial void OnActivity_ActionChanging(string value);
+    partial void OnActivity_ActionChanged();
+    partial void OnActivity_UserChanging(System.Nullable<int> value);
+    partial void OnActivity_UserChanged();
+    partial void OnActivity_TimeStampChanging(System.Nullable<System.DateTime> value);
+    partial void OnActivity_TimeStampChanged();
+    #endregion
+	
+	public Activity()
+	{
+		OnCreated();
+	}
+	
+	[Column(Storage="_Activity_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+	public int Activity_Id
+	{
+		get
+		{
+			return this._Activity_Id;
+		}
+		set
+		{
+			if ((this._Activity_Id != value))
+			{
+				this.OnActivity_IdChanging(value);
+				this.SendPropertyChanging();
+				this._Activity_Id = value;
+				this.SendPropertyChanged("Activity_Id");
+				this.OnActivity_IdChanged();
+			}
+		}
+	}
+	
+	[Column(Storage="_Activity_Action", DbType="VarChar(1000)")]
+	public string Activity_Action
+	{
+		get
+		{
+			return this._Activity_Action;
+		}
+		set
+		{
+			if ((this._Activity_Action != value))
+			{
+				this.OnActivity_ActionChanging(value);
+				this.SendPropertyChanging();
+				this._Activity_Action = value;
+				this.SendPropertyChanged("Activity_Action");
+				this.OnActivity_ActionChanged();
+			}
+		}
+	}
+	
+	[Column(Storage="_Activity_User", DbType="Int")]
+	public System.Nullable<int> Activity_User
+	{
+		get
+		{
+			return this._Activity_User;
+		}
+		set
+		{
+			if ((this._Activity_User != value))
+			{
+				this.OnActivity_UserChanging(value);
+				this.SendPropertyChanging();
+				this._Activity_User = value;
+				this.SendPropertyChanged("Activity_User");
+				this.OnActivity_UserChanged();
+			}
+		}
+	}
+	
+	[Column(Storage="_Activity_TimeStamp", DbType="DateTime")]
+	public System.Nullable<System.DateTime> Activity_TimeStamp
+	{
+		get
+		{
+			return this._Activity_TimeStamp;
+		}
+		set
+		{
+			if ((this._Activity_TimeStamp != value))
+			{
+				this.OnActivity_TimeStampChanging(value);
+				this.SendPropertyChanging();
+				this._Activity_TimeStamp = value;
+				this.SendPropertyChanged("Activity_TimeStamp");
+				this.OnActivity_TimeStampChanged();
+			}
+		}
+	}
+	
+	public event PropertyChangingEventHandler PropertyChanging;
+	
+	public event PropertyChangedEventHandler PropertyChanged;
+	
+	protected virtual void SendPropertyChanging()
+	{
+		if ((this.PropertyChanging != null))
+		{
+			this.PropertyChanging(this, emptyChangingEventArgs);
+		}
+	}
+	
+	protected virtual void SendPropertyChanged(String propertyName)
+	{
+		if ((this.PropertyChanged != null))
+		{
+			this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+		}
 	}
 }
 
@@ -3772,140 +3927,6 @@ public partial class Source : INotifyPropertyChanging, INotifyPropertyChanged
 				this._Source_TimeStamp = value;
 				this.SendPropertyChanged("Source_TimeStamp");
 				this.OnSource_TimeStampChanged();
-			}
-		}
-	}
-	
-	public event PropertyChangingEventHandler PropertyChanging;
-	
-	public event PropertyChangedEventHandler PropertyChanged;
-	
-	protected virtual void SendPropertyChanging()
-	{
-		if ((this.PropertyChanging != null))
-		{
-			this.PropertyChanging(this, emptyChangingEventArgs);
-		}
-	}
-	
-	protected virtual void SendPropertyChanged(String propertyName)
-	{
-		if ((this.PropertyChanged != null))
-		{
-			this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-		}
-	}
-}
-
-[Table(Name="dbo.Activity")]
-public partial class Activity : INotifyPropertyChanging, INotifyPropertyChanged
-{
-	
-	private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-	
-	private int _Activity_Id;
-	
-	private string _Activity_Action;
-	
-	private System.Nullable<int> _Activity_User;
-	
-	private System.Nullable<System.DateTime> _Activity_TimeStamp;
-	
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnActivity_IdChanging(int value);
-    partial void OnActivity_IdChanged();
-    partial void OnActivity_ActionChanging(string value);
-    partial void OnActivity_ActionChanged();
-    partial void OnActivity_UserChanging(System.Nullable<int> value);
-    partial void OnActivity_UserChanged();
-    partial void OnActivity_TimeStampChanging(System.Nullable<System.DateTime> value);
-    partial void OnActivity_TimeStampChanged();
-    #endregion
-	
-	public Activity()
-	{
-		OnCreated();
-	}
-	
-	[Column(Storage="_Activity_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-	public int Activity_Id
-	{
-		get
-		{
-			return this._Activity_Id;
-		}
-		set
-		{
-			if ((this._Activity_Id != value))
-			{
-				this.OnActivity_IdChanging(value);
-				this.SendPropertyChanging();
-				this._Activity_Id = value;
-				this.SendPropertyChanged("Activity_Id");
-				this.OnActivity_IdChanged();
-			}
-		}
-	}
-	
-	[Column(Storage="_Activity_Action", DbType="VarChar(1000)")]
-	public string Activity_Action
-	{
-		get
-		{
-			return this._Activity_Action;
-		}
-		set
-		{
-			if ((this._Activity_Action != value))
-			{
-				this.OnActivity_ActionChanging(value);
-				this.SendPropertyChanging();
-				this._Activity_Action = value;
-				this.SendPropertyChanged("Activity_Action");
-				this.OnActivity_ActionChanged();
-			}
-		}
-	}
-	
-	[Column(Storage="_Activity_User", DbType="Int")]
-	public System.Nullable<int> Activity_User
-	{
-		get
-		{
-			return this._Activity_User;
-		}
-		set
-		{
-			if ((this._Activity_User != value))
-			{
-				this.OnActivity_UserChanging(value);
-				this.SendPropertyChanging();
-				this._Activity_User = value;
-				this.SendPropertyChanged("Activity_User");
-				this.OnActivity_UserChanged();
-			}
-		}
-	}
-	
-	[Column(Storage="_Activity_TimeStamp", DbType="DateTime")]
-	public System.Nullable<System.DateTime> Activity_TimeStamp
-	{
-		get
-		{
-			return this._Activity_TimeStamp;
-		}
-		set
-		{
-			if ((this._Activity_TimeStamp != value))
-			{
-				this.OnActivity_TimeStampChanging(value);
-				this.SendPropertyChanging();
-				this._Activity_TimeStamp = value;
-				this.SendPropertyChanged("Activity_TimeStamp");
-				this.OnActivity_TimeStampChanged();
 			}
 		}
 	}

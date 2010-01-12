@@ -1,6 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Database Name="Checkers" Class="CheckersDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
   <Connection Mode="WebSettings" ConnectionString="Data Source=localhost;Initial Catalog=Checkers;Persist Security Info=True;User ID=sa" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="CheckersConnectionString1" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.Activity" Member="Activities">
+    <Type Name="Activity">
+      <Column Name="Activity_Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Activity_Action" Type="System.String" DbType="VarChar(1000)" CanBeNull="true" />
+      <Column Name="Activity_User" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Activity_TimeStamp" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+    </Type>
+  </Table>
   <Table Name="dbo.Token" Member="Tokens">
     <Type Name="Token">
       <Column Name="Token_Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -173,24 +181,16 @@
       <Column Name="Source_TimeStamp" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
     </Type>
   </Table>
-  <Table Name="dbo.Activity" Member="Activities">
-    <Type Name="Activity">
-      <Column Name="Activity_Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="Activity_Action" Type="System.String" DbType="VarChar(1000)" CanBeNull="true" />
-      <Column Name="Activity_User" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="Activity_TimeStamp" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
-    </Type>
-  </Table>
-  <Function Name="dbo.ActivityNew" Method="ActivityNew">
-    <Parameter Name="Action" Parameter="action" Type="System.String" DbType="VarChar(1000)" />
-    <Parameter Name="User" Parameter="user" Type="System.Int32" DbType="Int" />
-    <Return Type="System.Int32" />
-  </Function>
   <Function Name="dbo.TokenNew" Method="TokenNew">
     <Parameter Name="Type" Parameter="type" Type="System.String" DbType="VarChar(50)" />
     <Parameter Name="Menu" Parameter="menu" Type="System.Int32" DbType="Int" />
     <Parameter Name="Quantity" Parameter="quantity" Type="System.Decimal" DbType="Decimal" />
     <Parameter Name="Source" Parameter="source" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.ActivityNew" Method="ActivityNew">
+    <Parameter Name="Action" Parameter="action" Type="System.String" DbType="VarChar(1000)" />
+    <Parameter Name="User" Parameter="user" Type="System.Int32" DbType="Int" />
     <Return Type="System.Int32" />
   </Function>
   <Function Name="dbo.CatalogDelete" Method="CatalogDelete">
@@ -435,6 +435,24 @@
     <Parameter Name="ClientId" Parameter="clientId" Type="System.Int32" DbType="Int" />
     <Return Type="System.Int32" />
   </Function>
+  <Function Name="dbo.ReportPettyCash" Method="ReportPettyCash">
+    <Parameter Name="FromDate" Parameter="fromDate" Type="System.String" DbType="Char(10)" />
+    <Parameter Name="ToDate" Parameter="toDate" Type="System.String" DbType="Char(10)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.ReportPurchase" Method="ReportPurchase">
+    <Parameter Name="FromDate" Parameter="fromDate" Type="System.String" DbType="Char(10)" />
+    <Parameter Name="ToDate" Parameter="toDate" Type="System.String" DbType="Char(10)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.SalesDelete" Method="SalesDelete">
+    <Parameter Name="Id" Parameter="id" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Menu" Parameter="menu" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Quantity" Parameter="quantity" Type="System.Decimal" DbType="Decimal" />
+    <Parameter Name="Source" Parameter="source" Type="System.Int32" DbType="Int" />
+    <Parameter Name="SourceType" Parameter="sourceType" Type="System.String" DbType="VarChar(100)" />
+    <Return Type="System.Int32" />
+  </Function>
   <Function Name="dbo.SalesEdit" Method="SalesEdit">
     <Parameter Name="Id" Parameter="id" Type="System.Int32" DbType="Int" />
     <Parameter Name="Menu" Parameter="menu" Type="System.Int32" DbType="Int" />
@@ -457,12 +475,16 @@
     <Parameter Name="Type" Parameter="type" Type="System.String" DbType="VarChar(100)" />
     <Return Type="System.Int32" />
   </Function>
-  <Function Name="dbo.SalesDelete" Method="SalesDelete">
+  <Function Name="dbo.SpContent" Method="SpContent">
     <Parameter Name="Id" Parameter="id" Type="System.Int32" DbType="Int" />
-    <Parameter Name="Menu" Parameter="menu" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Material" Parameter="material" Type="System.Int32" DbType="Int" />
     <Parameter Name="Quantity" Parameter="quantity" Type="System.Decimal" DbType="Decimal" />
-    <Parameter Name="Source" Parameter="source" Type="System.Int32" DbType="Int" />
-    <Parameter Name="SourceType" Parameter="sourceType" Type="System.String" DbType="VarChar(100)" />
+    <Parameter Name="UnitPrice" Parameter="unitPrice" Type="System.Decimal" DbType="Decimal" />
+    <Parameter Name="Discount" Parameter="discount" Type="System.Decimal" DbType="Decimal" />
+    <Parameter Name="Cost" Parameter="cost" Type="System.Decimal" DbType="Decimal" />
+    <Parameter Name="Package" Parameter="package" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Status" Parameter="status" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Operation" Parameter="operation" Type="System.String" DbType="VarChar(50)" />
     <Return Type="System.Int32" />
   </Function>
 </Database>
