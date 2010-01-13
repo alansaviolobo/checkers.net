@@ -45,9 +45,9 @@ public partial class Controls_Credit : System.Web.UI.UserControl
         {
             if (HdnClientId.Value != "")
             {
-                //Status = Checkers.ReceiptNew(decimal.Parse(TxtAmount.Text), DdlPayBy.SelectedItem.Text, int.Parse(HdnClientId.Value));
-                //LtrMessage.Text = Status == 1 ? "Payment Of Amount Rs." + TxtAmount.Text + " Received." : "Error Occurred.";
-                //if (Status == 1) Status = Checkers.ActivityNew("Payment Of Amount Rs." + TxtAmount.Text + " Received From " + DdlClientName.SelectedItem.Text, int.Parse(Session["UserId"].ToString()));
+                Status = Checkers.ReceiptNew(decimal.Parse(TxtAmount.Text), DdlPayBy.SelectedItem.Text, int.Parse(HdnClientId.Value));
+                LtrMessage.Text = Status == 1 ? "Payment Of Amount Rs." + TxtAmount.Text + " Received." : "Error Occurred.";
+                if (Status == 1) Status = Checkers.ActivityNew("Payment Of Amount Rs." + TxtAmount.Text + " Received From " + DdlClientName.SelectedItem.Text, int.Parse(Session["UserId"].ToString()));
 
                 LblDate.Text = DateTime.Today.ToShortDateString();
                 LblPaidTo.Text = "Quatro. Verna-Goa.";
@@ -74,11 +74,11 @@ public partial class Controls_Credit : System.Web.UI.UserControl
 
         if (HdnClientId.Value != "")
         {
-            var Bills = Checkers.Invoices.Where(I => I.Invoice_Client == int.Parse(HdnClientId.Value) && I.Invoice_Type == "Bill").Select(I => new { I.Invoice_Id, I.Invoice_Amount, I.Invoice_Tax, I.Invoice_Discount });
+            var Bills = Checkers.Invoices.Where(I => I.Invoice_Client == int.Parse(HdnClientId.Value)).Select(I => new { I.Invoice_Id, I.Invoice_Amount, I.Invoice_Tax, I.Invoice_Discount });
 
             if (Enumerable.Count(Bills) > 0)
             {
-                var Source = Checkers.Invoices.Where(I => I.Invoice_Client == int.Parse(HdnClientId.Value) && I.Invoice_Type == "Bill").Select(I => I);
+                var Source = Checkers.Invoices.Where(I => I.Invoice_Client == int.Parse(HdnClientId.Value)).Select(I => I);
                 foreach (var S in Source)
                 {
                     BillAmount += (S.Invoice_Amount.Value - S.Invoice_Discount.Value) - S.Invoice_Tax.Value;
@@ -86,10 +86,10 @@ public partial class Controls_Credit : System.Web.UI.UserControl
                 LtrAmountPayable.Text = BillAmount.ToString();
             }
 
-            var Receipts = Checkers.Invoices.Where(I => I.Invoice_Client == int.Parse(HdnClientId.Value) && I.Invoice_Type == "Receipt" && I.Invoice_Status == 0).Select(I => new { I.Invoice_Id, I.Invoice_Amount, I.Invoice_PaymentMode });
+            var Receipts = Checkers.Receipts.Where(R => R.Receipt_Client == int.Parse(HdnClientId.Value) && R.Receipt_Status == 0).Select(R => new { R.Receipt_Id, R.Receipt_Amount, R.Receipt_PaymentMode });
             if (Enumerable.Count(Receipts) > 0)
             {
-                LtrAmountPaid.Text = Checkers.Invoices.Where(I => I.Invoice_Client == int.Parse(HdnClientId.Value) && I.Invoice_Type == "Receipt" && I.Invoice_Status == 0).Select(I => I.Invoice_Amount.Value).Sum().ToString();
+                LtrAmountPaid.Text = Checkers.Receipts.Where(R => R.Receipt_Client == int.Parse(HdnClientId.Value) &&  R.Receipt_Status == 0).Select(R => R.Receipt_Amount.Value).Sum().ToString();
             }
 
             if (Enumerable.Count(Bills) > 0)

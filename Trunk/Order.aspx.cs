@@ -182,7 +182,7 @@ public partial class Order : System.Web.UI.Page
 
                 if (BtnBill.Text == "Print Bill")
                 {
-                    Status = Checkers.InvoiceNew(0, SubTotal, Discount, Tax, "Bill", int.Parse(TableSource()), null);
+                    Status = Checkers.InvoiceNew(0, SubTotal, Discount, Tax, int.Parse(TableSource()), null);
                     LtrMessage.Text = Status == 1 ? "Bill Printed For Table No. " + HdnTableId.Value + "." : "Error Occurred.";
                     BtnBill.Text = "RePrint Bill";
                 }
@@ -413,7 +413,7 @@ public partial class Order : System.Web.UI.Page
     public void BillNumber()
     {
         if (HdnTableSource.Value != "")
-            if (Checkers.Invoices.Where(I => I.Invoice_Status == 1 && I.Invoice_Source == int.Parse(HdnTableSource.Value) && I.Invoice_Type == "Bill").Select(I => I.Invoice_Id).Any().Equals(true))
+            if (Checkers.Invoices.Where(I => I.Invoice_Status == 1 && I.Invoice_Source == int.Parse(HdnTableSource.Value)).Select(I => I.Invoice_Id).Any().Equals(true))
             {
                 HdnBillNumber.Value = (from I in Checkers.Invoices
                                        where I.Invoice_Status == 1 && I.Invoice_Source == int.Parse(HdnTableSource.Value)

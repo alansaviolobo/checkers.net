@@ -3,7 +3,7 @@
 
 <script type="text/javascript" language="javascript">
     function GetMenuId(sender, eventArgs) {
-        CheckersWebService.GetMenuDetails(sender._element.value, OnSuccess, OnError);
+        CheckersWebService.GetMenuId(sender._element.value, OnSuccess, OnError);
     }
 
     function OnSuccess(result) {

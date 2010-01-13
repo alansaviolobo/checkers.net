@@ -105,9 +105,9 @@
                 <br />
                 <asp:DataGrid ID="DgReceipts" runat="server" AutoGenerateColumns="False" OnDeleteCommand="DgOrderItems_DeleteCommand">
                     <Columns>
-                        <asp:BoundColumn DataField="Invoice_Id" HeaderText="No."></asp:BoundColumn>
-                        <asp:BoundColumn DataField="Invoice_Amount" HeaderText="Amount"></asp:BoundColumn>
-                        <asp:BoundColumn DataField="Invoice_PaymentMode" HeaderText="Payment Mode"></asp:BoundColumn>
+                        <asp:BoundColumn DataField="Receipt_Id" HeaderText="No."></asp:BoundColumn>
+                        <asp:BoundColumn DataField="Receipt_Amount" HeaderText="Amount"></asp:BoundColumn>
+                        <asp:BoundColumn DataField="Receipt_PaymentMode" HeaderText="Payment Mode"></asp:BoundColumn>
                         <asp:ButtonColumn CommandName="Delete" Text="X"></asp:ButtonColumn>
                     </Columns>
                 </asp:DataGrid>
