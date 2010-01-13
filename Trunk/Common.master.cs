@@ -12,11 +12,16 @@ public partial class Common : System.Web.UI.MasterPage
     protected void Page_Load(object sender, EventArgs e)
     {
         Checkers = new CheckersDataContext();
-        Session["UserId"] = 1;
-
-        if (!Page.IsPostBack)
+        if (Session["UserId"] == null)
         {
-            LtrUserLoggedIn.Text = Checkers.Contacts.Where(C => C.Contact_Id == int.Parse(Session["UserId"].ToString())).Select(C => C.Contact_Name).Single();
+            Response.Redirect("~/Default.aspx");
+        }
+        else
+        {
+            if (!Page.IsPostBack)
+            {
+                LtrUserLoggedIn.Text = Checkers.Contacts.Where(C => C.Contact_Id == int.Parse(Session["UserId"].ToString())).Select(C => C.Contact_Name).Single();
+            }
         }
     }
     protected void BtnLogout_Click(object sender, EventArgs e)

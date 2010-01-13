@@ -80,7 +80,7 @@ public partial class CheckersDataContext : System.Data.Linq.DataContext
   #endregion
 	
 	public CheckersDataContext() : 
-			base(global::System.Configuration.ConfigurationManager.ConnectionStrings["CheckersConnectionString1"].ConnectionString, mappingSource)
+			base(global::System.Configuration.ConfigurationManager.ConnectionStrings["CheckersConnectionString"].ConnectionString, mappingSource)
 	{
 		OnCreated();
 	}
@@ -507,20 +507,6 @@ public partial class CheckersDataContext : System.Data.Linq.DataContext
 	public int ReceiptNew([Parameter(Name="Amount", DbType="Decimal")] System.Nullable<decimal> amount, [Parameter(Name="PaymentMode", DbType="VarChar(100)")] string paymentMode, [Parameter(Name="ClientId", DbType="Int")] System.Nullable<int> clientId)
 	{
 		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), amount, paymentMode, clientId);
-		return ((int)(result.ReturnValue));
-	}
-	
-	[Function(Name="dbo.ReportPettyCash")]
-	public int ReportPettyCash([Parameter(Name="FromDate", DbType="Char(10)")] string fromDate, [Parameter(Name="ToDate", DbType="Char(10)")] string toDate)
-	{
-		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), fromDate, toDate);
-		return ((int)(result.ReturnValue));
-	}
-	
-	[Function(Name="dbo.ReportPurchase")]
-	public int ReportPurchase([Parameter(Name="FromDate", DbType="Char(10)")] string fromDate, [Parameter(Name="ToDate", DbType="Char(10)")] string toDate)
-	{
-		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), fromDate, toDate);
 		return ((int)(result.ReturnValue));
 	}
 	

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Database Name="Checkers" Class="CheckersDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="WebSettings" ConnectionString="Data Source=localhost;Initial Catalog=Checkers;Persist Security Info=True;User ID=sa" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="CheckersConnectionString1" Provider="System.Data.SqlClient" />
+  <Connection Mode="WebSettings" ConnectionString="Data Source=localhost;Initial Catalog=Checkers;User ID=Checkers" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="CheckersConnectionString" Provider="System.Data.SqlClient" />
   <Table Name="dbo.Activity" Member="Activities">
     <Type Name="Activity">
       <Column Name="Activity_Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -433,16 +433,6 @@
     <Parameter Name="Amount" Parameter="amount" Type="System.Decimal" DbType="Decimal" />
     <Parameter Name="PaymentMode" Parameter="paymentMode" Type="System.String" DbType="VarChar(100)" />
     <Parameter Name="ClientId" Parameter="clientId" Type="System.Int32" DbType="Int" />
-    <Return Type="System.Int32" />
-  </Function>
-  <Function Name="dbo.ReportPettyCash" Method="ReportPettyCash">
-    <Parameter Name="FromDate" Parameter="fromDate" Type="System.String" DbType="Char(10)" />
-    <Parameter Name="ToDate" Parameter="toDate" Type="System.String" DbType="Char(10)" />
-    <Return Type="System.Int32" />
-  </Function>
-  <Function Name="dbo.ReportPurchase" Method="ReportPurchase">
-    <Parameter Name="FromDate" Parameter="fromDate" Type="System.String" DbType="Char(10)" />
-    <Parameter Name="ToDate" Parameter="toDate" Type="System.String" DbType="Char(10)" />
     <Return Type="System.Int32" />
   </Function>
   <Function Name="dbo.SalesDelete" Method="SalesDelete">

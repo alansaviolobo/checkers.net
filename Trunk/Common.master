@@ -30,7 +30,7 @@
                     </td>
                     <td>
                         <asp:ImageButton ImageUrl="~/Assets/Image/OrderSystem.png" ToolTip="Proceed To Order System"
-                            ID="BtnOrderSystem" runat="server" onclick="BtnOrderSystem_Click" />
+                            ID="BtnOrderSystem" runat="server" OnClick="BtnOrderSystem_Click" />
                     </td>
                 </tr>
             </table>
@@ -105,18 +105,11 @@
                             <a href="Operation.aspx?Section=Package&Action=Delete">Delete</a>
                         </Content>
                     </Ajax:AccordionPane>
-                    <Ajax:AccordionPane runat="server" ID="PaneDatabase">
+                    <Ajax:AccordionPane runat="server" ID="PaneMiscellaneous">
                         <Header>
-                            Database</Header>
+                            Miscellaneous</Header>
                         <Content>
-                            <a href="Operation.aspx?Section=DatabaseBackup">Backup</a><br />
-                            <a href="Operation.aspx?Section=DatabaseRestore">Restore</a>
-                        </Content>
-                    </Ajax:AccordionPane>
-                    <Ajax:AccordionPane runat="server" ID="PaneReport">
-                        <Header>
-                            Report</Header>
-                        <Content>
+                            <a href="Database.aspx">Database</a><br />
                             <a href="Report.aspx">Report</a>
                         </Content>
                     </Ajax:AccordionPane>
