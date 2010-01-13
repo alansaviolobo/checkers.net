@@ -388,27 +388,6 @@ public partial class CheckersDataContext : System.Data.Linq.DataContext
 		return ((int)(result.ReturnValue));
 	}
 	
-	[Function(Name="dbo.MenuDelete")]
-	public int MenuDelete([Parameter(Name="Id", DbType="Int")] System.Nullable<int> id)
-	{
-		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id);
-		return ((int)(result.ReturnValue));
-	}
-	
-	[Function(Name="dbo.MenuEdit")]
-	public int MenuEdit([Parameter(Name="Id", DbType="Int")] System.Nullable<int> id, [Parameter(Name="Name", DbType="VarChar(100)")] string name, [Parameter(Name="Category", DbType="VarChar(100)")] string category, [Parameter(Name="Price", DbType="Decimal")] System.Nullable<decimal> price)
-	{
-		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id, name, category, price);
-		return ((int)(result.ReturnValue));
-	}
-	
-	[Function(Name="dbo.MenuNew")]
-	public int MenuNew([Parameter(Name="Id", DbType="Int")] System.Nullable<int> id, [Parameter(Name="Name", DbType="VarChar(100)")] string name, [Parameter(Name="Category", DbType="VarChar(100)")] string category, [Parameter(Name="Price", DbType="Decimal")] System.Nullable<decimal> price)
-	{
-		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id, name, category, price);
-		return ((int)(result.ReturnValue));
-	}
-	
 	[Function(Name="dbo.PackageDelete")]
 	public int PackageDelete([Parameter(Name="Id", DbType="Int")] System.Nullable<int> id)
 	{
@@ -553,6 +532,27 @@ public partial class CheckersDataContext : System.Data.Linq.DataContext
 	public int InvoiceNew([Parameter(Name="Id", DbType="Int")] System.Nullable<int> id, [Parameter(Name="Amount", DbType="Decimal")] System.Nullable<decimal> amount, [Parameter(Name="Discount", DbType="Decimal")] System.Nullable<decimal> discount, [Parameter(Name="Tax", DbType="Decimal")] System.Nullable<decimal> tax, [Parameter(Name="Source", DbType="Int")] System.Nullable<int> source, [Parameter(Name="PaymentMode", DbType="VarChar(100)")] string paymentMode)
 	{
 		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id, amount, discount, tax, source, paymentMode);
+		return ((int)(result.ReturnValue));
+	}
+	
+	[Function(Name="dbo.MenuNew")]
+	public int MenuNew([Parameter(Name="Id", DbType="Int")] System.Nullable<int> id, [Parameter(Name="Name", DbType="VarChar(100)")] string name, [Parameter(Name="Category", DbType="VarChar(100)")] string category, [Parameter(Name="Price", DbType="Decimal")] System.Nullable<decimal> price)
+	{
+		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id, name, category, price);
+		return ((int)(result.ReturnValue));
+	}
+	
+	[Function(Name="dbo.MenuEdit")]
+	public int MenuEdit([Parameter(Name="Id", DbType="Int")] System.Nullable<int> id, [Parameter(Name="Name", DbType="VarChar(100)")] string name, [Parameter(Name="Category", DbType="VarChar(100)")] string category, [Parameter(Name="Price", DbType="Decimal")] System.Nullable<decimal> price)
+	{
+		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id, name, category, price);
+		return ((int)(result.ReturnValue));
+	}
+	
+	[Function(Name="dbo.MenuDelete")]
+	public int MenuDelete([Parameter(Name="Id", DbType="Int")] System.Nullable<int> id)
+	{
+		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id);
 		return ((int)(result.ReturnValue));
 	}
 }

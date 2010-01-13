@@ -325,24 +325,6 @@
     <Parameter Name="Quantity" Parameter="quantity" Type="System.Decimal" DbType="Decimal" />
     <Return Type="System.Int32" />
   </Function>
-  <Function Name="dbo.MenuDelete" Method="MenuDelete">
-    <Parameter Name="Id" Parameter="id" Type="System.Int32" DbType="Int" />
-    <Return Type="System.Int32" />
-  </Function>
-  <Function Name="dbo.MenuEdit" Method="MenuEdit">
-    <Parameter Name="Id" Parameter="id" Type="System.Int32" DbType="Int" />
-    <Parameter Name="Name" Parameter="name" Type="System.String" DbType="VarChar(100)" />
-    <Parameter Name="Category" Parameter="category" Type="System.String" DbType="VarChar(100)" />
-    <Parameter Name="Price" Parameter="price" Type="System.Decimal" DbType="Decimal" />
-    <Return Type="System.Int32" />
-  </Function>
-  <Function Name="dbo.MenuNew" Method="MenuNew">
-    <Parameter Name="Id" Parameter="id" Type="System.Int32" DbType="Int" />
-    <Parameter Name="Name" Parameter="name" Type="System.String" DbType="VarChar(100)" />
-    <Parameter Name="Category" Parameter="category" Type="System.String" DbType="VarChar(100)" />
-    <Parameter Name="Price" Parameter="price" Type="System.Decimal" DbType="Decimal" />
-    <Return Type="System.Int32" />
-  </Function>
   <Function Name="dbo.PackageDelete" Method="PackageDelete">
     <Parameter Name="Id" Parameter="id" Type="System.Int32" DbType="Int" />
     <Return Type="System.Int32" />
@@ -482,6 +464,24 @@
     <Parameter Name="Tax" Parameter="tax" Type="System.Decimal" DbType="Decimal" />
     <Parameter Name="Source" Parameter="source" Type="System.Int32" DbType="Int" />
     <Parameter Name="PaymentMode" Parameter="paymentMode" Type="System.String" DbType="VarChar(100)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.MenuNew" Method="MenuNew">
+    <Parameter Name="Id" Parameter="id" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Name" Parameter="name" Type="System.String" DbType="VarChar(100)" />
+    <Parameter Name="Category" Parameter="category" Type="System.String" DbType="VarChar(100)" />
+    <Parameter Name="Price" Parameter="price" Type="System.Decimal" DbType="Decimal" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.MenuEdit" Method="MenuEdit">
+    <Parameter Name="Id" Parameter="id" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Name" Parameter="name" Type="System.String" DbType="VarChar(100)" />
+    <Parameter Name="Category" Parameter="category" Type="System.String" DbType="VarChar(100)" />
+    <Parameter Name="Price" Parameter="price" Type="System.Decimal" DbType="Decimal" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.MenuDelete" Method="MenuDelete">
+    <Parameter Name="Id" Parameter="id" Type="System.Int32" DbType="Int" />
     <Return Type="System.Int32" />
   </Function>
 </Database>
