@@ -14,7 +14,7 @@ GO
 /* BEGIN DATABASE SCHEMA */
 USE [Checkers]
 GO
-/****** Object:  Table [dbo].[Token]    Script Date: 01/12/2010 13:59:01 ******/
+/****** Object:  Table [dbo].[Token]    Script Date: 01/13/2010 11:05:29 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -37,7 +37,7 @@ CREATE TABLE [dbo].[Token](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[Source]    Script Date: 01/12/2010 13:58:58 ******/
+/****** Object:  Table [dbo].[Source]    Script Date: 01/13/2010 11:05:26 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -59,7 +59,7 @@ CREATE TABLE [dbo].[Source](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[Package]    Script Date: 01/12/2010 13:58:42 ******/
+/****** Object:  Table [dbo].[Package]    Script Date: 01/13/2010 11:05:11 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -81,7 +81,7 @@ CREATE TABLE [dbo].[Package](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[PettyCash]    Script Date: 01/12/2010 13:58:45 ******/
+/****** Object:  Table [dbo].[PettyCash]    Script Date: 01/13/2010 11:05:14 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -99,7 +99,7 @@ CREATE TABLE [dbo].[PettyCash](
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Catalog]    Script Date: 01/12/2010 13:58:09 ******/
+/****** Object:  Table [dbo].[Catalog]    Script Date: 01/13/2010 11:04:33 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -120,7 +120,7 @@ CREATE TABLE [dbo].[Catalog](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[Contact]    Script Date: 01/12/2010 13:58:15 ******/
+/****** Object:  Table [dbo].[Contact]    Script Date: 01/13/2010 11:04:41 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -150,7 +150,7 @@ CREATE TABLE [dbo].[Contact](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[Invoice]    Script Date: 01/12/2010 13:58:36 ******/
+/****** Object:  Table [dbo].[Invoice]    Script Date: 01/13/2010 11:05:04 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -182,7 +182,7 @@ GO
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Credit, Credit 
 Card, Cash, Cheque, Zero Billing' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Invoice', @level2type=N'COLUMN',@level2name=N'Invoice_PaymentMode'
 GO
-/****** Object:  Table [dbo].[Activity]    Script Date: 01/12/2010 13:58:07 ******/
+/****** Object:  Table [dbo].[Activity]    Script Date: 01/13/2010 11:04:31 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -202,7 +202,7 @@ CREATE TABLE [dbo].[Activity](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[PettyExpense]    Script Date: 01/12/2010 13:58:48 ******/
+/****** Object:  Table [dbo].[PettyExpense]    Script Date: 01/13/2010 11:05:17 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -224,7 +224,7 @@ CREATE TABLE [dbo].[PettyExpense](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[Converter]    Script Date: 01/12/2010 13:58:23 ******/
+/****** Object:  Table [dbo].[Converter]    Script Date: 01/13/2010 11:04:49 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -242,7 +242,7 @@ CREATE TABLE [dbo].[Converter](
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Event]    Script Date: 01/12/2010 13:58:26 ******/
+/****** Object:  Table [dbo].[Event]    Script Date: 01/13/2010 11:04:53 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -266,7 +266,7 @@ CREATE TABLE [dbo].[Event](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[Sales]    Script Date: 01/12/2010 13:58:54 ******/
+/****** Object:  Table [dbo].[Sales]    Script Date: 01/13/2010 11:05:23 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -286,7 +286,7 @@ CREATE TABLE [dbo].[Sales](
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Purchase]    Script Date: 01/12/2010 13:58:50 ******/
+/****** Object:  Table [dbo].[Purchase]    Script Date: 01/13/2010 11:05:19 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -303,7 +303,7 @@ CREATE TABLE [dbo].[Purchase](
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Menu]    Script Date: 01/12/2010 13:58:39 ******/
+/****** Object:  Table [dbo].[Menu]    Script Date: 01/13/2010 11:05:07 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -325,31 +325,7 @@ CREATE TABLE [dbo].[Menu](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  StoredProcedure [dbo].[ReportPurchase]    Script Date: 01/12/2010 13:58:00 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE PROCEDURE [dbo].[ReportPurchase]
-	@FromDate CHAR(10),
-	@ToDate CHAR(10)
-AS
-	
-	RETURN
-GO
-/****** Object:  StoredProcedure [dbo].[ReportPettyCash]    Script Date: 01/12/2010 13:58:00 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE PROCEDURE [dbo].[ReportPettyCash]
-	@FromDate CHAR(10),
-	@ToDate CHAR(10)
-AS
-	
-	RETURN
-GO
-/****** Object:  StoredProcedure [dbo].[InventoryDelete]    Script Date: 01/12/2010 13:57:49 ******/
+/****** Object:  StoredProcedure [dbo].[InventoryDelete]    Script Date: 01/13/2010 11:04:12 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -363,7 +339,7 @@ AS
 		RETURN 1
 	END
 GO
-/****** Object:  Table [dbo].[Content]    Script Date: 01/12/2010 13:58:20 ******/
+/****** Object:  Table [dbo].[Content]    Script Date: 01/13/2010 11:04:46 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -384,7 +360,7 @@ CREATE TABLE [dbo].[Content](
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Inventory]    Script Date: 01/12/2010 13:58:31 ******/
+/****** Object:  Table [dbo].[Inventory]    Script Date: 01/13/2010 11:04:58 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -409,7 +385,7 @@ CREATE TABLE [dbo].[Inventory](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  StoredProcedure [dbo].[SalesDelete]    Script Date: 01/12/2010 13:58:01 ******/
+/****** Object:  StoredProcedure [dbo].[SalesDelete]    Script Date: 01/13/2010 11:04:24 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -452,7 +428,7 @@ Token_Status = 1
 		RETURN 1
 	END
 GO
-/****** Object:  StoredProcedure [dbo].[TokenNew]    Script Date: 01/12/2010 13:58:04 ******/
+/****** Object:  StoredProcedure [dbo].[TokenNew]    Script Date: 01/13/2010 11:04:28 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -468,7 +444,7 @@ Token_Status, Token_TimeStamp)
 	VALUES (@Type, @Menu, @Quantity, @Source, 1, CURRENT_TIMESTAMP)
 	RETURN 1
 GO
-/****** Object:  StoredProcedure [dbo].[InvoiceDelete]    Script Date: 01/12/2010 13:57:52 ******/
+/****** Object:  StoredProcedure [dbo].[InvoiceDelete]    Script Date: 01/13/2010 11:04:16 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -494,7 +470,7 @@ AS
 		RETURN 1
 	END
 GO
-/****** Object:  StoredProcedure [dbo].[InvoiceCloseCredit]    Script Date: 01/12/2010 13:57:51 ******/
+/****** Object:  StoredProcedure [dbo].[InvoiceCloseCredit]    Script Date: 01/13/2010 11:04:15 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -536,7 +512,7 @@ Invoice_Client = @ClientId
 	
 	RETURN 1
 GO
-/****** Object:  StoredProcedure [dbo].[InvoiceCloseZeroBilling]    Script Date: 01/12/2010 13:57:52 ******/
+/****** Object:  StoredProcedure [dbo].[InvoiceCloseZeroBilling]    Script Date: 01/13/2010 11:04:15 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -559,7 +535,7 @@ AS
 	
 	RETURN 1
 GO
-/****** Object:  StoredProcedure [dbo].[InvoiceClose]    Script Date: 01/12/2010 13:57:51 ******/
+/****** Object:  StoredProcedure [dbo].[InvoiceClose]    Script Date: 01/13/2010 11:04:14 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -584,7 +560,7 @@ AS
 		
 	RETURN 1
 GO
-/****** Object:  StoredProcedure [dbo].[SalesNew]    Script Date: 01/12/2010 13:58:02 ******/
+/****** Object:  StoredProcedure [dbo].[SalesNew]    Script Date: 01/13/2010 11:04:26 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -640,7 +616,7 @@ Menu_Status = 1)
 		RETURN 1
 	END
 GO
-/****** Object:  StoredProcedure [dbo].[InvoiceNew]    Script Date: 01/12/2010 13:57:54 ******/
+/****** Object:  StoredProcedure [dbo].[InvoiceNew]    Script Date: 01/13/2010 11:04:18 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -664,7 +640,7 @@ CURRENT_TIMESTAMP)
 	
 	RETURN 1
 GO
-/****** Object:  StoredProcedure [dbo].[SalesEdit]    Script Date: 01/12/2010 13:58:02 ******/
+/****** Object:  StoredProcedure [dbo].[SalesEdit]    Script Date: 01/13/2010 11:04:25 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -705,7 +681,7 @@ AS
 		RETURN 1
 	END
 GO
-/****** Object:  StoredProcedure [dbo].[PackageNew]    Script Date: 01/12/2010 13:57:57 ******/
+/****** Object:  StoredProcedure [dbo].[PackageNew]    Script Date: 01/13/2010 11:04:20 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -727,7 +703,7 @@ Package_Comments, Package_Status, Package_TimeStamp)
 			RETURN 1
 		END
 GO
-/****** Object:  StoredProcedure [dbo].[PackageEdit]    Script Date: 01/12/2010 13:57:56 ******/
+/****** Object:  StoredProcedure [dbo].[PackageEdit]    Script Date: 01/13/2010 11:04:20 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -749,7 +725,7 @@ AS
 			RETURN 1
 		END
 GO
-/****** Object:  StoredProcedure [dbo].[PackageDelete]    Script Date: 01/12/2010 13:57:56 ******/
+/****** Object:  StoredProcedure [dbo].[PackageDelete]    Script Date: 01/13/2010 11:04:19 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -761,7 +737,7 @@ AS
 	WHERE Package_Id = @Id AND Package_Status = 1
 	RETURN 1
 GO
-/****** Object:  StoredProcedure [dbo].[PettyCashNew]    Script Date: 01/12/2010 13:57:57 ******/
+/****** Object:  StoredProcedure [dbo].[PettyCashNew]    Script Date: 01/13/2010 11:04:21 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -785,7 +761,7 @@ CURRENT_TIMESTAMP)
 	
 	RETURN 1
 GO
-/****** Object:  StoredProcedure [dbo].[PettyExpenseNew]    Script Date: 01/12/2010 13:57:58 ******/
+/****** Object:  StoredProcedure [dbo].[PettyExpenseNew]    Script Date: 01/13/2010 11:04:21 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -813,7 +789,7 @@ PettyExpense_Quantity, PettyExpense_ReceivedBy, PettyExpense_TimeStamp)
 	
 	RETURN 1
 GO
-/****** Object:  StoredProcedure [dbo].[CatalogEdit]    Script Date: 01/12/2010 13:57:42 ******/
+/****** Object:  StoredProcedure [dbo].[CatalogEdit]    Script Date: 01/13/2010 11:04:05 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -834,7 +810,7 @@ Catalog_Status, Catalog_TimeStamp)
 			RETURN 1
 		END
 GO
-/****** Object:  StoredProcedure [dbo].[CatalogNew]    Script Date: 01/12/2010 13:57:43 ******/
+/****** Object:  StoredProcedure [dbo].[CatalogNew]    Script Date: 01/13/2010 11:04:05 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -850,7 +826,7 @@ AS
 		Return 1
 	END
 GO
-/****** Object:  StoredProcedure [dbo].[CatalogDelete]    Script Date: 01/12/2010 13:57:42 ******/
+/****** Object:  StoredProcedure [dbo].[CatalogDelete]    Script Date: 01/13/2010 11:04:04 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -864,7 +840,7 @@ AS
 			Return 1
 	END
 GO
-/****** Object:  StoredProcedure [dbo].[ContactDelete]    Script Date: 01/12/2010 13:57:43 ******/
+/****** Object:  StoredProcedure [dbo].[ContactDelete]    Script Date: 01/13/2010 11:04:06 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -879,7 +855,7 @@ AS
 		RETURN 1
 	END
 GO
-/****** Object:  StoredProcedure [dbo].[ContactEdit]    Script Date: 01/12/2010 13:57:44 ******/
+/****** Object:  StoredProcedure [dbo].[ContactEdit]    Script Date: 01/13/2010 11:04:07 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -913,7 +889,7 @@ Contact_OrganizationPhone = @OrganizationPhone
 			END
 	END
 GO
-/****** Object:  StoredProcedure [dbo].[ContactNew]    Script Date: 01/12/2010 13:57:45 ******/
+/****** Object:  StoredProcedure [dbo].[ContactNew]    Script Date: 01/13/2010 11:04:08 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -946,7 +922,7 @@ Contact_Credit, Contact_Status, Contact_TimeStamp)
 			RETURN 1
 		END
 GO
-/****** Object:  StoredProcedure [dbo].[ReceiptNew]    Script Date: 01/12/2010 13:58:00 ******/
+/****** Object:  StoredProcedure [dbo].[ReceiptNew]    Script Date: 01/13/2010 11:04:23 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -965,7 +941,7 @@ Invoice_Client, Invoice_Status, Invoice_TimeStamp)
 	
 	RETURN 1
 GO
-/****** Object:  StoredProcedure [dbo].[ChangePassword]    Script Date: 01/12/2010 13:57:43 ******/
+/****** Object:  StoredProcedure [dbo].[ChangePassword]    Script Date: 01/13/2010 11:04:06 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -987,7 +963,7 @@ Contact_Password = @OldPassword)
 	ELSE
 		RETURN 0
 GO
-/****** Object:  StoredProcedure [dbo].[ReceiptDelete]    Script Date: 01/12/2010 13:57:59 ******/
+/****** Object:  StoredProcedure [dbo].[ReceiptDelete]    Script Date: 01/13/2010 11:04:23 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1008,7 +984,7 @@ AND Invoice_Status = 0)
 	
 	RETURN 1
 GO
-/****** Object:  StoredProcedure [dbo].[InvoiceEdit]    Script Date: 01/12/2010 13:57:53 ******/
+/****** Object:  StoredProcedure [dbo].[InvoiceEdit]    Script Date: 01/13/2010 11:04:17 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1032,7 +1008,7 @@ AS
 		RETURN 1
 	END
 GO
-/****** Object:  StoredProcedure [dbo].[ActivityNew]    Script Date: 01/12/2010 13:57:41 ******/
+/****** Object:  StoredProcedure [dbo].[ActivityNew]    Script Date: 01/13/2010 11:04:04 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1045,7 +1021,7 @@ AS
 	VALUES(@Action, @User, CURRENT_TIMESTAMP)
 	Return 1
 GO
-/****** Object:  StoredProcedure [dbo].[ConverterNew]    Script Date: 01/12/2010 13:57:46 ******/
+/****** Object:  StoredProcedure [dbo].[ConverterNew]    Script Date: 01/13/2010 11:04:09 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1072,7 +1048,7 @@ CURRENT_TIMESTAMP)
 			RETURN 1
 		END
 GO
-/****** Object:  StoredProcedure [dbo].[ConverterEdit]    Script Date: 01/12/2010 13:57:46 ******/
+/****** Object:  StoredProcedure [dbo].[ConverterEdit]    Script Date: 01/13/2010 11:04:09 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1094,7 +1070,7 @@ Converter_Inventory = @Inventory, Converter_InventoryQuantity = @InventoryQuanti
 			RETURN 1
 		END
 GO
-/****** Object:  StoredProcedure [dbo].[ConverterDelete]    Script Date: 01/12/2010 13:57:46 ******/
+/****** Object:  StoredProcedure [dbo].[ConverterDelete]    Script Date: 01/13/2010 11:04:09 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1108,7 +1084,7 @@ AS
 		RETURN 1
 	END
 GO
-/****** Object:  StoredProcedure [dbo].[EventNew]    Script Date: 01/12/2010 13:57:48 ******/
+/****** Object:  StoredProcedure [dbo].[EventNew]    Script Date: 01/13/2010 11:04:11 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1133,7 +1109,7 @@ CURRENT_TIMESTAMP)
 			RETURN 1
 		END
 GO
-/****** Object:  StoredProcedure [dbo].[EventEdit]    Script Date: 01/12/2010 13:57:47 ******/
+/****** Object:  StoredProcedure [dbo].[EventEdit]    Script Date: 01/13/2010 11:04:11 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1152,7 +1128,7 @@ Event_ToTimeStamp = @To, Event_Organizer = @Organizer, Event_Venue = @Venue
 	WHERE Event_Id = @Id AND Event_Status = 1
 	RETURN 1
 GO
-/****** Object:  StoredProcedure [dbo].[EventDelete]    Script Date: 01/12/2010 13:57:47 ******/
+/****** Object:  StoredProcedure [dbo].[EventDelete]    Script Date: 01/13/2010 11:04:10 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1164,7 +1140,7 @@ AS
 	WHERE Event_Id = @Id AND Event_Status = 1
 	RETURN 1
 GO
-/****** Object:  StoredProcedure [dbo].[PurchaseNew]    Script Date: 01/12/2010 13:57:59 ******/
+/****** Object:  StoredProcedure [dbo].[PurchaseNew]    Script Date: 01/13/2010 11:04:23 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1186,7 +1162,7 @@ AS
 	
 	RETURN 1
 GO
-/****** Object:  StoredProcedure [dbo].[PurchaseEdit]    Script Date: 01/12/2010 13:57:58 ******/
+/****** Object:  StoredProcedure [dbo].[PurchaseEdit]    Script Date: 01/13/2010 11:04:22 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1207,7 +1183,7 @@ Purchase_Quantity = @Quantity
 		RETURN 1
 	END
 GO
-/****** Object:  StoredProcedure [dbo].[PurchaseDelete]    Script Date: 01/12/2010 13:57:58 ******/
+/****** Object:  StoredProcedure [dbo].[PurchaseDelete]    Script Date: 01/13/2010 11:04:22 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1221,7 +1197,7 @@ AS
 		RETURN 1
 	END
 GO
-/****** Object:  StoredProcedure [dbo].[MenuNew]    Script Date: 01/12/2010 13:57:55 ******/
+/****** Object:  StoredProcedure [dbo].[MenuNew]    Script Date: 01/13/2010 11:04:19 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1245,7 +1221,7 @@ CURRENT_TIMESTAMP)
 			END
 	END
 GO
-/****** Object:  StoredProcedure [dbo].[SelectItemByType]    Script Date: 01/12/2010 13:58:03 ******/
+/****** Object:  StoredProcedure [dbo].[SelectItemByType]    Script Date: 01/13/2010 11:04:26 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1260,7 +1236,7 @@ AS
 		RETURN (SELECT COUNT(*) FROM Menu WHERE Menu_Category = @Type AND 
 Menu_Status = 1)
 GO
-/****** Object:  StoredProcedure [dbo].[MenuEdit]    Script Date: 01/12/2010 13:57:55 ******/
+/****** Object:  StoredProcedure [dbo].[MenuEdit]    Script Date: 01/13/2010 11:04:19 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1284,7 +1260,7 @@ AS
 			END
 	END
 GO
-/****** Object:  StoredProcedure [dbo].[MenuDelete]    Script Date: 01/12/2010 13:57:54 ******/
+/****** Object:  StoredProcedure [dbo].[MenuDelete]    Script Date: 01/13/2010 11:04:18 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1298,7 +1274,7 @@ AS
 		RETURN 1
 	END
 GO
-/****** Object:  StoredProcedure [dbo].[SpContent]    Script Date: 01/12/2010 13:58:04 ******/
+/****** Object:  StoredProcedure [dbo].[SpContent]    Script Date: 01/13/2010 11:04:27 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1348,7 +1324,7 @@ Content_Quantity = @Quantity, Content_UnitPrice = @UnitPrice, Content_Discount =
 	
 	RETURN @Result
 GO
-/****** Object:  StoredProcedure [dbo].[InventoryNew]    Script Date: 01/12/2010 13:57:50 ******/
+/****** Object:  StoredProcedure [dbo].[InventoryNew]    Script Date: 01/13/2010 11:04:13 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1374,7 +1350,7 @@ Inventory_TimeStamp)
 			RETURN 1
 		END
 GO
-/****** Object:  StoredProcedure [dbo].[InventoryEdit]    Script Date: 01/12/2010 13:57:49 ******/
+/****** Object:  StoredProcedure [dbo].[InventoryEdit]    Script Date: 01/13/2010 11:04:13 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1399,7 +1375,7 @@ Inventory_PurchaseUnit = @PurchaseUnit, Inventory_ConversionUnit = @ConversionUn
 			RETURN 1
 		END
 GO
-/****** Object:  StoredProcedure [dbo].[InventorySubtract]    Script Date: 01/12/2010 13:57:50 ******/
+/****** Object:  StoredProcedure [dbo].[InventorySubtract]    Script Date: 01/13/2010 11:04:14 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1412,7 +1388,7 @@ AS
 	WHERE Inventory_Id = @Id
 	RETURN 1
 GO
-/****** Object:  StoredProcedure [dbo].[InventoryAdd]    Script Date: 01/12/2010 13:57:48 ******/
+/****** Object:  StoredProcedure [dbo].[InventoryAdd]    Script Date: 01/13/2010 11:04:12 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1425,7 +1401,6 @@ AS
 	WHERE Inventory_Id = @Id
 	RETURN
 GO
-
 /* END DATABASE SCHEMA */
 
 /* BEGIN CREATE USER  WITH PERMISSION */
