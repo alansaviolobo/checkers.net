@@ -224,12 +224,6 @@
     <Parameter Name="Type" Parameter="type" Type="System.String" DbType="VarChar(50)" />
     <Return Type="System.Int32" />
   </Function>
-  <Function Name="dbo.CatalogNew" Method="CatalogNew">
-    <Parameter Name="Id" Parameter="id" Type="System.Int32" DbType="Int" />
-    <Parameter Name="Name" Parameter="name" Type="System.String" DbType="VarChar(100)" />
-    <Parameter Name="Type" Parameter="type" Type="System.String" DbType="VarChar(50)" />
-    <Return Type="System.Int32" />
-  </Function>
   <Function Name="dbo.ChangePassword" Method="ChangePassword">
     <Parameter Name="Id" Parameter="id" Type="System.Int32" DbType="Int" />
     <Parameter Name="OldPassword" Parameter="oldPassword" Type="System.String" DbType="VarChar(100)" />
@@ -238,34 +232,6 @@
   </Function>
   <Function Name="dbo.ContactDelete" Method="ContactDelete">
     <Parameter Name="Id" Parameter="id" Type="System.Int32" DbType="Int" />
-    <Return Type="System.Int32" />
-  </Function>
-  <Function Name="dbo.ContactEdit" Method="ContactEdit">
-    <Parameter Name="Id" Parameter="id" Type="System.Int32" DbType="Int" />
-    <Parameter Name="Name" Parameter="name" Type="System.String" DbType="VarChar(100)" />
-    <Parameter Name="UserName" Parameter="userName" Type="System.String" DbType="VarChar(100)" />
-    <Parameter Name="Password" Parameter="password" Type="System.String" DbType="VarChar(100)" />
-    <Parameter Name="Type" Parameter="type" Type="System.String" DbType="VarChar(100)" />
-    <Parameter Name="Phone" Parameter="phone" Type="System.String" DbType="VarChar(100)" />
-    <Parameter Name="Address" Parameter="address" Type="System.String" DbType="VarChar(200)" />
-    <Parameter Name="Email" Parameter="email" Type="System.String" DbType="VarChar(100)" />
-    <Parameter Name="OrganizationName" Parameter="organizationName" Type="System.String" DbType="VarChar(100)" />
-    <Parameter Name="OrganizationAddress" Parameter="organizationAddress" Type="System.String" DbType="VarChar(200)" />
-    <Parameter Name="OrganizationPhone" Parameter="organizationPhone" Type="System.String" DbType="VarChar(100)" />
-    <Return Type="System.Int32" />
-  </Function>
-  <Function Name="dbo.ContactNew" Method="ContactNew">
-    <Parameter Name="Id" Parameter="id" Type="System.Int32" DbType="Int" />
-    <Parameter Name="Name" Parameter="name" Type="System.String" DbType="VarChar(100)" />
-    <Parameter Name="UserName" Parameter="userName" Type="System.String" DbType="VarChar(100)" />
-    <Parameter Name="Password" Parameter="password" Type="System.String" DbType="VarChar(100)" />
-    <Parameter Name="Type" Parameter="type" Type="System.String" DbType="VarChar(100)" />
-    <Parameter Name="Phone" Parameter="phone" Type="System.String" DbType="VarChar(100)" />
-    <Parameter Name="Address" Parameter="address" Type="System.String" DbType="VarChar(200)" />
-    <Parameter Name="Email" Parameter="email" Type="System.String" DbType="VarChar(100)" />
-    <Parameter Name="OrganizationName" Parameter="organizationName" Type="System.String" DbType="VarChar(100)" />
-    <Parameter Name="OrganizationAddress" Parameter="organizationAddress" Type="System.String" DbType="VarChar(200)" />
-    <Parameter Name="OrganizationPhone" Parameter="organizationPhone" Type="System.String" DbType="VarChar(100)" />
     <Return Type="System.Int32" />
   </Function>
   <Function Name="dbo.ConverterDelete" Method="ConverterDelete">
@@ -514,6 +480,34 @@
     <Parameter Name="Menu" Parameter="menu" Type="System.Int32" DbType="Int" />
     <Parameter Name="Quantity" Parameter="quantity" Type="System.Int32" DbType="Int" />
     <Parameter Name="Type" Parameter="type" Type="System.String" DbType="Char(10)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.ContactEdit" Method="ContactEdit">
+    <Parameter Name="Id" Parameter="id" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Name" Parameter="name" Type="System.String" DbType="VarChar(100)" />
+    <Parameter Name="UserName" Parameter="userName" Type="System.String" DbType="VarChar(100)" />
+    <Parameter Name="Password" Parameter="password" Type="System.String" DbType="VarChar(100)" />
+    <Parameter Name="Type" Parameter="type" Type="System.String" DbType="VarChar(100)" />
+    <Parameter Name="Phone" Parameter="phone" Type="System.String" DbType="VarChar(100)" />
+    <Parameter Name="Address" Parameter="address" Type="System.String" DbType="VarChar(200)" />
+    <Parameter Name="Email" Parameter="email" Type="System.String" DbType="VarChar(100)" />
+    <Parameter Name="OrganizationName" Parameter="organizationName" Type="System.String" DbType="VarChar(100)" />
+    <Parameter Name="OrganizationAddress" Parameter="organizationAddress" Type="System.String" DbType="VarChar(200)" />
+    <Parameter Name="OrganizationPhone" Parameter="organizationPhone" Type="System.String" DbType="VarChar(100)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.ContactNew" Method="ContactNew">
+    <Parameter Name="Id" Parameter="id" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Name" Parameter="name" Type="System.String" DbType="VarChar(100)" />
+    <Parameter Name="UserName" Parameter="userName" Type="System.String" DbType="VarChar(100)" />
+    <Parameter Name="Password" Parameter="password" Type="System.String" DbType="VarChar(100)" />
+    <Parameter Name="Type" Parameter="type" Type="System.String" DbType="VarChar(100)" />
+    <Parameter Name="Phone" Parameter="phone" Type="System.String" DbType="VarChar(100)" />
+    <Parameter Name="Address" Parameter="address" Type="System.String" DbType="VarChar(200)" />
+    <Parameter Name="Email" Parameter="email" Type="System.String" DbType="VarChar(100)" />
+    <Parameter Name="OrganizationName" Parameter="organizationName" Type="System.String" DbType="VarChar(100)" />
+    <Parameter Name="OrganizationAddress" Parameter="organizationAddress" Type="System.String" DbType="VarChar(200)" />
+    <Parameter Name="OrganizationPhone" Parameter="organizationPhone" Type="System.String" DbType="VarChar(100)" />
     <Return Type="System.Int32" />
   </Function>
 </Database>

@@ -287,13 +287,6 @@ public partial class CheckersDataContext : System.Data.Linq.DataContext
 		return ((int)(result.ReturnValue));
 	}
 	
-	[Function(Name="dbo.CatalogNew")]
-	public int CatalogNew([Parameter(Name="Id", DbType="Int")] System.Nullable<int> id, [Parameter(Name="Name", DbType="VarChar(100)")] string name, [Parameter(Name="Type", DbType="VarChar(50)")] string type)
-	{
-		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id, name, type);
-		return ((int)(result.ReturnValue));
-	}
-	
 	[Function(Name="dbo.ChangePassword")]
 	public int ChangePassword([Parameter(Name="Id", DbType="Int")] System.Nullable<int> id, [Parameter(Name="OldPassword", DbType="VarChar(100)")] string oldPassword, [Parameter(Name="NewPassword", DbType="VarChar(100)")] string newPassword)
 	{
@@ -305,20 +298,6 @@ public partial class CheckersDataContext : System.Data.Linq.DataContext
 	public int ContactDelete([Parameter(Name="Id", DbType="Int")] System.Nullable<int> id)
 	{
 		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id);
-		return ((int)(result.ReturnValue));
-	}
-	
-	[Function(Name="dbo.ContactEdit")]
-	public int ContactEdit([Parameter(Name="Id", DbType="Int")] System.Nullable<int> id, [Parameter(Name="Name", DbType="VarChar(100)")] string name, [Parameter(Name="UserName", DbType="VarChar(100)")] string userName, [Parameter(Name="Password", DbType="VarChar(100)")] string password, [Parameter(Name="Type", DbType="VarChar(100)")] string type, [Parameter(Name="Phone", DbType="VarChar(100)")] string phone, [Parameter(Name="Address", DbType="VarChar(200)")] string address, [Parameter(Name="Email", DbType="VarChar(100)")] string email, [Parameter(Name="OrganizationName", DbType="VarChar(100)")] string organizationName, [Parameter(Name="OrganizationAddress", DbType="VarChar(200)")] string organizationAddress, [Parameter(Name="OrganizationPhone", DbType="VarChar(100)")] string organizationPhone)
-	{
-		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id, name, userName, password, type, phone, address, email, organizationName, organizationAddress, organizationPhone);
-		return ((int)(result.ReturnValue));
-	}
-	
-	[Function(Name="dbo.ContactNew")]
-	public int ContactNew([Parameter(Name="Id", DbType="Int")] System.Nullable<int> id, [Parameter(Name="Name", DbType="VarChar(100)")] string name, [Parameter(Name="UserName", DbType="VarChar(100)")] string userName, [Parameter(Name="Password", DbType="VarChar(100)")] string password, [Parameter(Name="Type", DbType="VarChar(100)")] string type, [Parameter(Name="Phone", DbType="VarChar(100)")] string phone, [Parameter(Name="Address", DbType="VarChar(200)")] string address, [Parameter(Name="Email", DbType="VarChar(100)")] string email, [Parameter(Name="OrganizationName", DbType="VarChar(100)")] string organizationName, [Parameter(Name="OrganizationAddress", DbType="VarChar(200)")] string organizationAddress, [Parameter(Name="OrganizationPhone", DbType="VarChar(100)")] string organizationPhone)
-	{
-		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id, name, userName, password, type, phone, address, email, organizationName, organizationAddress, organizationPhone);
 		return ((int)(result.ReturnValue));
 	}
 	
@@ -592,6 +571,20 @@ public partial class CheckersDataContext : System.Data.Linq.DataContext
 	public int OfferNew([Parameter(Name="Name", DbType="VarChar(100)")] string name, [Parameter(Name="Menu", DbType="Int")] System.Nullable<int> menu, [Parameter(Name="Quantity", DbType="Int")] System.Nullable<int> quantity, [Parameter(Name="Type", DbType="Char(10)")] string type)
 	{
 		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), name, menu, quantity, type);
+		return ((int)(result.ReturnValue));
+	}
+	
+	[Function(Name="dbo.ContactEdit")]
+	public int ContactEdit([Parameter(Name="Id", DbType="Int")] System.Nullable<int> id, [Parameter(Name="Name", DbType="VarChar(100)")] string name, [Parameter(Name="UserName", DbType="VarChar(100)")] string userName, [Parameter(Name="Password", DbType="VarChar(100)")] string password, [Parameter(Name="Type", DbType="VarChar(100)")] string type, [Parameter(Name="Phone", DbType="VarChar(100)")] string phone, [Parameter(Name="Address", DbType="VarChar(200)")] string address, [Parameter(Name="Email", DbType="VarChar(100)")] string email, [Parameter(Name="OrganizationName", DbType="VarChar(100)")] string organizationName, [Parameter(Name="OrganizationAddress", DbType="VarChar(200)")] string organizationAddress, [Parameter(Name="OrganizationPhone", DbType="VarChar(100)")] string organizationPhone)
+	{
+		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id, name, userName, password, type, phone, address, email, organizationName, organizationAddress, organizationPhone);
+		return ((int)(result.ReturnValue));
+	}
+	
+	[Function(Name="dbo.ContactNew")]
+	public int ContactNew([Parameter(Name="Id", DbType="Int")] System.Nullable<int> id, [Parameter(Name="Name", DbType="VarChar(100)")] string name, [Parameter(Name="UserName", DbType="VarChar(100)")] string userName, [Parameter(Name="Password", DbType="VarChar(100)")] string password, [Parameter(Name="Type", DbType="VarChar(100)")] string type, [Parameter(Name="Phone", DbType="VarChar(100)")] string phone, [Parameter(Name="Address", DbType="VarChar(200)")] string address, [Parameter(Name="Email", DbType="VarChar(100)")] string email, [Parameter(Name="OrganizationName", DbType="VarChar(100)")] string organizationName, [Parameter(Name="OrganizationAddress", DbType="VarChar(200)")] string organizationAddress, [Parameter(Name="OrganizationPhone", DbType="VarChar(100)")] string organizationPhone)
+	{
+		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id, name, userName, password, type, phone, address, email, organizationName, organizationAddress, organizationPhone);
 		return ((int)(result.ReturnValue));
 	}
 }
