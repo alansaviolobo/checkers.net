@@ -11,19 +11,18 @@ public partial class Common : System.Web.UI.MasterPage
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        //Checkers = new CheckersDataContext();
-        //if (Session["UserId"] == null)
-        //{
-        //    Response.Redirect("~/Default.aspx");
-        //}
-        //else
-        //{
-        //    if (!Page.IsPostBack)
-        //    {
-        Session["UserId"] = 1;
-        //LtrUserLoggedIn.Text = Checkers.Contacts.Where(C => C.Contact_Id == int.Parse(Session["UserId"].ToString())).Select(C => C.Contact_Name).Single();
-        //    }
-        //}
+        Checkers = new CheckersDataContext();
+        if (Session["UserId"] == null)
+        {
+            Response.Redirect("~/Default.aspx");
+        }
+        else
+        {
+            if (!Page.IsPostBack)
+            {
+                LtrUserLoggedIn.Text = Checkers.Contacts.Where(C => C.Contact_Id == int.Parse(Session["UserId"].ToString())).Select(C => C.Contact_Name).Single();
+            }
+        }
     }
     protected void BtnLogout_Click(object sender, EventArgs e)
     {
