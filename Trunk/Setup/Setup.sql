@@ -14,15 +14,15 @@ GO
 /* BEGIN DATABASE SCHEMA */
 USE [Checkers]
 GO
-/****** Object:  Table [dbo].[PettyCash]    Script Date: 01/13/2010 16:17:06 ******/
+/****** Object:  Table [dbo].[PettyCash]    Script Date: 01/14/2010 17:58:21 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[PettyCash](
 	[PettyCash_Id] [int] IDENTITY(1,1) NOT NULL,
-	[PettyCash_Amount] [decimal](10, 3) NULL,
-	[PettyCash_Balance] [decimal](10, 3) NULL,
+	[PettyCash_Amount] [decimal](10, 2) NULL,
+	[PettyCash_Balance] [decimal](10, 2) NULL,
 	[PettyCash_GivenBy] [int] NULL,
 	[PettyCash_ReceivedBy] [int] NULL,
 	[PettyCash_TimeStamp] [datetime] NULL,
@@ -32,7 +32,7 @@ CREATE TABLE [dbo].[PettyCash](
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Catalog]    Script Date: 01/13/2010 16:16:45 ******/
+/****** Object:  Table [dbo].[Catalog]    Script Date: 01/14/2010 17:57:58 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -53,7 +53,7 @@ CREATE TABLE [dbo].[Catalog](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[Contact]    Script Date: 01/13/2010 16:16:49 ******/
+/****** Object:  Table [dbo].[Contact]    Script Date: 01/14/2010 17:58:02 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -72,7 +72,7 @@ CREATE TABLE [dbo].[Contact](
 	[Contact_OrganizationName] [varchar](100) NULL,
 	[Contact_OrganizationPhone] [varchar](100) NULL,
 	[Contact_OrganizationAddress] [varchar](200) NULL,
-	[Contact_Credit] [decimal](10, 3) NULL,
+	[Contact_Credit] [decimal](10, 2) NULL,
 	[Contact_Status] [int] NULL,
 	[Contact_TimeStamp] [datetime] NULL,
  CONSTRAINT [PK_Contact] PRIMARY KEY CLUSTERED 
@@ -83,7 +83,7 @@ CREATE TABLE [dbo].[Contact](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[Invoice]    Script Date: 01/13/2010 16:17:01 ******/
+/****** Object:  Table [dbo].[Invoice]    Script Date: 01/14/2010 17:58:13 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -92,9 +92,9 @@ SET ANSI_PADDING ON
 GO
 CREATE TABLE [dbo].[Invoice](
 	[Invoice_Id] [int] IDENTITY(1,1) NOT NULL,
-	[Invoice_Amount] [decimal](10, 3) NULL,
-	[Invoice_Discount] [decimal](10, 3) NULL,
-	[Invoice_Tax] [decimal](10, 3) NULL,
+	[Invoice_Amount] [decimal](10, 2) NULL,
+	[Invoice_Discount] [decimal](10, 2) NULL,
+	[Invoice_Tax] [decimal](10, 2) NULL,
 	[Invoice_Source] [int] NULL,
 	[Invoice_PaymentMode] [varchar](100) NULL,
 	[Invoice_Reason] [varchar](200) NULL,
@@ -112,7 +112,7 @@ GO
 EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Credit, Credit 
 Card, Cash, Cheque, Zero Billing' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Invoice', @level2type=N'COLUMN',@level2name=N'Invoice_PaymentMode'
 GO
-/****** Object:  Table [dbo].[Activity]    Script Date: 01/13/2010 16:16:44 ******/
+/****** Object:  Table [dbo].[Activity]    Script Date: 01/14/2010 17:57:56 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -132,7 +132,7 @@ CREATE TABLE [dbo].[Activity](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[PettyExpense]    Script Date: 01/13/2010 16:17:08 ******/
+/****** Object:  Table [dbo].[PettyExpense]    Script Date: 01/14/2010 17:58:23 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -141,9 +141,9 @@ SET ANSI_PADDING ON
 GO
 CREATE TABLE [dbo].[PettyExpense](
 	[PettyExpense_Id] [int] IDENTITY(1,1) NOT NULL,
-	[PettyExpense_Amount] [decimal](10, 3) NULL,
+	[PettyExpense_Amount] [decimal](10, 2) NULL,
 	[PettyExpense_Merchandise] [varchar](200) NULL,
-	[PettyExpense_Quantity] [decimal](10, 3) NULL,
+	[PettyExpense_Quantity] [decimal](10, 2) NULL,
 	[PettyExpense_ReceivedBy] [int] NULL,
 	[PettyExpense_TimeStamp] [datetime] NULL,
  CONSTRAINT [PK_PettyExpense] PRIMARY KEY CLUSTERED 
@@ -154,7 +154,7 @@ CREATE TABLE [dbo].[PettyExpense](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[Converter]    Script Date: 01/13/2010 16:16:54 ******/
+/****** Object:  Table [dbo].[Converter]    Script Date: 01/14/2010 17:58:06 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -163,7 +163,7 @@ CREATE TABLE [dbo].[Converter](
 	[Converter_Id] [int] IDENTITY(1,1) NOT NULL,
 	[Converter_Menu] [int] NULL,
 	[Converter_Inventory] [int] NULL,
-	[Converter_InventoryQuantity] [decimal](10, 3) NULL,
+	[Converter_InventoryQuantity] [decimal](10, 2) NULL,
 	[Converter_Status] [int] NULL,
 	[Converter_TimeStamp] [datetime] NULL,
  CONSTRAINT [PK_Component] PRIMARY KEY CLUSTERED 
@@ -172,7 +172,7 @@ CREATE TABLE [dbo].[Converter](
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Event]    Script Date: 01/13/2010 16:16:56 ******/
+/****** Object:  Table [dbo].[Event]    Script Date: 01/14/2010 17:58:08 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -196,7 +196,7 @@ CREATE TABLE [dbo].[Event](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[Sales]    Script Date: 01/13/2010 16:17:14 ******/
+/****** Object:  Table [dbo].[Sales]    Script Date: 01/14/2010 17:58:28 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -204,8 +204,8 @@ GO
 CREATE TABLE [dbo].[Sales](
 	[Sales_Id] [int] IDENTITY(1,1) NOT NULL,
 	[Sales_Menu] [int] NULL,
-	[Sales_Quantity] [decimal](10, 3) NULL,
-	[Sales_Cost] [decimal](10, 3) NULL,
+	[Sales_Quantity] [decimal](10, 2) NULL,
+	[Sales_Cost] [decimal](10, 2) NULL,
 	[Sales_Source] [int] NULL,
 	[Sales_Package] [int] NULL,
 	[Sales_Status] [int] NULL,
@@ -216,7 +216,7 @@ CREATE TABLE [dbo].[Sales](
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Purchase]    Script Date: 01/13/2010 16:17:10 ******/
+/****** Object:  Table [dbo].[Purchase]    Script Date: 01/14/2010 17:58:24 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -224,7 +224,7 @@ GO
 CREATE TABLE [dbo].[Purchase](
 	[Purchase_Id] [int] IDENTITY(1,1) NOT NULL,
 	[Purchase_Inventory] [int] NULL,
-	[Purchase_Quantity] [decimal](10, 3) NULL,
+	[Purchase_Quantity] [decimal](10, 2) NULL,
 	[Purchase_Status] [int] NULL,
 	[Purchase_TimeStamp] [datetime] NOT NULL,
  CONSTRAINT [PK_Purchase] PRIMARY KEY CLUSTERED 
@@ -233,7 +233,7 @@ CREATE TABLE [dbo].[Purchase](
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Menu]    Script Date: 01/13/2010 16:17:03 ******/
+/****** Object:  Table [dbo].[Menu]    Script Date: 01/14/2010 17:58:15 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -244,7 +244,7 @@ CREATE TABLE [dbo].[Menu](
 	[Menu_Id] [int] IDENTITY(1,1) NOT NULL,
 	[Menu_Name] [varchar](100) NULL,
 	[Menu_Category] [varchar](100) NULL,
-	[Menu_SellingPrice] [decimal](10, 3) NULL,
+	[Menu_SellingPrice] [decimal](10, 2) NULL,
 	[Menu_Status] [int] NULL,
 	[Menu_TimeStamp] [datetime] NULL,
  CONSTRAINT [PK_Material] PRIMARY KEY CLUSTERED 
@@ -255,7 +255,7 @@ CREATE TABLE [dbo].[Menu](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[Receipt]    Script Date: 01/13/2010 16:17:12 ******/
+/****** Object:  Table [dbo].[Receipt]    Script Date: 01/14/2010 17:58:26 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -264,7 +264,7 @@ SET ANSI_PADDING ON
 GO
 CREATE TABLE [dbo].[Receipt](
 	[Receipt_Id] [int] IDENTITY(1,1) NOT NULL,
-	[Receipt_Amount] [decimal](10, 3) NULL,
+	[Receipt_Amount] [decimal](10, 2) NULL,
 	[Receipt_PaymentMode] [varchar](100) NULL,
 	[Receipt_Client] [int] NULL,
 	[Receipt_Status] [int] NULL,
@@ -277,7 +277,7 @@ CREATE TABLE [dbo].[Receipt](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  StoredProcedure [dbo].[InventoryDelete]    Script Date: 01/13/2010 16:16:33 ******/
+/****** Object:  StoredProcedure [dbo].[InventoryDelete]    Script Date: 01/14/2010 17:57:40 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -291,7 +291,7 @@ AS
 		RETURN 1
 	END
 GO
-/****** Object:  Table [dbo].[Content]    Script Date: 01/13/2010 16:16:52 ******/
+/****** Object:  Table [dbo].[Content]    Script Date: 01/14/2010 17:58:04 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -299,10 +299,10 @@ GO
 CREATE TABLE [dbo].[Content](
 	[Content_Id] [int] IDENTITY(1,1) NOT NULL,
 	[Content_Material] [int] NULL,
-	[Content_Quantity] [decimal](10, 3) NULL,
-	[Content_UnitPrice] [decimal](10, 3) NULL,
-	[Content_Discount] [decimal](10, 3) NULL,
-	[Content_Cost] [decimal](10, 3) NULL,
+	[Content_Quantity] [decimal](10, 2) NULL,
+	[Content_UnitPrice] [decimal](10, 2) NULL,
+	[Content_Discount] [decimal](10, 2) NULL,
+	[Content_Cost] [decimal](10, 2) NULL,
 	[Content_Package] [int] NULL,
 	[Content_Status] [int] NULL,
 	[Content_TimeStamp] [datetime] NULL,
@@ -312,7 +312,7 @@ CREATE TABLE [dbo].[Content](
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Inventory]    Script Date: 01/13/2010 16:16:58 ******/
+/****** Object:  Table [dbo].[Inventory]    Script Date: 01/14/2010 17:58:11 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -322,11 +322,11 @@ GO
 CREATE TABLE [dbo].[Inventory](
 	[Inventory_Id] [int] IDENTITY(1,1) NOT NULL,
 	[Inventory_Name] [varchar](100) NULL,
-	[Inventory_BuyingPrice] [decimal](10, 3) NULL,
-	[Inventory_Threshold] [decimal](10, 3) NULL,
-	[Inventory_Quantity] [decimal](10, 3) NULL,
+	[Inventory_BuyingPrice] [decimal](10, 2) NULL,
+	[Inventory_Threshold] [decimal](10, 2) NULL,
+	[Inventory_Quantity] [decimal](10, 2) NULL,
 	[Inventory_PurchaseUnit] [varchar](100) NULL,
-	[Inventory_ConversionUnit] [decimal](10, 3) NULL,
+	[Inventory_ConversionUnit] [decimal](10, 2) NULL,
 	[Inventory_Status] [int] NULL,
 	[Inventory_TimeStamp] [datetime] NULL,
  CONSTRAINT [PK_Stock] PRIMARY KEY CLUSTERED 
@@ -337,7 +337,59 @@ CREATE TABLE [dbo].[Inventory](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[Token]    Script Date: 01/13/2010 16:17:18 ******/
+/****** Object:  StoredProcedure [dbo].[OfferDelete]    Script Date: 01/14/2010 17:57:47 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[OfferDelete]
+	@Name VARCHAR(100)
+AS
+	UPDATE Offer 
+	SET Offer_Status = 0 
+	WHERE Offer_Status = 1 AND Offer_Name = @Name
+	RETURN 1
+GO
+/****** Object:  StoredProcedure [dbo].[OfferItemDelete]    Script Date: 01/14/2010 17:57:47 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[OfferItemDelete]
+	@Id INT
+AS
+	UPDATE Offer 
+	SET Offer_Status = 0 
+	WHERE Offer_Status = 1 AND Offer_Id = @Id
+	RETURN 1
+GO
+/****** Object:  Table [dbo].[Offer]    Script Date: 01/14/2010 17:58:17 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[Offer](
+	[Offer_Id] [int] IDENTITY(1,1) NOT NULL,
+	[Offer_Name] [varchar](100) NULL,
+	[Offer_Menu] [int] NULL,
+	[Offer_Quantity] [int] NULL,
+	[Offer_Cost] [decimal](10, 2) NULL,
+	[Offer_Type] [char](5) NULL,
+	[Offer_Status] [int] NULL,
+	[Offer_TimeStamp] [datetime] NULL,
+ CONSTRAINT [PK_Offer] PRIMARY KEY CLUSTERED 
+(
+	[Offer_Id] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+SET ANSI_PADDING OFF
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Key / Value' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Offer', @level2type=N'COLUMN',@level2name=N'Offer_Type'
+GO
+/****** Object:  Table [dbo].[Token]    Script Date: 01/14/2010 17:58:32 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -348,7 +400,7 @@ CREATE TABLE [dbo].[Token](
 	[Token_Id] [int] IDENTITY(1,1) NOT NULL,
 	[Token_Type] [varchar](50) NULL,
 	[Token_Menu] [int] NULL,
-	[Token_Quantity] [decimal](10, 3) NULL,
+	[Token_Quantity] [decimal](10, 2) NULL,
 	[Token_Source] [int] NULL,
 	[Token_Status] [int] NULL,
 	[Token_TimeStamp] [datetime] NULL,
@@ -360,7 +412,7 @@ CREATE TABLE [dbo].[Token](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[Source]    Script Date: 01/13/2010 16:17:16 ******/
+/****** Object:  Table [dbo].[Source]    Script Date: 01/14/2010 17:58:30 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -371,7 +423,7 @@ CREATE TABLE [dbo].[Source](
 	[Source_Id] [int] IDENTITY(1,1) NOT NULL,
 	[Source_Type] [varchar](50) NULL,
 	[Source_Number] [int] NULL,
-	[Source_AmountPayable] [decimal](10, 3) NULL,
+	[Source_AmountPayable] [decimal](10, 2) NULL,
 	[Source_Status] [int] NULL,
 	[Source_TimeStamp] [datetime] NULL,
  CONSTRAINT [PK_Source] PRIMARY KEY CLUSTERED 
@@ -382,7 +434,7 @@ CREATE TABLE [dbo].[Source](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[Package]    Script Date: 01/13/2010 16:17:05 ******/
+/****** Object:  Table [dbo].[Package]    Script Date: 01/14/2010 17:58:19 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -404,50 +456,45 @@ CREATE TABLE [dbo].[Package](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  StoredProcedure [dbo].[PettyCashNew]    Script Date: 01/13/2010 16:16:38 ******/
+/****** Object:  StoredProcedure [dbo].[PettyCashNew]    Script Date: 01/14/2010 17:57:50 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE PROCEDURE [dbo].[PettyCashNew]
-	@Amount DECIMAL(10, 3),
+	@Amount DECIMAL(10, 2),
 	@GivenBy INT,
 	@ReceivedBy INT
 AS	
-	DECLARE @Balance DECIMAL(10, 3)
+	DECLARE @Balance DECIMAL(10, 2)
 	IF EXISTS(SELECT * FROM PettyCash)
 		SET @Balance = (SELECT TOP 1 PettyCash_Balance FROM PettyCash 
 ORDER BY PettyCash_Id DESC)
 	ELSE
 		SET @Balance = 0
 		
-	INSERT INTO PettyCash(PettyCash_Amount, PettyCash_Balance, 
-PettyCash_GivenBy, PettyCash_ReceivedBy, PettyCash_TimeStamp) 
-	VALUES(@Amount, (@Amount + @Balance), @GivenBy, @ReceivedBy, 
-CURRENT_TIMESTAMP)
+	INSERT INTO PettyCash(PettyCash_Amount, PettyCash_Balance, PettyCash_GivenBy, PettyCash_ReceivedBy, PettyCash_TimeStamp) 
+	VALUES(@Amount, (@Amount + @Balance), @GivenBy, @ReceivedBy, CURRENT_TIMESTAMP)
 	
 	RETURN 1
 GO
-/****** Object:  StoredProcedure [dbo].[PettyExpenseNew]    Script Date: 01/13/2010 16:16:39 ******/
+/****** Object:  StoredProcedure [dbo].[PettyExpenseNew]    Script Date: 01/14/2010 17:57:50 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE PROCEDURE [dbo].[PettyExpenseNew]
-	@Amount DECIMAL(10, 3),
+	@Amount DECIMAL(10, 2),
 	@Merchandise VARCHAR(200),
-	@Quantity DECIMAL(10, 3),
+	@Quantity DECIMAL(10, 2),
 	@ReceivedBy INT
 AS
-	DECLARE @Balance DECIMAL(10, 3)
+	DECLARE @Balance DECIMAL(10, 2)
 	DECLARE @Id INT
-	SET @Balance = (SELECT TOP 1 PettyCash_Balance FROM PettyCash ORDER BY 
-PettyCash_Id DESC)
-	SET @Id = (SELECT TOP 1 PettyCash_Id FROM PettyCash ORDER BY PettyCash_Id 
-DESC)
+	SET @Balance = (SELECT TOP 1 PettyCash_Balance FROM PettyCash ORDER BY PettyCash_Id DESC)
+	SET @Id = (SELECT TOP 1 PettyCash_Id FROM PettyCash ORDER BY PettyCash_Id DESC)
 	
-	INSERT INTO PettyExpense(PettyExpense_Amount, PettyExpense_Merchandise, 
-PettyExpense_Quantity, PettyExpense_ReceivedBy, PettyExpense_TimeStamp) 
+	INSERT INTO PettyExpense(PettyExpense_Amount, PettyExpense_Merchandise, PettyExpense_Quantity, PettyExpense_ReceivedBy, PettyExpense_TimeStamp) 
 	VALUES(@Amount, @Merchandise, @Quantity, @ReceivedBy, CURRENT_TIMESTAMP)
 	
 	
@@ -456,7 +503,7 @@ PettyExpense_Quantity, PettyExpense_ReceivedBy, PettyExpense_TimeStamp)
 	
 	RETURN 1
 GO
-/****** Object:  StoredProcedure [dbo].[CatalogEdit]    Script Date: 01/13/2010 16:16:29 ******/
+/****** Object:  StoredProcedure [dbo].[CatalogEdit]    Script Date: 01/14/2010 17:57:33 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -477,7 +524,7 @@ Catalog_Status, Catalog_TimeStamp)
 			RETURN 1
 		END
 GO
-/****** Object:  StoredProcedure [dbo].[CatalogNew]    Script Date: 01/13/2010 16:16:29 ******/
+/****** Object:  StoredProcedure [dbo].[CatalogNew]    Script Date: 01/14/2010 17:57:34 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -493,7 +540,7 @@ AS
 		Return 1
 	END
 GO
-/****** Object:  StoredProcedure [dbo].[CatalogDelete]    Script Date: 01/13/2010 16:16:28 ******/
+/****** Object:  StoredProcedure [dbo].[CatalogDelete]    Script Date: 01/14/2010 17:57:33 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -507,7 +554,7 @@ AS
 			Return 1
 	END
 GO
-/****** Object:  StoredProcedure [dbo].[ContactDelete]    Script Date: 01/13/2010 16:16:29 ******/
+/****** Object:  StoredProcedure [dbo].[ContactDelete]    Script Date: 01/14/2010 17:57:34 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -522,7 +569,7 @@ AS
 		RETURN 1
 	END
 GO
-/****** Object:  StoredProcedure [dbo].[ContactEdit]    Script Date: 01/13/2010 16:16:30 ******/
+/****** Object:  StoredProcedure [dbo].[ContactEdit]    Script Date: 01/14/2010 17:57:35 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -546,17 +593,13 @@ AS
 			RETURN 0
 		ELSE
 			BEGIN
-				UPDATE Contact SET Contact_Name = @Name, 
-Contact_UserName = @UserName, Contact_Type = @Type, Contact_Phone = @Phone, 
-Contact_Address = @Address, Contact_Email = @Email, Contact_OrganizationName = 
-@OrganizationName, Contact_OrganizationAddress = @OrganizationAddress, 
-Contact_OrganizationPhone = @OrganizationPhone
+				UPDATE Contact SET Contact_Name = @Name, Contact_UserName = @UserName, Contact_Type = @Type, Contact_Phone = @Phone, Contact_Address = @Address, Contact_Email = @Email, Contact_OrganizationName = @OrganizationName, Contact_OrganizationAddress = @OrganizationAddress, Contact_OrganizationPhone = @OrganizationPhone
 				WHERE Contact_Id = @Id AND Contact_Status = 1
 				RETURN 1
 			END
 	END
 GO
-/****** Object:  StoredProcedure [dbo].[ContactNew]    Script Date: 01/13/2010 16:16:31 ******/
+/****** Object:  StoredProcedure [dbo].[ContactNew]    Script Date: 01/14/2010 17:57:37 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -579,23 +622,18 @@ Contact_Phone = @Phone)
 		RETURN 0
 	ELSE
 		BEGIN
-			INSERT INTO Contact(Contact_Name, Contact_UserName, 
-Contact_Password, Contact_Type, Contact_Phone, Contact_Address, Contact_Email, 
-Contact_OrganizationName, Contact_OrganizationAddress, Contact_OrganizationPhone, 
-Contact_Credit, Contact_Status, Contact_TimeStamp) 
-			VALUES(@Name, @UserName, @Password, @Type, @Phone, 
-@Address, @Email, @OrganizationName, @OrganizationAddress, @OrganizationPhone, 0, 
-1, CURRENT_TIMESTAMP)
+			INSERT INTO Contact(Contact_Name, Contact_UserName, Contact_Password, Contact_Type, Contact_Phone, Contact_Address, Contact_Email, Contact_OrganizationName, Contact_OrganizationAddress, Contact_OrganizationPhone, Contact_Credit, Contact_Status, Contact_TimeStamp) 
+			VALUES(@Name, @UserName, @Password, @Type, @Phone, @Address, @Email, @OrganizationName, @OrganizationAddress, @OrganizationPhone, 0, 1, CURRENT_TIMESTAMP)
 			RETURN 1
 		END
 GO
-/****** Object:  StoredProcedure [dbo].[ReceiptNew]    Script Date: 01/13/2010 16:16:40 ******/
+/****** Object:  StoredProcedure [dbo].[ReceiptNew]    Script Date: 01/14/2010 17:57:52 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE PROCEDURE [dbo].[ReceiptNew] /*default type=Receipt*/
-	@Amount DECIMAL(10, 3),
+	@Amount DECIMAL(10, 2),
 	@PaymentMode VARCHAR(100),
 	@ClientId INT
 AS
@@ -607,7 +645,7 @@ AS
 	
 	RETURN 1
 GO
-/****** Object:  StoredProcedure [dbo].[InvoiceCloseCredit]    Script Date: 01/13/2010 16:16:35 ******/
+/****** Object:  StoredProcedure [dbo].[InvoiceCloseCredit]    Script Date: 01/14/2010 17:57:43 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -617,10 +655,10 @@ CREATE PROCEDURE [dbo].[InvoiceCloseCredit]
 	@ClientId INT,
 	@Source INT
 AS
-	DECLARE @OldCredit DECIMAL(10, 3)
-	DECLARE @Amount DECIMAL(10, 3)
-	DECLARE @Tax DECIMAL(10, 3)
-	DECLARE @Discount DECIMAL(10, 3)
+	DECLARE @OldCredit DECIMAL(10, 2)
+	DECLARE @Amount DECIMAL(10, 2)
+	DECLARE @Tax DECIMAL(10, 2)
+	DECLARE @Discount DECIMAL(10, 2)
 	
 	SET @OldCredit = (SELECT Contact_Credit FROM Contact WHERE Contact_Id = @ClientId)
 	SET @Amount = (SELECT Invoice_Amount FROM Invoice WHERE Invoice_Id = @Id)
@@ -645,7 +683,7 @@ AS
 	
 	RETURN 1
 GO
-/****** Object:  StoredProcedure [dbo].[ChangePassword]    Script Date: 01/13/2010 16:16:29 ******/
+/****** Object:  StoredProcedure [dbo].[ChangePassword]    Script Date: 01/14/2010 17:57:34 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -656,8 +694,7 @@ CREATE PROCEDURE [dbo].[ChangePassword]
 	@NewPassword VARCHAR(100)
 AS
 	
-	IF EXISTS(SELECT * FROM Contact WHERE Contact_Id = @Id AND 
-Contact_Password = @OldPassword)
+	IF EXISTS(SELECT * FROM Contact WHERE Contact_Id = @Id AND Contact_Password = @OldPassword)
 		BEGIN
 			UPDATE Contact SET Contact_Password = @NewPassword 
 			WHERE Contact_Id = @Id
@@ -667,7 +704,7 @@ Contact_Password = @OldPassword)
 	ELSE
 		RETURN 0
 GO
-/****** Object:  StoredProcedure [dbo].[ReceiptDelete]    Script Date: 01/13/2010 16:16:40 ******/
+/****** Object:  StoredProcedure [dbo].[ReceiptDelete]    Script Date: 01/14/2010 17:57:51 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -676,7 +713,7 @@ CREATE PROCEDURE [dbo].[ReceiptDelete]
 	@Id INT,
 	@ClientId INT
 AS
-	DECLARE @Amount DECIMAL(10, 3)
+	DECLARE @Amount DECIMAL(10, 2)
 	SET @Amount = (SELECT Receipt_Amount FROM Receipt WHERE Receipt_Id = @Id AND Receipt_Status = 0)
 	
 	UPDATE Contact SET Contact_Credit  = (Contact_Credit + @Amount)
@@ -687,7 +724,7 @@ AS
 	
 	RETURN 1
 GO
-/****** Object:  StoredProcedure [dbo].[InvoiceDelete]    Script Date: 01/13/2010 16:16:36 ******/
+/****** Object:  StoredProcedure [dbo].[InvoiceDelete]    Script Date: 01/14/2010 17:57:43 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -713,7 +750,7 @@ AS
 		RETURN 1
 	END
 GO
-/****** Object:  StoredProcedure [dbo].[InvoiceCloseZeroBilling]    Script Date: 01/13/2010 16:16:35 ******/
+/****** Object:  StoredProcedure [dbo].[InvoiceCloseZeroBilling]    Script Date: 01/14/2010 17:57:43 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -736,7 +773,7 @@ AS
 	
 	RETURN 1
 GO
-/****** Object:  StoredProcedure [dbo].[InvoiceClose]    Script Date: 01/13/2010 16:16:35 ******/
+/****** Object:  StoredProcedure [dbo].[InvoiceClose]    Script Date: 01/14/2010 17:57:42 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -761,39 +798,38 @@ AS
 		
 	RETURN 1
 GO
-/****** Object:  StoredProcedure [dbo].[InvoiceNew]    Script Date: 01/13/2010 16:16:36 ******/
+/****** Object:  StoredProcedure [dbo].[InvoiceNew]    Script Date: 01/14/2010 17:57:45 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE PROCEDURE [dbo].[InvoiceNew]
 	@Id INT,
-	@Amount DECIMAL(10, 3),
-	@Discount DECIMAL(10, 3),
-	@Tax DECIMAL(10, 3),
+	@Amount DECIMAL(10, 2),
+	@Discount DECIMAL(10, 2),
+	@Tax DECIMAL(10, 2),
 	@Source INT,
 	@PaymentMode VARCHAR(100)
 AS
 
 	INSERT INTO Invoice(Invoice_Amount, Invoice_Discount, Invoice_Tax, Invoice_Source, Invoice_PaymentMode, Invoice_Status, Invoice_TimeStamp) 
-	VALUES(@Amount, @Discount, @Tax, @Source, @PaymentMode, 1, 
-CURRENT_TIMESTAMP)
+	VALUES(@Amount, @Discount, @Tax, @Source, @PaymentMode, 1, CURRENT_TIMESTAMP)
 	
 	UPDATE Source SET Source_Status = 2
 	WHERE Source_Id = @Source AND Source_Status = 1
 	
 	RETURN 1
 GO
-/****** Object:  StoredProcedure [dbo].[InvoiceEdit]    Script Date: 01/13/2010 16:16:36 ******/
+/****** Object:  StoredProcedure [dbo].[InvoiceEdit]    Script Date: 01/14/2010 17:57:44 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE PROCEDURE [dbo].[InvoiceEdit]
 	@Id INT,
-	@Amount DECIMAL(10, 3),
-	@Discount DECIMAL(10, 3),
-	@Tax DECIMAL(10, 3),
+	@Amount DECIMAL(10, 2),
+	@Discount DECIMAL(10, 2),
+	@Tax DECIMAL(10, 2),
 	@Source INT,
 	@PaymentMode VARCHAR(100),
 	@Status INT,
@@ -805,7 +841,7 @@ AS
 		RETURN 1
 	END
 GO
-/****** Object:  StoredProcedure [dbo].[ActivityNew]    Script Date: 01/13/2010 16:16:28 ******/
+/****** Object:  StoredProcedure [dbo].[ActivityNew]    Script Date: 01/14/2010 17:57:32 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -818,7 +854,7 @@ AS
 	VALUES(@Action, @User, CURRENT_TIMESTAMP)
 	Return 1
 GO
-/****** Object:  StoredProcedure [dbo].[ConverterNew]    Script Date: 01/13/2010 16:16:32 ******/
+/****** Object:  StoredProcedure [dbo].[ConverterNew]    Script Date: 01/14/2010 17:57:38 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -826,26 +862,21 @@ GO
 CREATE PROCEDURE [dbo].[ConverterNew]
 	@Menu INT,
 	@Inventory INT,
-	@InventoryQuantity DECIMAL(10, 3)
+	@InventoryQuantity DECIMAL(10, 2)
 AS
-	IF EXISTS(SELECT * FROM Converter WHERE Converter_Menu = @Menu AND 
-Converter_Inventory = @Inventory AND Converter_Status = 1)
+	IF EXISTS(SELECT * FROM Converter WHERE Converter_Menu = @Menu AND Converter_Inventory = @Inventory AND Converter_Status = 1)
 		BEGIN
-			UPDATE Converter SET Converter_InventoryQuantity = 
-(@InventoryQuantity +  Converter_InventoryQuantity) WHERE
-			Converter_Menu = @Menu AND Converter_Inventory = 
-@Inventory AND Converter_Status = 1
+			UPDATE Converter SET Converter_InventoryQuantity = (@InventoryQuantity +  Converter_InventoryQuantity) WHERE
+			Converter_Menu = @Menu AND Converter_Inventory = @Inventory AND Converter_Status = 1
 		END
 	ELSE
 		BEGIN
-			INSERT INTO Converter(Converter_Menu, Converter_Inventory, 
-Converter_InventoryQuantity, Converter_Status, Converter_TimeStamp) 
-			VALUES(@Menu, @Inventory, @InventoryQuantity, 1, 
-CURRENT_TIMESTAMP)
+			INSERT INTO Converter(Converter_Menu, Converter_Inventory, Converter_InventoryQuantity, Converter_Status, Converter_TimeStamp) 
+			VALUES(@Menu, @Inventory, @InventoryQuantity, 1, CURRENT_TIMESTAMP)
 			RETURN 1
 		END
 GO
-/****** Object:  StoredProcedure [dbo].[ConverterEdit]    Script Date: 01/13/2010 16:16:31 ******/
+/****** Object:  StoredProcedure [dbo].[ConverterEdit]    Script Date: 01/14/2010 17:57:37 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -854,20 +885,17 @@ CREATE PROCEDURE [dbo].[ConverterEdit]
 	@Id INT,
 	@Menu INT,
 	@Inventory INT,
-	@InventoryQuantity DECIMAL(10, 3)
+	@InventoryQuantity DECIMAL(10, 2)
 AS
-	IF EXISTS(SELECT * FROM Converter WHERE Converter_Menu = @Menu AND 
-Converter_Inventory = @Inventory)
+	IF EXISTS(SELECT * FROM Converter WHERE Converter_Menu = @Menu AND Converter_Inventory = @Inventory)
 		RETURN 1
 	ELSE
 		BEGIN
-			UPDATE Converter SET Converter_Menu = @Menu, 
-Converter_Inventory = @Inventory, Converter_InventoryQuantity = @InventoryQuantity
-			WHERE Converter_Id = @Id AND Converter_Status = 1
+			UPDATE Converter SET Converter_Menu = @Menu, Converter_Inventory = @Inventory, Converter_InventoryQuantity = @InventoryQuantity	WHERE Converter_Id = @Id AND Converter_Status = 1
 			RETURN 1
 		END
 GO
-/****** Object:  StoredProcedure [dbo].[ConverterDelete]    Script Date: 01/13/2010 16:16:31 ******/
+/****** Object:  StoredProcedure [dbo].[ConverterDelete]    Script Date: 01/14/2010 17:57:37 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -881,7 +909,7 @@ AS
 		RETURN 1
 	END
 GO
-/****** Object:  StoredProcedure [dbo].[EventNew]    Script Date: 01/13/2010 16:16:33 ******/
+/****** Object:  StoredProcedure [dbo].[EventNew]    Script Date: 01/14/2010 17:57:39 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -893,20 +921,17 @@ CREATE PROCEDURE [dbo].[EventNew]
 	@Organizer INT,
 	@Venue VARCHAR(100)
 AS
-	IF EXISTS(SELECT * FROM Event WHERE Event_Name = @Name AND 
-Event_FromTimeStamp = @From AND Event_ToTimeStamp = @To AND Event_Organizer = 
-@Organizer)
+	IF EXISTS(SELECT * FROM Event WHERE Event_Name = @Name AND Event_FromTimeStamp = @From AND Event_ToTimeStamp = @To AND Event_Organizer = @Organizer)
 		RETURN 0
 	ELSE
 		BEGIN
-			INSERT INTO Event(Event_Name, Event_FromTimeStamp, 
-Event_ToTimeStamp, Event_Organizer, Event_Venue, Event_Status, Event_TimeStamp) 
+			INSERT INTO Event(Event_Name, Event_FromTimeStamp, Event_ToTimeStamp, Event_Organizer, Event_Venue, Event_Status, Event_TimeStamp) 
 			VALUES(@Name, @From, @To, @Organizer, @Venue, 1, 
 CURRENT_TIMESTAMP)
 			RETURN 1
 		END
 GO
-/****** Object:  StoredProcedure [dbo].[EventEdit]    Script Date: 01/13/2010 16:16:33 ******/
+/****** Object:  StoredProcedure [dbo].[EventEdit]    Script Date: 01/14/2010 17:57:39 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -925,7 +950,7 @@ Event_ToTimeStamp = @To, Event_Organizer = @Organizer, Event_Venue = @Venue
 	WHERE Event_Id = @Id AND Event_Status = 1
 	RETURN 1
 GO
-/****** Object:  StoredProcedure [dbo].[EventDelete]    Script Date: 01/13/2010 16:16:32 ******/
+/****** Object:  StoredProcedure [dbo].[EventDelete]    Script Date: 01/14/2010 17:57:38 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -937,7 +962,7 @@ AS
 	WHERE Event_Id = @Id AND Event_Status = 1
 	RETURN 1
 GO
-/****** Object:  StoredProcedure [dbo].[SalesNew]    Script Date: 01/13/2010 16:16:41 ******/
+/****** Object:  StoredProcedure [dbo].[SalesNew]    Script Date: 01/14/2010 17:57:54 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -945,19 +970,18 @@ GO
 CREATE PROCEDURE [dbo].[SalesNew]
 	@Id INT,
 	@Menu INT,
-	@Quantity DECIMAL(10, 3),
+	@Quantity DECIMAL(10, 2),
 	@Source INT,
 	@SourceType VARCHAR(100),
 	@Package INT
 AS
 	DECLARE @Result INT
-	DECLARE @Cost DECIMAL(10, 3)
-	SET @Cost = (SELECT Menu_SellingPrice FROM Menu WHERE Menu_Id = @Menu AND 
-Menu_Status = 1)
-	DECLARE @OldQuantity DECIMAL(10, 3)
+	DECLARE @Cost DECIMAL(10, 2)
+	SET @Cost = (SELECT Menu_SellingPrice FROM Menu WHERE Menu_Id = @Menu AND Menu_Status = 1)
+	DECLARE @OldQuantity DECIMAL(10, 2)
 	DECLARE @SourceId INT
-	DECLARE @Amount DECIMAL(10, 3)
-	DECLARE @ConverterQuantity DECIMAL(10, 3)
+	DECLARE @Amount DECIMAL(10, 2)
+	DECLARE @ConverterQuantity DECIMAL(10, 2)
 	
 	IF EXISTS(SELECT * FROM Source WHERE Source_Number = @Source AND Source_Type = @SourceType AND Source_Status = 1)
 		BEGIN
@@ -993,7 +1017,7 @@ Menu_Status = 1)
 		RETURN 1
 	END
 GO
-/****** Object:  StoredProcedure [dbo].[SalesEdit]    Script Date: 01/13/2010 16:16:41 ******/
+/****** Object:  StoredProcedure [dbo].[SalesEdit]    Script Date: 01/14/2010 17:57:53 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1001,17 +1025,17 @@ GO
 CREATE PROCEDURE [dbo].[SalesEdit]
 	@Id INT,
 	@Menu INT,
-	@Quantity DECIMAL(10, 3),
+	@Quantity DECIMAL(10, 2),
 	@Source INT,
 	@SourceType VARCHAR(100),
 	@Package INT
 AS
 	DECLARE @Result INT
-	DECLARE @Cost DECIMAL(10, 3)
+	DECLARE @Cost DECIMAL(10, 2)
 	SET @Cost = (SELECT Menu_SellingPrice FROM Menu WHERE Menu_Id = @Menu AND Menu_Status = 1)
-	DECLARE @OldQuantity DECIMAL(10, 3)
+	DECLARE @OldQuantity DECIMAL(10, 2)
 	DECLARE @SourceId INT
-	DECLARE @Amount DECIMAL(10, 3)
+	DECLARE @Amount DECIMAL(10, 2)
 	
 	IF EXISTS(SELECT * FROM Source WHERE Source_Number = @Source AND Source_Type = @SourceType AND Source_Status = 1)
 		BEGIN
@@ -1034,7 +1058,7 @@ AS
 		RETURN 1
 	END
 GO
-/****** Object:  StoredProcedure [dbo].[SalesDelete]    Script Date: 01/13/2010 16:16:40 ******/
+/****** Object:  StoredProcedure [dbo].[SalesDelete]    Script Date: 01/14/2010 17:57:52 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1042,30 +1066,26 @@ GO
 CREATE PROCEDURE [dbo].[SalesDelete]
 	@Id INT,
 	@Menu INT,
-	@Quantity DECIMAL(10, 3),
+	@Quantity DECIMAL(10, 2),
 	@Source INT,
 	@SourceType VARCHAR(100)
 AS
-	DECLARE @Cost DECIMAL(10, 3)
-	SET @Cost = (SELECT Menu_SellingPrice FROM Menu WHERE Menu_Id = @Menu AND 
-Menu_Status = 1)
-	DECLARE @OldQuantity DECIMAL(10, 3)
+	DECLARE @Cost DECIMAL(10, 2)
+	SET @Cost = (SELECT Menu_SellingPrice FROM Menu WHERE Menu_Id = @Menu AND Menu_Status = 1)
+	DECLARE @OldQuantity DECIMAL(10, 2)
 	DECLARE @SourceId INT
-	DECLARE @Amount DECIMAL(10, 3)
+	DECLARE @Amount DECIMAL(10, 2)
 	
-	IF EXISTS(SELECT * FROM Source WHERE Source_Number = @Source AND 
-Source_Type = @SourceType AND Source_Status = 1)
+	IF EXISTS(SELECT * FROM Source WHERE Source_Number = @Source AND Source_Type = @SourceType AND Source_Status = 1)
 		BEGIN
-			SET @SourceId = (SELECT Source_Id FROM Source  WHERE 
-Source_Number = @Source AND Source_Type = @SourceType AND Source_Status = 1)		
+			SET @SourceId = (SELECT Source_Id FROM Source  WHERE Source_Number = @Source AND Source_Type = @SourceType AND Source_Status = 1)		
 			
 		END
 		
 	BEGIN
 		SET @Cost = (SELECT Sales_Cost FROM Sales WHERE Sales_Status = 1 
 AND Sales_Id = @Id)			
-		SET @Amount = (SELECT Source_AmountPayable FROM Source WHERE 
-Source_Status = 1 AND Source_Id = @SourceId)
+		SET @Amount = (SELECT Source_AmountPayable FROM Source WHERE Source_Status = 1 AND Source_Id = @SourceId)
 		
 		UPDATE Sales SET Sales_Status = 0 
 		WHERE Sales_Id = @Id AND Sales_Status = 1
@@ -1077,7 +1097,7 @@ Token_Status = 1
 		RETURN 1
 	END
 GO
-/****** Object:  StoredProcedure [dbo].[PurchaseNew]    Script Date: 01/13/2010 16:16:39 ******/
+/****** Object:  StoredProcedure [dbo].[PurchaseNew]    Script Date: 01/14/2010 17:57:51 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1086,9 +1106,9 @@ CREATE PROCEDURE [dbo].[PurchaseNew]
 	@Inventory INT,
 	@Quantity DECIMAL(6,2)
 AS
-	DECLARE @OldQuantity DECIMAL(10, 3)
+	DECLARE @OldQuantity DECIMAL(10, 2)
 	SET @OldQuantity = (SELECT Inventory_Quantity FROM Inventory WHERE Inventory_Id = @Inventory)
-	DECLARE @ConversionUnit DECIMAL(10, 3)
+	DECLARE @ConversionUnit DECIMAL(10, 2)
 	SET @ConversionUnit = (SELECT Inventory_ConversionUnit FROM Inventory WHERE Inventory_Id = @Inventory)
 	
 	INSERT INTO Purchase(Purchase_Inventory, Purchase_Quantity, Purchase_Status, Purchase_TimeStamp) 
@@ -1099,7 +1119,7 @@ AS
 	
 	RETURN 1
 GO
-/****** Object:  StoredProcedure [dbo].[PurchaseDelete]    Script Date: 01/13/2010 16:16:39 ******/
+/****** Object:  StoredProcedure [dbo].[PurchaseDelete]    Script Date: 01/14/2010 17:57:50 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1113,7 +1133,7 @@ AS
 		RETURN 1
 	END
 GO
-/****** Object:  StoredProcedure [dbo].[PurchaseEdit]    Script Date: 01/13/2010 16:16:39 ******/
+/****** Object:  StoredProcedure [dbo].[PurchaseEdit]    Script Date: 01/14/2010 17:57:51 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1123,7 +1143,7 @@ CREATE PROCEDURE [dbo].[PurchaseEdit]
 	@Inventory INT,
 	@Quantity DECIMAL(6,2)
 AS
-	DECLARE @OldQuantity DECIMAL(10, 3)
+	DECLARE @OldQuantity DECIMAL(10, 2)
 	SET @OldQuantity = (SELECT Inventory_Quantity FROM Inventory WHERE 
 Inventory_Id = @Inventory)
 	
@@ -1134,7 +1154,25 @@ Purchase_Quantity = @Quantity
 		RETURN 1
 	END
 GO
-/****** Object:  StoredProcedure [dbo].[MenuNew]    Script Date: 01/13/2010 16:16:37 ******/
+/****** Object:  StoredProcedure [dbo].[OfferNew]    Script Date: 01/14/2010 17:57:48 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[OfferNew]
+	@Name VARCHAR(100),
+	@Menu INT,
+	@Quantity INT,
+	@Type CHAR(10)
+AS
+	DECLARE @Cost DECIMAL(10, 2)	
+	SET @Cost = ((SELECT Menu_SellingPrice FROM Menu WHERE Menu_Id = @Menu AND Menu_Status = 1) * @Quantity)
+	
+	INSERT INTO Offer(Offer_Name, Offer_Menu, Offer_Quantity, Offer_Cost, Offer_Type, Offer_Status, Offer_TimeStamp)
+	VALUES (@Name, @Menu, @Quantity, @Cost, @Type, 1, CURRENT_TIMESTAMP)
+	RETURN 1
+GO
+/****** Object:  StoredProcedure [dbo].[MenuNew]    Script Date: 01/14/2010 17:57:46 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1143,7 +1181,7 @@ CREATE PROCEDURE [dbo].[MenuNew]
 	@Id INT,
 	@Name VARCHAR(100),
 	@Category VARCHAR(100),
-	@Price DECIMAL(10, 3)
+	@Price DECIMAL(10, 2)
 AS
 	BEGIN
 		IF EXISTS(SELECT * FROM Menu WHERE Menu_Name = @Name AND Menu_Status = 1)
@@ -1155,7 +1193,7 @@ AS
 			END
 	END
 GO
-/****** Object:  StoredProcedure [dbo].[SelectItemByType]    Script Date: 01/13/2010 16:16:41 ******/
+/****** Object:  StoredProcedure [dbo].[SelectItemByType]    Script Date: 01/14/2010 17:57:54 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1170,7 +1208,7 @@ AS
 		RETURN (SELECT COUNT(*) FROM Menu WHERE Menu_Category = @Type AND 
 Menu_Status = 1)
 GO
-/****** Object:  StoredProcedure [dbo].[MenuEdit]    Script Date: 01/13/2010 16:16:37 ******/
+/****** Object:  StoredProcedure [dbo].[MenuEdit]    Script Date: 01/14/2010 17:57:46 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1179,21 +1217,20 @@ CREATE PROCEDURE [dbo].[MenuEdit]
 	@Id INT,
 	@Name VARCHAR(100),
 	@Category VARCHAR(100),
-	@Price DECIMAL(10, 3)
+	@Price DECIMAL(10, 2)
 AS
 	BEGIN
 		IF EXISTS(SELECT * FROM Menu WHERE Menu_Name = @Name AND Menu_Id != @Id AND Menu_Status = 1)
 				RETURN 0
 		ELSE
 			BEGIN
-				UPDATE Menu SET Menu_Name = @Name, Menu_Category = 
-@Category, Menu_SellingPrice = @Price
+				UPDATE Menu SET Menu_Name = @Name, Menu_Category = @Category, Menu_SellingPrice = @Price
 				WHERE Menu_Id = @Id AND Menu_Status = 1
 				RETURN 1
 			END
 	END
 GO
-/****** Object:  StoredProcedure [dbo].[MenuDelete]    Script Date: 01/13/2010 16:16:37 ******/
+/****** Object:  StoredProcedure [dbo].[MenuDelete]    Script Date: 01/14/2010 17:57:45 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1207,7 +1244,7 @@ AS
 		RETURN 1
 	END
 GO
-/****** Object:  StoredProcedure [dbo].[SpContent]    Script Date: 01/13/2010 16:16:42 ******/
+/****** Object:  StoredProcedure [dbo].[SpContent]    Script Date: 01/14/2010 17:57:54 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1215,10 +1252,10 @@ GO
 CREATE PROCEDURE [dbo].[SpContent]
 	@Id INT,
 	@Material INT,
-	@Quantity DECIMAL(10, 3),
-	@UnitPrice DECIMAL(10, 3),
-	@Discount DECIMAL(10, 3),
-	@Cost DECIMAL(10, 3),
+	@Quantity DECIMAL(10, 2),
+	@UnitPrice DECIMAL(10, 2),
+	@Discount DECIMAL(10, 2),
+	@Cost DECIMAL(10, 2),
 	@Package INT,	
 	@Status INT,
 	@Operation VARCHAR(50)
@@ -1227,24 +1264,18 @@ AS
 	
 	IF(@Operation = 'New')
 		BEGIN
-			IF EXISTS(SELECT * FROM Content WHERE Content_Material = 
-@Material AND Content_Package = @Package)
+			IF EXISTS(SELECT * FROM Content WHERE Content_Material = @Material AND Content_Package = @Package)
 				SET @Result = 0
 			ELSE
 				BEGIN
-					INSERT INTO Content(Content_Material, 
-Content_Quantity, Content_UnitPrice, Content_Discount, Content_Cost, 
-Content_Package, Content_Status) 
-					VALUES(@Material, @Quantity, @UnitPrice, 
-@Discount, @Cost, @Package, 1)
+					INSERT INTO Content(Content_Material, Content_Quantity, Content_UnitPrice, Content_Discount, Content_Cost, Content_Package, Content_Status) 
+					VALUES(@Material, @Quantity, @UnitPrice, @Discount, @Cost, @Package, 1)
 					SET @Result = 1
 				END
 		END
 	ELSE IF(@Operation = 'Edit')
 		BEGIN
-			UPDATE Content SET Content_Material = @Material, 
-Content_Quantity = @Quantity, Content_UnitPrice = @UnitPrice, Content_Discount = 
-@Discount, Content_Cost = @Cost, Content_Package = @Package
+			UPDATE Content SET Content_Material = @Material, Content_Quantity = @Quantity, Content_UnitPrice = @UnitPrice, Content_Discount = @Discount, Content_Cost = @Cost, Content_Package = @Package
 			WHERE Content_Id = @Id AND Content_Status = 1
 			SET @Result = 1
 		END
@@ -1257,33 +1288,29 @@ Content_Quantity = @Quantity, Content_UnitPrice = @UnitPrice, Content_Discount =
 	
 	RETURN @Result
 GO
-/****** Object:  StoredProcedure [dbo].[InventoryNew]    Script Date: 01/13/2010 16:16:34 ******/
+/****** Object:  StoredProcedure [dbo].[InventoryNew]    Script Date: 01/14/2010 17:57:41 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE PROCEDURE [dbo].[InventoryNew]
 	@Name VARCHAR(100),
-	@BuyingPrice DECIMAL(10, 3),
-	@Threshold DECIMAL(10, 3),
+	@BuyingPrice DECIMAL(10, 2),
+	@Threshold DECIMAL(10, 2),
 	@PurchaseUnit VARCHAR(100),
-	@ConversionUnit DECIMAL(10, 3)
+	@ConversionUnit DECIMAL(10, 2)
 AS
 	IF EXISTS(SELECT * FROM Inventory WHERE Inventory_Name = @Name)
 		RETURN 0
 	ELSE
 		BEGIN
-			INSERT INTO Inventory(Inventory_Name, 
-Inventory_BuyingPrice, Inventory_Threshold, Inventory_Quantity, 
-Inventory_PurchaseUnit, Inventory_ConversionUnit, Inventory_Status, 
-Inventory_TimeStamp)
-			VALUES(@Name, @BuyingPrice, @Threshold,0, @PurchaseUnit, 
-@ConversionUnit, 1, CURRENT_TIMESTAMP)
+			INSERT INTO Inventory(Inventory_Name, Inventory_BuyingPrice, Inventory_Threshold, Inventory_Quantity, Inventory_PurchaseUnit, Inventory_ConversionUnit, Inventory_Status, Inventory_TimeStamp)
+			VALUES(@Name, @BuyingPrice, @Threshold,0, @PurchaseUnit, @ConversionUnit, 1, CURRENT_TIMESTAMP)
 			
 			RETURN 1
 		END
 GO
-/****** Object:  StoredProcedure [dbo].[InventoryEdit]    Script Date: 01/13/2010 16:16:34 ******/
+/****** Object:  StoredProcedure [dbo].[InventoryEdit]    Script Date: 01/14/2010 17:57:41 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1291,50 +1318,62 @@ GO
 CREATE PROCEDURE [dbo].[InventoryEdit]
 	@Id INT,
 	@Name VARCHAR(100),
-	@BuyingPrice DECIMAL(10, 3),
-	@Threshold DECIMAL(10, 3),
+	@BuyingPrice DECIMAL(10, 2),
+	@Threshold DECIMAL(10, 2),
 	@PurchaseUnit VARCHAR(100),
-	@ConversionUnit DECIMAL(10, 3)
+	@ConversionUnit DECIMAL(10, 2)
 AS
 	IF EXISTS(SELECT * FROM Inventory WHERE Inventory_Name = @Name AND 
 Inventory_Id != @Id)
 		RETURN 0
 	ELSE
 		BEGIN
-			UPDATE Inventory SET Inventory_Name = @Name, 
-Inventory_BuyingPrice =  @BuyingPrice, Inventory_Threshold = @Threshold, 
-Inventory_PurchaseUnit = @PurchaseUnit, Inventory_ConversionUnit = @ConversionUnit
+			UPDATE Inventory SET Inventory_Name = @Name, Inventory_BuyingPrice =  @BuyingPrice, Inventory_Threshold = @Threshold, Inventory_PurchaseUnit = @PurchaseUnit, Inventory_ConversionUnit = @ConversionUnit
 			WHERE Inventory_Id = @Id AND Inventory_Status = 1
 			RETURN 1
 		END
 GO
-/****** Object:  StoredProcedure [dbo].[InventorySubtract]    Script Date: 01/13/2010 16:16:35 ******/
+/****** Object:  StoredProcedure [dbo].[InventorySubtract]    Script Date: 01/14/2010 17:57:42 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE PROCEDURE [dbo].[InventorySubtract]
 	@Id INT,
-	@Quantity DECIMAL(10, 3)
+	@Quantity DECIMAL(10, 2)
 AS
 	UPDATE Inventory SET Inventory_Quantity = (Inventory_Quantity - @Quantity) 
 	WHERE Inventory_Id = @Id
 	RETURN 1
 GO
-/****** Object:  StoredProcedure [dbo].[InventoryAdd]    Script Date: 01/13/2010 16:16:33 ******/
+/****** Object:  StoredProcedure [dbo].[InventoryAdd]    Script Date: 01/14/2010 17:57:40 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE PROCEDURE [dbo].[InventoryAdd]
 	@Id INT,
-	@Quantity DECIMAL(10, 3)
+	@Quantity DECIMAL(10, 2)
 AS
 	UPDATE Inventory SET Inventory_Quantity = (Inventory_Quantity + @Quantity) 
 	WHERE Inventory_Id = @Id
 	RETURN
 GO
-/****** Object:  StoredProcedure [dbo].[TokenNew]    Script Date: 01/13/2010 16:16:42 ******/
+/****** Object:  StoredProcedure [dbo].[OfferEdit]    Script Date: 01/14/2010 17:57:47 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[OfferEdit]
+	@OldName VARCHAR(100),
+	@Name VARCHAR(100)
+AS
+	UPDATE Offer
+	SET Offer_Name = @Name 
+	WHERE Offer_Name = @OldName
+	RETURN 1
+GO
+/****** Object:  StoredProcedure [dbo].[TokenNew]    Script Date: 01/14/2010 17:57:55 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1342,15 +1381,14 @@ GO
 CREATE PROCEDURE [dbo].[TokenNew]
 	@Type VARCHAR(50),
 	@Menu INT,
-	@Quantity DECIMAL(10, 3),
+	@Quantity DECIMAL(10, 2),
 	@Source INT
 AS
-	INSERT INTO Token(Token_Type, Token_Menu, Token_Quantity, Token_Source, 
-Token_Status, Token_TimeStamp) 
+	INSERT INTO Token(Token_Type, Token_Menu, Token_Quantity, Token_Source, Token_Status, Token_TimeStamp) 
 	VALUES (@Type, @Menu, @Quantity, @Source, 1, CURRENT_TIMESTAMP)
 	RETURN 1
 GO
-/****** Object:  StoredProcedure [dbo].[PackageNew]    Script Date: 01/13/2010 16:16:38 ******/
+/****** Object:  StoredProcedure [dbo].[PackageNew]    Script Date: 01/14/2010 17:57:49 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1366,13 +1404,12 @@ Package_Type = @Type)
 		
 	ELSE
 		BEGIN
-			INSERT INTO Package(Package_Name, Package_Type, 
-Package_Comments, Package_Status, Package_TimeStamp)
+			INSERT INTO Package(Package_Name, Package_Type, Package_Comments, Package_Status, Package_TimeStamp)
 			VALUES(@Name, @Type, @Comments, 1, CURRENT_TIMESTAMP)
 			RETURN 1
 		END
 GO
-/****** Object:  StoredProcedure [dbo].[PackageEdit]    Script Date: 01/13/2010 16:16:38 ******/
+/****** Object:  StoredProcedure [dbo].[PackageEdit]    Script Date: 01/14/2010 17:57:49 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1383,18 +1420,16 @@ CREATE PROCEDURE [dbo].[PackageEdit]
 	@Type VARCHAR(50),
 	@Comments VARCHAR(200)
 AS
-	IF EXISTS(SELECT * FROM Package WHERE Package_Name = @Name AND Package_Id 
-!= @Id)
+	IF EXISTS(SELECT * FROM Package WHERE Package_Name = @Name AND Package_Id != @Id)
 		RETURN 0
 	ELSE		
 		BEGIN
-			UPDATE Package SET Package_Name = @Name, Package_Type = 
-@Type, Package_Comments = @Comments
+			UPDATE Package SET Package_Name = @Name, Package_Type = @Type, Package_Comments = @Comments
 			WHERE Package_Id = @Id AND Package_Status = 1
 			RETURN 1
 		END
 GO
-/****** Object:  StoredProcedure [dbo].[PackageDelete]    Script Date: 01/13/2010 16:16:37 ******/
+/****** Object:  StoredProcedure [dbo].[PackageDelete]    Script Date: 01/14/2010 17:57:48 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1406,6 +1441,7 @@ AS
 	WHERE Package_Id = @Id AND Package_Status = 1
 	RETURN 1
 GO
+
 /* END DATABASE SCHEMA */
 
 /* BEGIN CREATE USER  WITH PERMISSION */
