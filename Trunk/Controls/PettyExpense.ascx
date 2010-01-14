@@ -11,6 +11,16 @@
         </td>
         <td>
             <asp:TextBox ID="TxtAmount" runat="server" />
+            <asp:RequiredFieldValidator ID="ReqVldAmount" runat="server" ControlToValidate="TxtAmount"
+                Display="None" ErrorMessage="Please Enter Amount"></asp:RequiredFieldValidator>
+            <Ajax:ValidatorCalloutExtender ID="ReqVldAmountExtender" runat="server" 
+                Enabled="True" TargetControlID="ReqVldAmount">
+            </Ajax:ValidatorCalloutExtender>
+            <asp:RegularExpressionValidator ID="RegVldAmount" runat="server" ControlToValidate="TxtAmount"
+                Display="None" ErrorMessage="Please Enter A Valid Number" ValidationExpression="^\d+$"></asp:RegularExpressionValidator>
+            <Ajax:ValidatorCalloutExtender ID="RegVldAmountExtender" runat="server" 
+                Enabled="True" TargetControlID="RegVldAmount">
+            </Ajax:ValidatorCalloutExtender>
         </td>
     </tr>
     <tr>
@@ -26,7 +36,18 @@
             Quantity
         </td>
         <td>
-            <asp:TextBox ID="TxtQuantity" runat="server" />
+            <asp:TextBox ID="TxtQuantity" runat="server" Text="0" />
+            <asp:RequiredFieldValidator ID="ReqVldQuantity" runat="server" ControlToValidate="TxtQuantity"
+                Display="None" ErrorMessage="Please Enter Amount"></asp:RequiredFieldValidator>
+            <Ajax:ValidatorCalloutExtender ID="ReqVldQuantityExtender" runat="server" 
+                Enabled="True" TargetControlID="ReqVldQuantity">
+            </Ajax:ValidatorCalloutExtender>
+            <asp:RegularExpressionValidator ID="RegVldQuantity" runat="server" ControlToValidate="TxtQuantity"
+                Display="None" ErrorMessage="Please Enter A Valid Number" 
+                ValidationExpression="^\d+$"></asp:RegularExpressionValidator>
+            <Ajax:ValidatorCalloutExtender ID="RegVldQuantityExtender" runat="server" 
+                Enabled="True" TargetControlID="RegVldQuantity">
+            </Ajax:ValidatorCalloutExtender>
         </td>
     </tr>
     <tr>
@@ -39,7 +60,7 @@
     </tr>
     <tr>
         <td colspan="2">
-            <asp:Button ID="BtnAdd" runat="server" Text="Add" onclick="BtnAdd_Click" />&nbsp;&nbsp;
+            <asp:Button ID="BtnAdd" runat="server" Text="Add" OnClick="BtnAdd_Click" />&nbsp;&nbsp;
             <input type="reset" id="BtnReset" />
         </td>
     </tr>

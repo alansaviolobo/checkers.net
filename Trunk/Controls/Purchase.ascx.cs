@@ -13,6 +13,7 @@ public partial class Controls_Purchase : System.Web.UI.UserControl
     protected void Page_Load(object sender, EventArgs e)
     {
         ClearForm();
+        ((AjaxControlToolkit.Accordion)Page.Master.FindControl("AccMenu")).SelectedIndex = 1;
     }
     protected void BtnPurchase_Click(object sender, EventArgs e)
     {
@@ -33,6 +34,8 @@ public partial class Controls_Purchase : System.Web.UI.UserControl
         TxtExistingQuantity.Text = "";
         TxtPurchaseQuantity.Text = "";
         TxtPurchaseQuantity.Text = "0";
+        LtrPurchaseUnit1.Text = "";
+        LtrPurchaseUnit2.Text = "";
     }
     protected void BtnSearch_Click(object sender, EventArgs e)
     {
@@ -42,7 +45,9 @@ public partial class Controls_Purchase : System.Web.UI.UserControl
         {
             var IngrdientData = (from I in Checkers.Inventories where I.Inventory_Id == int.Parse(HdnInventoryId.Value) select I).Single();
 
-            TxtExistingQuantity.Text = IngrdientData.Inventory_Quantity.ToString();
+            TxtExistingQuantity.Text = (IngrdientData.Inventory_Quantity / IngrdientData.Inventory_ConversionUnit).ToString();
+            LtrPurchaseUnit1.Text = IngrdientData.Inventory_PurchaseUnit;
+            LtrPurchaseUnit2.Text = IngrdientData.Inventory_PurchaseUnit;
         }
         else
         {

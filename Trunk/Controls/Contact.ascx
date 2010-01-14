@@ -42,7 +42,7 @@
                 ServiceMethod="GetContactList" CompletionInterval="100" CompletionSetCount="10"
                 ServicePath="~/CheckersWebService.asmx" MinimumPrefixLength="1" OnClientItemSelected="GetContactId" />
             <asp:RequiredFieldValidator ID="ReqVldPersonalName" runat="server" ErrorMessage="Please Enter Name."
-                ControlToValidate="TxtPersonalName" Display="None" Enabled="false" />
+                ControlToValidate="TxtPersonalName" Display="None" Enabled="true" />
             <Ajax:ValidatorCalloutExtender ID="ReqVldPersonalNameExtender" runat="server" Enabled="True"
                 TargetControlID="ReqVldPersonalName">
             </Ajax:ValidatorCalloutExtender>

@@ -101,7 +101,7 @@ public class CheckersWebService : System.Web.Services.WebService
         CheckersDataContext Checkers = new CheckersDataContext();
         return (from P in Checkers.Contacts
                 where P.Contact_Name.StartsWith(prefixText) && P.Contact_Status.Equals(1)
-                && (P.Contact_Type == "Administrator" || P.Contact_Type == "Waiter" || P.Contact_Type == "Manager")
+                && P.Contact_Type != "Customer" && P.Contact_Name != "Administrator"
                 select P.Contact_Name).Distinct().ToArray<string>();
     }
 
@@ -190,6 +190,17 @@ public class CheckersWebService : System.Web.Services.WebService
         return (from P in Checkers.Contacts
                 where P.Contact_Name.Equals(Name[0])
                 select P.Contact_Id).Single();
+    }
+    #endregion
+
+    #region Offer
+    [WebMethod]
+    public string[] GetOfferList(string prefixText, int count)
+    {
+        CheckersDataContext Checkers = new CheckersDataContext();
+        return (from O in Checkers.Offers
+                where O.Offer_Status == 1
+                select O.Offer_Name).Distinct().ToArray<string>();
     }
     #endregion
 }

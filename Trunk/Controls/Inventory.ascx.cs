@@ -12,9 +12,15 @@ public partial class Controls_Inventory : System.Web.UI.UserControl
 
     protected void Page_Load(object sender, EventArgs e)
     {
+        ClearForm();
         if (!Page.IsPostBack)
         {
             Action = Request.QueryString["Action"] != null ? Request.QueryString["Action"].ToString() : "Add";
+            if (Request.QueryString["Id"] != null)
+            {
+                HdnInventoryId.Value = Request.QueryString["Id"].ToString();
+                FillData();
+            }
             switch (Action)
             {
                 case "New": BtnSearch.Visible = false; AutoCompSearch.Enabled = false; BtnSubmit.Text = "Add"; break;
@@ -22,7 +28,6 @@ public partial class Controls_Inventory : System.Web.UI.UserControl
                 case "Delete": BtnSearch.Visible = true; AutoCompSearch.Enabled = true; BtnSubmit.Text = "Delete"; break;
             }
             ((AjaxControlToolkit.Accordion)Page.Master.FindControl("AccMenu")).SelectedIndex = 1;
-            ClearForm();
         }
     }
     protected void BtnSubmit_Click(object sender, EventArgs e)
@@ -93,33 +98,38 @@ public partial class Controls_Inventory : System.Web.UI.UserControl
         TxtThreshold.Text = "";
         TxtConversionUnit.Text = "";
         LtrInventoryItems.Text = "";
+        LtrPurchaseUnit1.Text = "Per Kg";
+        LtrPurchaseUnit2.Text = "Kg";
+        LtrPurchaseUnit3.Text = "Kg";
         BtnNo.Visible = false;
         BtnYes.Visible = false;
-        DdlPurchaseUnit.Items.Clear();
-
-        DdlPurchaseUnit.Items.Add(new ListItem(""));
-        DdlPurchaseUnit.Items.Add(new ListItem("Bottle"));
-        DdlPurchaseUnit.Items.Add(new ListItem("Kg"));
-        DdlPurchaseUnit.Items.Add(new ListItem("Dozen"));
-        DdlPurchaseUnit.Items.Add(new ListItem("Unit"));
 
         LtrInventoryItems.Text = Checkers.Inventories.Where(I => I.Inventory_Status == 1).Select(I => I).Count().ToString();
     }
     protected void BtnSearch_Click(object sender, EventArgs e)
     {
+        FillData();
+    }
+    protected void DdlPurchaseUnit_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        LtrPurchaseUnit1.Text = "Per " + DdlPurchaseUnit.SelectedItem.Text;
+        LtrPurchaseUnit2.Text = DdlPurchaseUnit.SelectedItem.Text;
+        LtrPurchaseUnit3.Text = DdlPurchaseUnit.SelectedItem.Text;
+        LtrName.Text = TxtName.Text;
+    }
+    public void FillData()
+    {
         Checkers = new CheckersDataContext();
         var InventoryDetails = Checkers.Inventories.Where(M => M.Inventory_Id == int.Parse(HdnInventoryId.Value) && M.Inventory_Status == 1).Select(M => M).Single();
+        TxtName.Text = InventoryDetails.Inventory_Name;
         DdlPurchaseUnit.ClearSelection();
         DdlPurchaseUnit.Items.FindByText(InventoryDetails.Inventory_PurchaseUnit.ToString()).Selected = true;
         TxtBuyingPrice.Text = InventoryDetails.Inventory_BuyingPrice.ToString();
         TxtThreshold.Text = InventoryDetails.Inventory_Threshold.ToString();
         TxtConversionUnit.Text = InventoryDetails.Inventory_ConversionUnit.ToString();
         LtrName.Text = InventoryDetails.Inventory_Name.ToString();
-        LtrPurchaseUnit.Text = InventoryDetails.Inventory_PurchaseUnit.ToString();
-    }
-    protected void DdlPurchaseUnit_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        LtrPurchaseUnit.Text = DdlPurchaseUnit.SelectedItem.Text;
-        LtrName.Text = TxtName.Text;
+        LtrPurchaseUnit1.Text = "Per " + InventoryDetails.Inventory_PurchaseUnit.ToString();
+        LtrPurchaseUnit2.Text = InventoryDetails.Inventory_PurchaseUnit.ToString();
+        LtrPurchaseUnit3.Text = InventoryDetails.Inventory_PurchaseUnit.ToString();
     }
 }

@@ -190,6 +190,18 @@
       <Column Name="Receipt_TimeStamp" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
     </Type>
   </Table>
+  <Table Name="dbo.Offer" Member="Offers">
+    <Type Name="Offer">
+      <Column Name="Offer_Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Offer_Name" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="Offer_Menu" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Offer_Quantity" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Offer_Cost" Type="System.Decimal" DbType="Decimal(10,3)" CanBeNull="true" />
+      <Column Name="Offer_Type" Type="System.String" DbType="Char(5)" CanBeNull="true" />
+      <Column Name="Offer_Status" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Offer_TimeStamp" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+    </Type>
+  </Table>
   <Function Name="dbo.TokenNew" Method="TokenNew">
     <Parameter Name="Type" Parameter="type" Type="System.String" DbType="VarChar(50)" />
     <Parameter Name="Menu" Parameter="menu" Type="System.Int32" DbType="Int" />
@@ -482,6 +494,26 @@
   </Function>
   <Function Name="dbo.MenuDelete" Method="MenuDelete">
     <Parameter Name="Id" Parameter="id" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.OfferDelete" Method="OfferDelete">
+    <Parameter Name="Name" Parameter="name" Type="System.String" DbType="VarChar(100)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.OfferEdit" Method="OfferEdit">
+    <Parameter Name="OldName" Parameter="oldName" Type="System.String" DbType="VarChar(100)" />
+    <Parameter Name="Name" Parameter="name" Type="System.String" DbType="VarChar(100)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.OfferItemDelete" Method="OfferItemDelete">
+    <Parameter Name="Id" Parameter="id" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.OfferNew" Method="OfferNew">
+    <Parameter Name="Name" Parameter="name" Type="System.String" DbType="VarChar(100)" />
+    <Parameter Name="Menu" Parameter="menu" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Quantity" Parameter="quantity" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Type" Parameter="type" Type="System.String" DbType="Char(10)" />
     <Return Type="System.Int32" />
   </Function>
 </Database>

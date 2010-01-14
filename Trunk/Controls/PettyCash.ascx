@@ -10,6 +10,18 @@
         </td>
         <td>
             <asp:TextBox ID="TxtAmount" runat="server" />
+            <asp:RequiredFieldValidator ID="ReqVldAmount" runat="server" 
+                ControlToValidate="TxtAmount" Display="None" 
+                ErrorMessage="Please Enter A Value"></asp:RequiredFieldValidator>
+            <Ajax:ValidatorCalloutExtender ID="ReqVldAmountExtender" runat="server" 
+                Enabled="True" TargetControlID="ReqVldAmount">
+            </Ajax:ValidatorCalloutExtender>
+            <asp:RegularExpressionValidator ID="RegVldAmount" runat="server" 
+                ControlToValidate="TxtAmount" Display="None" 
+                ErrorMessage="Please Enter A Number" ValidationExpression="^\d+$"></asp:RegularExpressionValidator>
+            <Ajax:ValidatorCalloutExtender ID="RegVldAmountExtender" runat="server" 
+                Enabled="True" TargetControlID="RegVldAmount">
+            </Ajax:ValidatorCalloutExtender>
         </td>
     </tr>
     <tr>

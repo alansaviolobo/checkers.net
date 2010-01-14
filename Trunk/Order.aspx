@@ -78,9 +78,18 @@
                                             <asp:DropDownList ID="DdlQuantity" runat="server" />
                                         </td>
                                         <td>
-                                            <asp:Button ID="BtnOrder" runat="server" Text="Order" OnClick="BtnOrder_Click" />
+                                            <asp:Button ID="BtnOrderItem" runat="server" Text="Order" OnClick="BtnOrderItem_Click" />
                                         </td>
                                     </tr>
+                                    <%--<tr>
+                                        <td colspan="2" valign="baseline">
+                                            Offer
+                                            <asp:DropDownList ID="DdlOffer" runat="server" />
+                                        </td>
+                                        <td>
+                                            <asp:Button ID="BtnOrderOffer" runat="server" Text="Order" OnClick="BtnOrderOffer_Click" />
+                                        </td>
+                                    </tr>--%>
                                 </table>
                                 <br />
                                 <div id="DataContainer">
@@ -90,10 +99,13 @@
                                             <asp:BoundColumn DataField="Sales_Id" HeaderText="Id" Visible="False"></asp:BoundColumn>
                                             <asp:BoundColumn DataField="Menu_Name" HeaderText="Menu"></asp:BoundColumn>
                                             <asp:BoundColumn DataField="Sales_Quantity" HeaderText="Quantity"></asp:BoundColumn>
+                                            <asp:BoundColumn DataField="Sales_Cost" HeaderText="Cost"></asp:BoundColumn>
                                             <asp:ButtonColumn CommandName="Delete" Text="X"></asp:ButtonColumn>
                                         </Columns>
                                     </asp:DataGrid>
                                 </div>
+                                <br />
+                                <br />
                                 <asp:DropDownList ID="DdlToken" runat="server" Width="235px" />
                                 <asp:Button ID="BtnPrintOt" runat="server" Text="Print OT" CssClass="CenterAlign"
                                     OnClick="BtnPrintOt_Click" />

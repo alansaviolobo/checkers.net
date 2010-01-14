@@ -14,7 +14,14 @@ public partial class Controls_Menu : System.Web.UI.UserControl
     {
         if (!Page.IsPostBack)
         {
+            ClearForm();
             Action = Request.QueryString["Action"] != null ? Request.QueryString["Action"].ToString() : "Add";
+            if (Request.QueryString["Id"] != null)
+            {
+                HdnMenuId.Value = Request.QueryString["Id"].ToString();
+                FillData();
+            }
+
             switch (Action)
             {
                 case "New": BtnSearch.Visible = false; AutoCompSearch.Enabled = false; BtnSubmit.Text = "Add"; break;
@@ -22,7 +29,6 @@ public partial class Controls_Menu : System.Web.UI.UserControl
                 case "Delete": BtnSearch.Visible = true; AutoCompSearch.Enabled = true; BtnSubmit.Text = "Delete"; break;
             }
             ((AjaxControlToolkit.Accordion)Page.Master.FindControl("AccMenu")).SelectedIndex = 0;
-            ClearForm();
         }
     }
     protected void BtnSubmit_Click(object sender, EventArgs e)
@@ -95,10 +101,6 @@ public partial class Controls_Menu : System.Web.UI.UserControl
         LtrRestaurantItems.Text = "";
         BtnNo.Visible = false;
         BtnYes.Visible = false;
-        DdlCategory.Items.Clear();
-
-        DdlCategory.Items.Add(new ListItem("Restaurant"));
-        DdlCategory.Items.Add(new ListItem("Bar"));
 
         LtrBarItems.Text = Checkers.SelectItemByType("Bar").ToString();
         LtrRestaurantItems.Text = Checkers.SelectItemByType("Restaurant").ToString();
@@ -106,8 +108,13 @@ public partial class Controls_Menu : System.Web.UI.UserControl
     }
     protected void BtnSearch_Click(object sender, EventArgs e)
     {
+        FillData();
+    }
+    public void FillData()
+    {
         Checkers = new CheckersDataContext();
         var MenuDetails = Checkers.Menus.Where(M => M.Menu_Id == int.Parse(HdnMenuId.Value) && M.Menu_Status == 1).Select(M => M).Single();
+        TxtName.Text = MenuDetails.Menu_Name;
         DdlCategory.ClearSelection();
         DdlCategory.Items.FindByText(MenuDetails.Menu_Category.ToString()).Selected = true;
         TxtPrice.Text = MenuDetails.Menu_SellingPrice.ToString();

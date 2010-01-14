@@ -80,6 +80,9 @@ public partial class CheckersDataContext : System.Data.Linq.DataContext
   partial void InsertReceipt(Receipt instance);
   partial void UpdateReceipt(Receipt instance);
   partial void DeleteReceipt(Receipt instance);
+  partial void InsertOffer(Offer instance);
+  partial void UpdateOffer(Offer instance);
+  partial void DeleteOffer(Offer instance);
   #endregion
 	
 	public CheckersDataContext() : 
@@ -245,6 +248,14 @@ public partial class CheckersDataContext : System.Data.Linq.DataContext
 		get
 		{
 			return this.GetTable<Receipt>();
+		}
+	}
+	
+	public System.Data.Linq.Table<Offer> Offers
+	{
+		get
+		{
+			return this.GetTable<Offer>();
 		}
 	}
 	
@@ -553,6 +564,34 @@ public partial class CheckersDataContext : System.Data.Linq.DataContext
 	public int MenuDelete([Parameter(Name="Id", DbType="Int")] System.Nullable<int> id)
 	{
 		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id);
+		return ((int)(result.ReturnValue));
+	}
+	
+	[Function(Name="dbo.OfferDelete")]
+	public int OfferDelete([Parameter(Name="Name", DbType="VarChar(100)")] string name)
+	{
+		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), name);
+		return ((int)(result.ReturnValue));
+	}
+	
+	[Function(Name="dbo.OfferEdit")]
+	public int OfferEdit([Parameter(Name="OldName", DbType="VarChar(100)")] string oldName, [Parameter(Name="Name", DbType="VarChar(100)")] string name)
+	{
+		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), oldName, name);
+		return ((int)(result.ReturnValue));
+	}
+	
+	[Function(Name="dbo.OfferItemDelete")]
+	public int OfferItemDelete([Parameter(Name="Id", DbType="Int")] System.Nullable<int> id)
+	{
+		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id);
+		return ((int)(result.ReturnValue));
+	}
+	
+	[Function(Name="dbo.OfferNew")]
+	public int OfferNew([Parameter(Name="Name", DbType="VarChar(100)")] string name, [Parameter(Name="Menu", DbType="Int")] System.Nullable<int> menu, [Parameter(Name="Quantity", DbType="Int")] System.Nullable<int> quantity, [Parameter(Name="Type", DbType="Char(10)")] string type)
+	{
+		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), name, menu, quantity, type);
 		return ((int)(result.ReturnValue));
 	}
 }
@@ -4082,6 +4121,236 @@ public partial class Receipt : INotifyPropertyChanging, INotifyPropertyChanged
 				this._Receipt_TimeStamp = value;
 				this.SendPropertyChanged("Receipt_TimeStamp");
 				this.OnReceipt_TimeStampChanged();
+			}
+		}
+	}
+	
+	public event PropertyChangingEventHandler PropertyChanging;
+	
+	public event PropertyChangedEventHandler PropertyChanged;
+	
+	protected virtual void SendPropertyChanging()
+	{
+		if ((this.PropertyChanging != null))
+		{
+			this.PropertyChanging(this, emptyChangingEventArgs);
+		}
+	}
+	
+	protected virtual void SendPropertyChanged(String propertyName)
+	{
+		if ((this.PropertyChanged != null))
+		{
+			this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+		}
+	}
+}
+
+[Table(Name="dbo.Offer")]
+public partial class Offer : INotifyPropertyChanging, INotifyPropertyChanged
+{
+	
+	private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+	
+	private int _Offer_Id;
+	
+	private string _Offer_Name;
+	
+	private System.Nullable<int> _Offer_Menu;
+	
+	private System.Nullable<int> _Offer_Quantity;
+	
+	private System.Nullable<decimal> _Offer_Cost;
+	
+	private string _Offer_Type;
+	
+	private System.Nullable<int> _Offer_Status;
+	
+	private System.Nullable<System.DateTime> _Offer_TimeStamp;
+	
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnOffer_IdChanging(int value);
+    partial void OnOffer_IdChanged();
+    partial void OnOffer_NameChanging(string value);
+    partial void OnOffer_NameChanged();
+    partial void OnOffer_MenuChanging(System.Nullable<int> value);
+    partial void OnOffer_MenuChanged();
+    partial void OnOffer_QuantityChanging(System.Nullable<int> value);
+    partial void OnOffer_QuantityChanged();
+    partial void OnOffer_CostChanging(System.Nullable<decimal> value);
+    partial void OnOffer_CostChanged();
+    partial void OnOffer_TypeChanging(string value);
+    partial void OnOffer_TypeChanged();
+    partial void OnOffer_StatusChanging(System.Nullable<int> value);
+    partial void OnOffer_StatusChanged();
+    partial void OnOffer_TimeStampChanging(System.Nullable<System.DateTime> value);
+    partial void OnOffer_TimeStampChanged();
+    #endregion
+	
+	public Offer()
+	{
+		OnCreated();
+	}
+	
+	[Column(Storage="_Offer_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+	public int Offer_Id
+	{
+		get
+		{
+			return this._Offer_Id;
+		}
+		set
+		{
+			if ((this._Offer_Id != value))
+			{
+				this.OnOffer_IdChanging(value);
+				this.SendPropertyChanging();
+				this._Offer_Id = value;
+				this.SendPropertyChanged("Offer_Id");
+				this.OnOffer_IdChanged();
+			}
+		}
+	}
+	
+	[Column(Storage="_Offer_Name", DbType="VarChar(100)")]
+	public string Offer_Name
+	{
+		get
+		{
+			return this._Offer_Name;
+		}
+		set
+		{
+			if ((this._Offer_Name != value))
+			{
+				this.OnOffer_NameChanging(value);
+				this.SendPropertyChanging();
+				this._Offer_Name = value;
+				this.SendPropertyChanged("Offer_Name");
+				this.OnOffer_NameChanged();
+			}
+		}
+	}
+	
+	[Column(Storage="_Offer_Menu", DbType="Int")]
+	public System.Nullable<int> Offer_Menu
+	{
+		get
+		{
+			return this._Offer_Menu;
+		}
+		set
+		{
+			if ((this._Offer_Menu != value))
+			{
+				this.OnOffer_MenuChanging(value);
+				this.SendPropertyChanging();
+				this._Offer_Menu = value;
+				this.SendPropertyChanged("Offer_Menu");
+				this.OnOffer_MenuChanged();
+			}
+		}
+	}
+	
+	[Column(Storage="_Offer_Quantity", DbType="Int")]
+	public System.Nullable<int> Offer_Quantity
+	{
+		get
+		{
+			return this._Offer_Quantity;
+		}
+		set
+		{
+			if ((this._Offer_Quantity != value))
+			{
+				this.OnOffer_QuantityChanging(value);
+				this.SendPropertyChanging();
+				this._Offer_Quantity = value;
+				this.SendPropertyChanged("Offer_Quantity");
+				this.OnOffer_QuantityChanged();
+			}
+		}
+	}
+	
+	[Column(Storage="_Offer_Cost", DbType="Decimal(10,3)")]
+	public System.Nullable<decimal> Offer_Cost
+	{
+		get
+		{
+			return this._Offer_Cost;
+		}
+		set
+		{
+			if ((this._Offer_Cost != value))
+			{
+				this.OnOffer_CostChanging(value);
+				this.SendPropertyChanging();
+				this._Offer_Cost = value;
+				this.SendPropertyChanged("Offer_Cost");
+				this.OnOffer_CostChanged();
+			}
+		}
+	}
+	
+	[Column(Storage="_Offer_Type", DbType="Char(5)")]
+	public string Offer_Type
+	{
+		get
+		{
+			return this._Offer_Type;
+		}
+		set
+		{
+			if ((this._Offer_Type != value))
+			{
+				this.OnOffer_TypeChanging(value);
+				this.SendPropertyChanging();
+				this._Offer_Type = value;
+				this.SendPropertyChanged("Offer_Type");
+				this.OnOffer_TypeChanged();
+			}
+		}
+	}
+	
+	[Column(Storage="_Offer_Status", DbType="Int")]
+	public System.Nullable<int> Offer_Status
+	{
+		get
+		{
+			return this._Offer_Status;
+		}
+		set
+		{
+			if ((this._Offer_Status != value))
+			{
+				this.OnOffer_StatusChanging(value);
+				this.SendPropertyChanging();
+				this._Offer_Status = value;
+				this.SendPropertyChanged("Offer_Status");
+				this.OnOffer_StatusChanged();
+			}
+		}
+	}
+	
+	[Column(Storage="_Offer_TimeStamp", DbType="DateTime")]
+	public System.Nullable<System.DateTime> Offer_TimeStamp
+	{
+		get
+		{
+			return this._Offer_TimeStamp;
+		}
+		set
+		{
+			if ((this._Offer_TimeStamp != value))
+			{
+				this.OnOffer_TimeStampChanging(value);
+				this.SendPropertyChanging();
+				this._Offer_TimeStamp = value;
+				this.SendPropertyChanged("Offer_TimeStamp");
+				this.OnOffer_TimeStampChanged();
 			}
 		}
 	}

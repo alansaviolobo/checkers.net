@@ -15,7 +15,7 @@ public partial class Order : System.Web.UI.Page
 
     public CheckersDataContext Checkers;
     public static int NumberOfTables = 40;
-    public static int MaximumQuantity = 50;
+    public static int MaximumQuantity = 51;
 
     #endregion
 
@@ -98,7 +98,57 @@ public partial class Order : System.Web.UI.Page
         FillOt();
     }
 
-    protected void BtnOrder_Click(object sender, EventArgs e)
+    protected void BtnOrderItem_Click(object sender, EventArgs e)
+    {
+        if (HdnTableId.Value != "")
+        {
+            Checkers = new CheckersDataContext();
+            int Status;
+
+            if (Checkers.Sources.Where(S => S.Source_Type == "Table" && S.Source_Number == int.Parse(HdnTableId.Value) && S.Source_Status == 2).Any().Equals(true))
+                LtrMessage.Text = "Table " + HdnTableId.Value + " Already Billed. Please Close The Bill.";
+            else
+            {
+                Status = Checkers.SalesNew(0, int.Parse(DdlItem.SelectedItem.Value), decimal.Parse(DdlQuantity.SelectedItem.Text), int.Parse(HdnTableId.Value), "Table", 0);
+                LtrMessage.Text = Status == 1 ? "Item " + DdlItem.SelectedItem.Text + " Of Quantity " + DdlQuantity.SelectedItem.Text + " Ordered For Table No. " + HdnTableId.Value : "Error Occurred";
+
+                var MenuConverter = Checkers.Converters.Where(C => C.Converter_Menu == int.Parse(DdlItem.SelectedItem.Value) && C.Converter_Status == 1).Select(C => C);
+                foreach (var M in MenuConverter)
+                {
+                    decimal Quantity = M.Converter_InventoryQuantity.Value * decimal.Parse(DdlQuantity.SelectedItem.Text);
+                    Status = Checkers.InventorySubtract(M.Converter_Inventory, Quantity);
+                }
+
+                if (Checkers.Inventories.Where(I => I.Inventory_Status == 1 && I.Inventory_Quantity.Value <= I.Inventory_Threshold.Value).Any().Equals(true))
+                {
+                    var Inventory = Checkers.Inventories.Where(I => I.Inventory_Status == 1 && I.Inventory_Quantity.Value <= I.Inventory_Threshold.Value).Select(I => I);
+                    if (Inventory.Count() > 0)
+                        LtrMessage.Text = "Please Check The Inventory Levels.";
+                }
+
+                var MenuType = Checkers.Menus.Where(M => M.Menu_Id == int.Parse(DdlItem.SelectedItem.Value)).Select(M => M.Menu_Category).Single();
+
+                Status = Checkers.TokenNew(MenuType.ToString() == "Bar" ? "BOT" : "KOT", int.Parse(DdlItem.SelectedItem.Value), decimal.Parse(DdlQuantity.SelectedItem.Text), int.Parse(TableSource().ToString()));
+
+                LblOt.Text = MenuType.ToString() == "Bar" ? "BOT" : "KOT";
+
+                Ot.InnerHtml = "<br /><br /><strong>Table No: </strong>" + HdnTableId.Value + "<br /><br />";
+                Ot.InnerHtml += "<hr>";
+                Ot.InnerHtml += "<strong>Item: </strong>" + DdlItem.SelectedItem.Text + "<br />";
+                Ot.InnerHtml += "<strong>Quantity: </strong>" + decimal.Parse(DdlQuantity.SelectedItem.Text);
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "Print", "javascript:CallPrint('PrintOt');", true);
+
+                ShowOrders();
+                OrderInformation();
+            }
+        }
+        else
+            LtrMessage.Text = "Please Select An Table.";
+
+        FillTables();
+    }
+
+    protected void BtnOrderOffer_Click(object sender, EventArgs e)
     {
         if (HdnTableId.Value != "")
         {
@@ -177,8 +227,9 @@ public partial class Order : System.Web.UI.Page
                 int Status;
                 decimal SubTotal = decimal.Parse(LblTotalCost.Text);
                 decimal Discount = (decimal.Parse(LblTotalCost.Text) * decimal.Parse(TxtDiscount.Text)) / 100;
-                decimal Tax = (decimal.Parse(LblTotalCost.Text) * decimal.Parse(TxtTax.Text)) / 100;
-                decimal Total = (SubTotal - Discount) + Tax;
+                decimal Total = (SubTotal - Discount);
+                decimal Tax = (Total * decimal.Parse(TxtTax.Text)) / 100;
+                Total = Math.Round(Total + Tax);
 
                 if (BtnBill.Text == "Print Bill")
                 {
@@ -484,7 +535,7 @@ public partial class Order : System.Web.UI.Page
                                                  where S.Source_Number == int.Parse(HdnTableId.Value) && (S.Source_Status == 1 || S.Source_Status == 2)
                                                  select S.Source_Id).Single() && O.Sales_Status == 1
                                                  && O.Sales_Menu == M.Menu_Id
-                        select new { O.Sales_Id, M.Menu_Name, O.Sales_Quantity };
+                        select new { O.Sales_Id, M.Menu_Name, O.Sales_Quantity, O.Sales_Cost };
 
         if (Enumerable.Count(OrderList) > 0)
         {

@@ -14,7 +14,8 @@ public partial class Controls_Contact : System.Web.UI.UserControl
     {
         if (!Page.IsPostBack)
         {
-            Action = Request.QueryString["Action"] != null ? Request.QueryString["Action"].ToString() : "New";
+            ClearForm();
+            Action = Request.QueryString["Action"] != null ? Request.QueryString["Action"].ToString() : "Add";
             switch (Action)
             {
                 case "New": BtnSearchPersonalName.Visible = false; BtnSearchOrganizationName.Visible = false;
@@ -30,15 +31,17 @@ public partial class Controls_Contact : System.Web.UI.UserControl
                     BtnSubmit.Text = "Delete";
                     break;
             }
+            if (Request.QueryString["Id"] != null)
+            {
+                HdnContactId.Value = Request.QueryString["Id"].ToString();
+                FillData();
+            } 
             ((AjaxControlToolkit.Accordion)Page.Master.FindControl("AccMenu")).SelectedIndex = 2;
-            ClearForm();
         }
     }
     protected void BtnSearchPersonalName_Click(object sender, EventArgs e)
     {
-        BtnSearchOrganizationName.Visible = false;
-        AutoCompSearchOrganizationName.Enabled = false;
-        Search();
+        FillData();
     }
     protected void BtnSearchOrganizationName_Click(object sender, EventArgs e)
     {
@@ -142,5 +145,11 @@ public partial class Controls_Contact : System.Web.UI.UserControl
         TxtOrganizationAddress.Text = Users.Contact_OrganizationAddress;
 
         ReqVldPersonalName.Enabled = true;
+    }
+    public void FillData()
+    {
+        BtnSearchOrganizationName.Visible = false;
+        AutoCompSearchOrganizationName.Enabled = false;
+        Search();
     }
 }

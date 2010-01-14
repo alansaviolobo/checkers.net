@@ -23,14 +23,20 @@ public partial class Controls_Converter : System.Web.UI.UserControl
             }
             ClearForm();
         }
+        ((AjaxControlToolkit.Accordion)Page.Master.FindControl("AccMenu")).SelectedIndex = 1;
     }
     protected void BtnEnter_Click(object sender, EventArgs e)
     {
         Checkers = new CheckersDataContext();
 
-        var Status = Checkers.ConverterNew(int.Parse(HdnMenuId.Value), int.Parse(HdnInventoryId.Value), decimal.Parse(TxtInventoryQuantity.Text));
-        LtrMenuName.Text = TxtMenuName.Text;
-        GridFill();
+        if (HdnInventoryId.Value != "")
+        {
+            var Status = Checkers.ConverterNew(int.Parse(HdnMenuId.Value), int.Parse(HdnInventoryId.Value), decimal.Parse(TxtInventoryQuantity.Text));
+            LtrMenuName.Text = TxtMenuName.Text;
+            GridFill();
+        }
+        else
+            LtrMessage.Text = "Please Select An Inventory Item.";
     }
     protected void BtnYes_Click(object sender, EventArgs e)
     {

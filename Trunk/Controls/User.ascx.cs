@@ -14,15 +14,21 @@ public partial class Controls_User : System.Web.UI.UserControl
     {
         if (!Page.IsPostBack)
         {
-            Action = Request.QueryString["Action"] != null ? Request.QueryString["Action"].ToString() : "New";
+            ClearForm();
+            Action = Request.QueryString["Action"] != null ? Request.QueryString["Action"].ToString() : "Add";
+            if (Request.QueryString["Id"] != null)
+            {
+                HdnUserId.Value = Request.QueryString["Id"].ToString();
+                FillData();
+            }
             switch (Action)
             {
                 case "New": BtnSearch.Visible = false; AutoCompSearch.Enabled = false; BtnSubmit.Text = "Add"; break;
                 case "Edit": BtnSearch.Visible = true; AutoCompSearch.Enabled = true; BtnSubmit.Text = "Update"; break;
                 case "Delete": BtnSearch.Visible = true; AutoCompSearch.Enabled = true; BtnSubmit.Text = "Delete"; break;
             }
-            ClearForm();
         }
+        ((AjaxControlToolkit.Accordion)Page.Master.FindControl("AccMenu")).SelectedIndex = 3;
     }
     protected void BtnSubmit_Click(object sender, EventArgs e)
     {
@@ -95,6 +101,10 @@ public partial class Controls_User : System.Web.UI.UserControl
         BtnYes.Visible = false;
     }
     protected void BtnSearch_Click(object sender, EventArgs e)
+    {
+        FillData();
+    }
+    public void FillData()
     {
         Checkers = new CheckersDataContext();
         var Users = (from U in Checkers.Contacts

@@ -20,9 +20,12 @@ public partial class Controls_Credit : System.Web.UI.UserControl
             foreach (var C in Clients)
                 DdlClientName.Items.Add(new ListItem(C.Contact_Name + "- " + C.Contact_OrganizationName, C.Contact_Id.ToString()));
         }
-        LtrTotalOutstanding.Text = (from C in Checkers.Contacts
-                                    where C.Contact_Status == 1 && C.Contact_Type == "Customer"
-                                    select C.Contact_Credit.Value).Sum().ToString();
+        if (Checkers.Contacts.Where(C => C.Contact_Type == "Customer").Any().Equals(true))
+            LtrTotalOutstanding.Text = (from C in Checkers.Contacts
+                                        where C.Contact_Status == 1 && C.Contact_Type == "Customer"
+                                        select C.Contact_Credit.Value).Sum().ToString();
+        else
+            LtrTotalOutstanding.Text = "0";
         ((AjaxControlToolkit.Accordion)Page.Master.FindControl("AccMenu")).SelectedIndex = 2;
     }
     protected void BtnSelect_Click(object sender, EventArgs e)
@@ -89,7 +92,10 @@ public partial class Controls_Credit : System.Web.UI.UserControl
             var Receipts = Checkers.Receipts.Where(R => R.Receipt_Client == int.Parse(HdnClientId.Value) && R.Receipt_Status == 0).Select(R => new { R.Receipt_Id, R.Receipt_Amount, R.Receipt_PaymentMode });
             if (Enumerable.Count(Receipts) > 0)
             {
-                LtrAmountPaid.Text = Checkers.Receipts.Where(R => R.Receipt_Client == int.Parse(HdnClientId.Value) &&  R.Receipt_Status == 0).Select(R => R.Receipt_Amount.Value).Sum().ToString();
+                LtrAmountPaid.Text = Checkers.Receipts.Where(R => R.Receipt_Client == int.Parse(HdnClientId.Value) && R.Receipt_Status == 0).Select(R => R.Receipt_Amount.Value).Sum().ToString();
+                LtrBillsNumber.Text = "(Total : " + Enumerable.Count(Receipts).ToString() + ")";
+                DgReceipts.DataSource = Receipts;
+                DgReceipts.DataBind();
             }
 
             if (Enumerable.Count(Bills) > 0)
@@ -99,12 +105,6 @@ public partial class Controls_Credit : System.Web.UI.UserControl
                 DgBills.DataBind();
             }
 
-            if (Enumerable.Count(Receipts) > 0)
-            {
-                LtrBillsNumber.Text = "(Total : " + Enumerable.Count(Receipts).ToString() + ")";
-                DgReceipts.DataSource = Receipts;
-                DgReceipts.DataBind();
-            }
             LtrAmountRemaining.Text = (decimal.Parse(LtrAmountPayable.Text) - decimal.Parse(LtrAmountPaid.Text)).ToString();
         }
         else

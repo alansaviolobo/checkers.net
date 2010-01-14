@@ -29,6 +29,11 @@
                 <Ajax:AutoCompleteExtender ID="AutoCompSearch" runat="server" TargetControlID="TxtName"
                     ServiceMethod="GetInventoryList" CompletionInterval="100" CompletionSetCount="10"
                     ServicePath="~/CheckersWebService.asmx" MinimumPrefixLength="1" OnClientItemSelected="GetInventoryId" />
+                <asp:RequiredFieldValidator ID="ReqVldName" runat="server" 
+                    ControlToValidate="TxtName" Display="None" ErrorMessage="Please Enter A Name"></asp:RequiredFieldValidator>
+                <Ajax:ValidatorCalloutExtender ID="ReqVldNameExtender" runat="server" 
+                    Enabled="True" TargetControlID="ReqVldName">
+                </Ajax:ValidatorCalloutExtender>
                 <asp:Button ID="BtnSearch" runat="server" Text="Search" OnClick="BtnSearch_Click" />
             </td>
         </tr>
@@ -38,6 +43,8 @@
             </td>
             <td>
                 <asp:TextBox ID="TxtExistingQuantity" runat="server" ReadOnly="true" />
+                &nbsp;
+                <asp:Literal ID="LtrPurchaseUnit1" runat="server" />
             </td>
         </tr>
         <tr>
@@ -46,6 +53,8 @@
             </td>
             <td>
                 <asp:TextBox ID="TxtPurchaseQuantity" runat="server" />
+                &nbsp;
+                <asp:Literal ID="LtrPurchaseUnit2" runat="server" />
             </td>
         </tr>
         <tr>

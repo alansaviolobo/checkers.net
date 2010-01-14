@@ -77,7 +77,7 @@ public partial class Report : System.Web.UI.Page
         switch (ReportType)
         {
             case "Sales":
-                SqlStatement = "select * from invoice where (convert(char(10), invoice_timestamp, 103) between '" + FromDate + "' and '" + ToDate + "')";
+                SqlStatement = "select * from invoice where invoice_status = 0 and (convert(char(10), invoice_timestamp, 103) between '" + FromDate + "' and '" + ToDate + "')";
                 var Invoice = Checkers.ExecuteQuery<Invoice>(SqlStatement);
                 decimal BarItems = 0, RestaurantItems = 0;
 

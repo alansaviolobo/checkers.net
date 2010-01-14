@@ -34,6 +34,11 @@
                     ServiceMethod="GetMenuList" CompletionInterval="100" CompletionSetCount="10"
                     ServicePath="~/CheckersWebService.asmx" MinimumPrefixLength="1" OnClientItemSelected="GetMenuId"
                     Enabled="false" />
+                <asp:RequiredFieldValidator ID="ReqVldName" runat="server" 
+                    ControlToValidate="TxtName" Display="None" ErrorMessage="Please Enter The Name"></asp:RequiredFieldValidator>
+                <Ajax:ValidatorCalloutExtender ID="ReqVldNameExtender" runat="server" 
+                    Enabled="True" TargetControlID="ReqVldName">
+                </Ajax:ValidatorCalloutExtender>
                 <asp:Button ID="BtnSearch" runat="server" Text="Search" Visible="False" OnClick="BtnSearch_Click" />
             </td>
         </tr>
@@ -42,7 +47,10 @@
                 Category
             </td>
             <td>
-                <asp:DropDownList ID="DdlCategory" runat="server" />
+                <asp:DropDownList ID="DdlCategory" runat="server">
+                    <asp:ListItem>Restaurant</asp:ListItem>
+                    <asp:ListItem>Bar</asp:ListItem>
+                </asp:DropDownList>
             </td>
         </tr>
         <tr>
