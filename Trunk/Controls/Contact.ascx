@@ -72,11 +72,6 @@
         </td>
         <td>
             <asp:TextBox ID="TxtPersonalEmail" runat="server" />
-            <asp:RegularExpressionValidator ID="RegVldPersonalEmail" runat="server" ErrorMessage="Email Not In Proper Format."
-                ControlToValidate="TxtPersonalEmail" Display="None" ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*" />
-            <Ajax:ValidatorCalloutExtender ID="RegVldPersonalEmailExtender" runat="server" Enabled="True"
-                TargetControlID="RegVldPersonalEmail">
-            </Ajax:ValidatorCalloutExtender>
         </td>
     </tr>
     <tr>

@@ -53,9 +53,15 @@ public partial class CheckersDataContext : System.Data.Linq.DataContext
   partial void InsertInventory(Inventory instance);
   partial void UpdateInventory(Inventory instance);
   partial void DeleteInventory(Inventory instance);
+  partial void InsertInvoice(Invoice instance);
+  partial void UpdateInvoice(Invoice instance);
+  partial void DeleteInvoice(Invoice instance);
   partial void InsertMenu(Menu instance);
   partial void UpdateMenu(Menu instance);
   partial void DeleteMenu(Menu instance);
+  partial void InsertOffer(Offer instance);
+  partial void UpdateOffer(Offer instance);
+  partial void DeleteOffer(Offer instance);
   partial void InsertPackage(Package instance);
   partial void UpdatePackage(Package instance);
   partial void DeletePackage(Package instance);
@@ -68,21 +74,15 @@ public partial class CheckersDataContext : System.Data.Linq.DataContext
   partial void InsertPurchase(Purchase instance);
   partial void UpdatePurchase(Purchase instance);
   partial void DeletePurchase(Purchase instance);
+  partial void InsertReceipt(Receipt instance);
+  partial void UpdateReceipt(Receipt instance);
+  partial void DeleteReceipt(Receipt instance);
   partial void InsertSale(Sale instance);
   partial void UpdateSale(Sale instance);
   partial void DeleteSale(Sale instance);
   partial void InsertSource(Source instance);
   partial void UpdateSource(Source instance);
   partial void DeleteSource(Source instance);
-  partial void InsertInvoice(Invoice instance);
-  partial void UpdateInvoice(Invoice instance);
-  partial void DeleteInvoice(Invoice instance);
-  partial void InsertReceipt(Receipt instance);
-  partial void UpdateReceipt(Receipt instance);
-  partial void DeleteReceipt(Receipt instance);
-  partial void InsertOffer(Offer instance);
-  partial void UpdateOffer(Offer instance);
-  partial void DeleteOffer(Offer instance);
   #endregion
 	
 	public CheckersDataContext() : 
@@ -179,11 +179,27 @@ public partial class CheckersDataContext : System.Data.Linq.DataContext
 		}
 	}
 	
+	public System.Data.Linq.Table<Invoice> Invoices
+	{
+		get
+		{
+			return this.GetTable<Invoice>();
+		}
+	}
+	
 	public System.Data.Linq.Table<Menu> Menus
 	{
 		get
 		{
 			return this.GetTable<Menu>();
+		}
+	}
+	
+	public System.Data.Linq.Table<Offer> Offers
+	{
+		get
+		{
+			return this.GetTable<Offer>();
 		}
 	}
 	
@@ -219,6 +235,14 @@ public partial class CheckersDataContext : System.Data.Linq.DataContext
 		}
 	}
 	
+	public System.Data.Linq.Table<Receipt> Receipts
+	{
+		get
+		{
+			return this.GetTable<Receipt>();
+		}
+	}
+	
 	public System.Data.Linq.Table<Sale> Sales
 	{
 		get
@@ -235,41 +259,17 @@ public partial class CheckersDataContext : System.Data.Linq.DataContext
 		}
 	}
 	
-	public System.Data.Linq.Table<Invoice> Invoices
+	[Function(Name="dbo.ActivityNew")]
+	public int ActivityNew([Parameter(Name="Action", DbType="VarChar(1000)")] string action, [Parameter(Name="User", DbType="Int")] System.Nullable<int> user)
 	{
-		get
-		{
-			return this.GetTable<Invoice>();
-		}
-	}
-	
-	public System.Data.Linq.Table<Receipt> Receipts
-	{
-		get
-		{
-			return this.GetTable<Receipt>();
-		}
-	}
-	
-	public System.Data.Linq.Table<Offer> Offers
-	{
-		get
-		{
-			return this.GetTable<Offer>();
-		}
+		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), action, user);
+		return ((int)(result.ReturnValue));
 	}
 	
 	[Function(Name="dbo.TokenNew")]
 	public int TokenNew([Parameter(Name="Type", DbType="VarChar(50)")] string type, [Parameter(Name="Menu", DbType="Int")] System.Nullable<int> menu, [Parameter(Name="Quantity", DbType="Decimal")] System.Nullable<decimal> quantity, [Parameter(Name="Source", DbType="Int")] System.Nullable<int> source)
 	{
 		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), type, menu, quantity, source);
-		return ((int)(result.ReturnValue));
-	}
-	
-	[Function(Name="dbo.ActivityNew")]
-	public int ActivityNew([Parameter(Name="Action", DbType="VarChar(1000)")] string action, [Parameter(Name="User", DbType="Int")] System.Nullable<int> user)
-	{
-		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), action, user);
 		return ((int)(result.ReturnValue));
 	}
 	
@@ -287,6 +287,13 @@ public partial class CheckersDataContext : System.Data.Linq.DataContext
 		return ((int)(result.ReturnValue));
 	}
 	
+	[Function(Name="dbo.CatalogNew")]
+	public int CatalogNew([Parameter(Name="Id", DbType="Int")] System.Nullable<int> id, [Parameter(Name="Name", DbType="VarChar(100)")] string name, [Parameter(Name="Type", DbType="VarChar(50)")] string type)
+	{
+		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id, name, type);
+		return ((int)(result.ReturnValue));
+	}
+	
 	[Function(Name="dbo.ChangePassword")]
 	public int ChangePassword([Parameter(Name="Id", DbType="Int")] System.Nullable<int> id, [Parameter(Name="OldPassword", DbType="VarChar(100)")] string oldPassword, [Parameter(Name="NewPassword", DbType="VarChar(100)")] string newPassword)
 	{
@@ -298,6 +305,20 @@ public partial class CheckersDataContext : System.Data.Linq.DataContext
 	public int ContactDelete([Parameter(Name="Id", DbType="Int")] System.Nullable<int> id)
 	{
 		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id);
+		return ((int)(result.ReturnValue));
+	}
+	
+	[Function(Name="dbo.ContactEdit")]
+	public int ContactEdit([Parameter(Name="Id", DbType="Int")] System.Nullable<int> id, [Parameter(Name="Name", DbType="VarChar(100)")] string name, [Parameter(Name="UserName", DbType="VarChar(100)")] string userName, [Parameter(Name="Password", DbType="VarChar(100)")] string password, [Parameter(Name="Type", DbType="VarChar(100)")] string type, [Parameter(Name="Phone", DbType="VarChar(100)")] string phone, [Parameter(Name="Address", DbType="VarChar(200)")] string address, [Parameter(Name="Email", DbType="VarChar(100)")] string email, [Parameter(Name="OrganizationName", DbType="VarChar(100)")] string organizationName, [Parameter(Name="OrganizationAddress", DbType="VarChar(200)")] string organizationAddress, [Parameter(Name="OrganizationPhone", DbType="VarChar(100)")] string organizationPhone)
+	{
+		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id, name, userName, password, type, phone, address, email, organizationName, organizationAddress, organizationPhone);
+		return ((int)(result.ReturnValue));
+	}
+	
+	[Function(Name="dbo.ContactNew")]
+	public int ContactNew([Parameter(Name="Id", DbType="Int")] System.Nullable<int> id, [Parameter(Name="Name", DbType="VarChar(100)")] string name, [Parameter(Name="UserName", DbType="VarChar(100)")] string userName, [Parameter(Name="Password", DbType="VarChar(100)")] string password, [Parameter(Name="Type", DbType="VarChar(100)")] string type, [Parameter(Name="Phone", DbType="VarChar(100)")] string phone, [Parameter(Name="Address", DbType="VarChar(200)")] string address, [Parameter(Name="Email", DbType="VarChar(100)")] string email, [Parameter(Name="OrganizationName", DbType="VarChar(100)")] string organizationName, [Parameter(Name="OrganizationAddress", DbType="VarChar(200)")] string organizationAddress, [Parameter(Name="OrganizationPhone", DbType="VarChar(100)")] string organizationPhone)
+	{
+		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id, name, userName, password, type, phone, address, email, organizationName, organizationAddress, organizationPhone);
 		return ((int)(result.ReturnValue));
 	}
 	
@@ -378,6 +399,90 @@ public partial class CheckersDataContext : System.Data.Linq.DataContext
 		return ((int)(result.ReturnValue));
 	}
 	
+	[Function(Name="dbo.InvoiceClose")]
+	public int InvoiceClose([Parameter(Name="Id", DbType="Int")] System.Nullable<int> id, [Parameter(Name="Source", DbType="Int")] System.Nullable<int> source, [Parameter(Name="PaymentMode", DbType="VarChar(100)")] string paymentMode)
+	{
+		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id, source, paymentMode);
+		return ((int)(result.ReturnValue));
+	}
+	
+	[Function(Name="dbo.InvoiceCloseCredit")]
+	public int InvoiceCloseCredit([Parameter(Name="Id", DbType="Int")] System.Nullable<int> id, [Parameter(Name="ClientId", DbType="Int")] System.Nullable<int> clientId, [Parameter(Name="Source", DbType="Int")] System.Nullable<int> source)
+	{
+		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id, clientId, source);
+		return ((int)(result.ReturnValue));
+	}
+	
+	[Function(Name="dbo.InvoiceCloseZeroBilling")]
+	public int InvoiceCloseZeroBilling([Parameter(Name="Id", DbType="Int")] System.Nullable<int> id, [Parameter(Name="Source", DbType="Int")] System.Nullable<int> source)
+	{
+		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id, source);
+		return ((int)(result.ReturnValue));
+	}
+	
+	[Function(Name="dbo.InvoiceDelete")]
+	public int InvoiceDelete([Parameter(Name="Id", DbType="Int")] System.Nullable<int> id, [Parameter(Name="Source", DbType="Int")] System.Nullable<int> source, [Parameter(Name="Reason", DbType="VarChar(200)")] string reason)
+	{
+		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id, source, reason);
+		return ((int)(result.ReturnValue));
+	}
+	
+	[Function(Name="dbo.InvoiceEdit")]
+	public int InvoiceEdit([Parameter(Name="Id", DbType="Int")] System.Nullable<int> id, [Parameter(Name="Amount", DbType="Decimal")] System.Nullable<decimal> amount, [Parameter(Name="Discount", DbType="Decimal")] System.Nullable<decimal> discount, [Parameter(Name="Tax", DbType="Decimal")] System.Nullable<decimal> tax, [Parameter(Name="Source", DbType="Int")] System.Nullable<int> source, [Parameter(Name="PaymentMode", DbType="VarChar(100)")] string paymentMode, [Parameter(Name="Status", DbType="Int")] System.Nullable<int> status, [Parameter(Name="Reason", DbType="VarChar(200)")] string reason)
+	{
+		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id, amount, discount, tax, source, paymentMode, status, reason);
+		return ((int)(result.ReturnValue));
+	}
+	
+	[Function(Name="dbo.InvoiceNew")]
+	public int InvoiceNew([Parameter(Name="Id", DbType="Int")] System.Nullable<int> id, [Parameter(Name="Amount", DbType="Decimal")] System.Nullable<decimal> amount, [Parameter(Name="Discount", DbType="Decimal")] System.Nullable<decimal> discount, [Parameter(Name="Tax", DbType="Decimal")] System.Nullable<decimal> tax, [Parameter(Name="Source", DbType="Int")] System.Nullable<int> source, [Parameter(Name="PaymentMode", DbType="VarChar(100)")] string paymentMode)
+	{
+		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id, amount, discount, tax, source, paymentMode);
+		return ((int)(result.ReturnValue));
+	}
+	
+	[Function(Name="dbo.MenuDelete")]
+	public int MenuDelete([Parameter(Name="Id", DbType="Int")] System.Nullable<int> id)
+	{
+		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id);
+		return ((int)(result.ReturnValue));
+	}
+	
+	[Function(Name="dbo.MenuEdit")]
+	public int MenuEdit([Parameter(Name="Id", DbType="Int")] System.Nullable<int> id, [Parameter(Name="Name", DbType="VarChar(100)")] string name, [Parameter(Name="Category", DbType="VarChar(100)")] string category, [Parameter(Name="Price", DbType="Decimal")] System.Nullable<decimal> price)
+	{
+		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id, name, category, price);
+		return ((int)(result.ReturnValue));
+	}
+	
+	[Function(Name="dbo.MenuNew")]
+	public int MenuNew([Parameter(Name="Id", DbType="Int")] System.Nullable<int> id, [Parameter(Name="Name", DbType="VarChar(100)")] string name, [Parameter(Name="Category", DbType="VarChar(100)")] string category, [Parameter(Name="Price", DbType="Decimal")] System.Nullable<decimal> price)
+	{
+		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id, name, category, price);
+		return ((int)(result.ReturnValue));
+	}
+	
+	[Function(Name="dbo.OfferDelete")]
+	public int OfferDelete([Parameter(Name="Name", DbType="VarChar(100)")] string name)
+	{
+		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), name);
+		return ((int)(result.ReturnValue));
+	}
+	
+	[Function(Name="dbo.OfferEdit")]
+	public int OfferEdit([Parameter(Name="OldName", DbType="VarChar(100)")] string oldName, [Parameter(Name="Name", DbType="VarChar(100)")] string name)
+	{
+		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), oldName, name);
+		return ((int)(result.ReturnValue));
+	}
+	
+	[Function(Name="dbo.OfferItemDelete")]
+	public int OfferItemDelete([Parameter(Name="Id", DbType="Int")] System.Nullable<int> id)
+	{
+		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id);
+		return ((int)(result.ReturnValue));
+	}
+	
 	[Function(Name="dbo.PackageDelete")]
 	public int PackageDelete([Parameter(Name="Id", DbType="Int")] System.Nullable<int> id)
 	{
@@ -434,6 +539,20 @@ public partial class CheckersDataContext : System.Data.Linq.DataContext
 		return ((int)(result.ReturnValue));
 	}
 	
+	[Function(Name="dbo.ReceiptDelete")]
+	public int ReceiptDelete([Parameter(Name="Id", DbType="Int")] System.Nullable<int> id, [Parameter(Name="ClientId", DbType="Int")] System.Nullable<int> clientId)
+	{
+		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id, clientId);
+		return ((int)(result.ReturnValue));
+	}
+	
+	[Function(Name="dbo.ReceiptNew")]
+	public int ReceiptNew([Parameter(Name="Amount", DbType="Decimal")] System.Nullable<decimal> amount, [Parameter(Name="PaymentMode", DbType="VarChar(100)")] string paymentMode, [Parameter(Name="ClientId", DbType="Int")] System.Nullable<int> clientId)
+	{
+		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), amount, paymentMode, clientId);
+		return ((int)(result.ReturnValue));
+	}
+	
 	[Function(Name="dbo.SalesDelete")]
 	public int SalesDelete([Parameter(Name="Id", DbType="Int")] System.Nullable<int> id, [Parameter(Name="Menu", DbType="Int")] System.Nullable<int> menu, [Parameter(Name="Quantity", DbType="Decimal")] System.Nullable<decimal> quantity, [Parameter(Name="Source", DbType="Int")] System.Nullable<int> source, [Parameter(Name="SourceType", DbType="VarChar(100)")] string sourceType)
 	{
@@ -469,122 +588,10 @@ public partial class CheckersDataContext : System.Data.Linq.DataContext
 		return ((int)(result.ReturnValue));
 	}
 	
-	[Function(Name="dbo.ReceiptNew")]
-	public int ReceiptNew([Parameter(Name="Amount", DbType="Decimal")] System.Nullable<decimal> amount, [Parameter(Name="PaymentMode", DbType="VarChar(100)")] string paymentMode, [Parameter(Name="ClientId", DbType="Int")] System.Nullable<int> clientId)
-	{
-		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), amount, paymentMode, clientId);
-		return ((int)(result.ReturnValue));
-	}
-	
-	[Function(Name="dbo.ReceiptDelete")]
-	public int ReceiptDelete([Parameter(Name="Id", DbType="Int")] System.Nullable<int> id, [Parameter(Name="ClientId", DbType="Int")] System.Nullable<int> clientId)
-	{
-		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id, clientId);
-		return ((int)(result.ReturnValue));
-	}
-	
-	[Function(Name="dbo.InvoiceClose")]
-	public int InvoiceClose([Parameter(Name="Id", DbType="Int")] System.Nullable<int> id, [Parameter(Name="Source", DbType="Int")] System.Nullable<int> source, [Parameter(Name="PaymentMode", DbType="VarChar(100)")] string paymentMode)
-	{
-		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id, source, paymentMode);
-		return ((int)(result.ReturnValue));
-	}
-	
-	[Function(Name="dbo.InvoiceCloseCredit")]
-	public int InvoiceCloseCredit([Parameter(Name="Id", DbType="Int")] System.Nullable<int> id, [Parameter(Name="ClientId", DbType="Int")] System.Nullable<int> clientId, [Parameter(Name="Source", DbType="Int")] System.Nullable<int> source)
-	{
-		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id, clientId, source);
-		return ((int)(result.ReturnValue));
-	}
-	
-	[Function(Name="dbo.InvoiceCloseZeroBilling")]
-	public int InvoiceCloseZeroBilling([Parameter(Name="Id", DbType="Int")] System.Nullable<int> id, [Parameter(Name="Source", DbType="Int")] System.Nullable<int> source)
-	{
-		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id, source);
-		return ((int)(result.ReturnValue));
-	}
-	
-	[Function(Name="dbo.InvoiceDelete")]
-	public int InvoiceDelete([Parameter(Name="Id", DbType="Int")] System.Nullable<int> id, [Parameter(Name="Source", DbType="Int")] System.Nullable<int> source, [Parameter(Name="Reason", DbType="VarChar(200)")] string reason)
-	{
-		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id, source, reason);
-		return ((int)(result.ReturnValue));
-	}
-	
-	[Function(Name="dbo.InvoiceEdit")]
-	public int InvoiceEdit([Parameter(Name="Id", DbType="Int")] System.Nullable<int> id, [Parameter(Name="Amount", DbType="Decimal")] System.Nullable<decimal> amount, [Parameter(Name="Discount", DbType="Decimal")] System.Nullable<decimal> discount, [Parameter(Name="Tax", DbType="Decimal")] System.Nullable<decimal> tax, [Parameter(Name="Source", DbType="Int")] System.Nullable<int> source, [Parameter(Name="PaymentMode", DbType="VarChar(100)")] string paymentMode, [Parameter(Name="Status", DbType="Int")] System.Nullable<int> status, [Parameter(Name="Reason", DbType="VarChar(200)")] string reason)
-	{
-		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id, amount, discount, tax, source, paymentMode, status, reason);
-		return ((int)(result.ReturnValue));
-	}
-	
-	[Function(Name="dbo.InvoiceNew")]
-	public int InvoiceNew([Parameter(Name="Id", DbType="Int")] System.Nullable<int> id, [Parameter(Name="Amount", DbType="Decimal")] System.Nullable<decimal> amount, [Parameter(Name="Discount", DbType="Decimal")] System.Nullable<decimal> discount, [Parameter(Name="Tax", DbType="Decimal")] System.Nullable<decimal> tax, [Parameter(Name="Source", DbType="Int")] System.Nullable<int> source, [Parameter(Name="PaymentMode", DbType="VarChar(100)")] string paymentMode)
-	{
-		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id, amount, discount, tax, source, paymentMode);
-		return ((int)(result.ReturnValue));
-	}
-	
-	[Function(Name="dbo.MenuNew")]
-	public int MenuNew([Parameter(Name="Id", DbType="Int")] System.Nullable<int> id, [Parameter(Name="Name", DbType="VarChar(100)")] string name, [Parameter(Name="Category", DbType="VarChar(100)")] string category, [Parameter(Name="Price", DbType="Decimal")] System.Nullable<decimal> price)
-	{
-		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id, name, category, price);
-		return ((int)(result.ReturnValue));
-	}
-	
-	[Function(Name="dbo.MenuEdit")]
-	public int MenuEdit([Parameter(Name="Id", DbType="Int")] System.Nullable<int> id, [Parameter(Name="Name", DbType="VarChar(100)")] string name, [Parameter(Name="Category", DbType="VarChar(100)")] string category, [Parameter(Name="Price", DbType="Decimal")] System.Nullable<decimal> price)
-	{
-		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id, name, category, price);
-		return ((int)(result.ReturnValue));
-	}
-	
-	[Function(Name="dbo.MenuDelete")]
-	public int MenuDelete([Parameter(Name="Id", DbType="Int")] System.Nullable<int> id)
-	{
-		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id);
-		return ((int)(result.ReturnValue));
-	}
-	
-	[Function(Name="dbo.OfferDelete")]
-	public int OfferDelete([Parameter(Name="Name", DbType="VarChar(100)")] string name)
-	{
-		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), name);
-		return ((int)(result.ReturnValue));
-	}
-	
-	[Function(Name="dbo.OfferEdit")]
-	public int OfferEdit([Parameter(Name="OldName", DbType="VarChar(100)")] string oldName, [Parameter(Name="Name", DbType="VarChar(100)")] string name)
-	{
-		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), oldName, name);
-		return ((int)(result.ReturnValue));
-	}
-	
-	[Function(Name="dbo.OfferItemDelete")]
-	public int OfferItemDelete([Parameter(Name="Id", DbType="Int")] System.Nullable<int> id)
-	{
-		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id);
-		return ((int)(result.ReturnValue));
-	}
-	
 	[Function(Name="dbo.OfferNew")]
-	public int OfferNew([Parameter(Name="Name", DbType="VarChar(100)")] string name, [Parameter(Name="Menu", DbType="Int")] System.Nullable<int> menu, [Parameter(Name="Quantity", DbType="Int")] System.Nullable<int> quantity, [Parameter(Name="Type", DbType="Char(10)")] string type)
+	public int OfferNew([Parameter(Name="Name", DbType="VarChar(100)")] string name, [Parameter(Name="Menu", DbType="Int")] System.Nullable<int> menu, [Parameter(Name="Quantity", DbType="Int")] System.Nullable<int> quantity, [Parameter(Name="Discount", DbType="Int")] System.Nullable<int> discount, [Parameter(Name="Type", DbType="Char(10)")] string type)
 	{
-		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), name, menu, quantity, type);
-		return ((int)(result.ReturnValue));
-	}
-	
-	[Function(Name="dbo.ContactEdit")]
-	public int ContactEdit([Parameter(Name="Id", DbType="Int")] System.Nullable<int> id, [Parameter(Name="Name", DbType="VarChar(100)")] string name, [Parameter(Name="UserName", DbType="VarChar(100)")] string userName, [Parameter(Name="Password", DbType="VarChar(100)")] string password, [Parameter(Name="Type", DbType="VarChar(100)")] string type, [Parameter(Name="Phone", DbType="VarChar(100)")] string phone, [Parameter(Name="Address", DbType="VarChar(200)")] string address, [Parameter(Name="Email", DbType="VarChar(100)")] string email, [Parameter(Name="OrganizationName", DbType="VarChar(100)")] string organizationName, [Parameter(Name="OrganizationAddress", DbType="VarChar(200)")] string organizationAddress, [Parameter(Name="OrganizationPhone", DbType="VarChar(100)")] string organizationPhone)
-	{
-		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id, name, userName, password, type, phone, address, email, organizationName, organizationAddress, organizationPhone);
-		return ((int)(result.ReturnValue));
-	}
-	
-	[Function(Name="dbo.ContactNew")]
-	public int ContactNew([Parameter(Name="Id", DbType="Int")] System.Nullable<int> id, [Parameter(Name="Name", DbType="VarChar(100)")] string name, [Parameter(Name="UserName", DbType="VarChar(100)")] string userName, [Parameter(Name="Password", DbType="VarChar(100)")] string password, [Parameter(Name="Type", DbType="VarChar(100)")] string type, [Parameter(Name="Phone", DbType="VarChar(100)")] string phone, [Parameter(Name="Address", DbType="VarChar(200)")] string address, [Parameter(Name="Email", DbType="VarChar(100)")] string email, [Parameter(Name="OrganizationName", DbType="VarChar(100)")] string organizationName, [Parameter(Name="OrganizationAddress", DbType="VarChar(200)")] string organizationAddress, [Parameter(Name="OrganizationPhone", DbType="VarChar(100)")] string organizationPhone)
-	{
-		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id, name, userName, password, type, phone, address, email, organizationName, organizationAddress, organizationPhone);
+		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), name, menu, quantity, discount, type);
 		return ((int)(result.ReturnValue));
 	}
 }
@@ -828,7 +835,7 @@ public partial class Token : INotifyPropertyChanging, INotifyPropertyChanged
 		}
 	}
 	
-	[Column(Storage="_Token_Quantity", DbType="Decimal(6,2)")]
+	[Column(Storage="_Token_Quantity", DbType="Decimal(10,2)")]
 	public System.Nullable<decimal> Token_Quantity
 	{
 		get
@@ -1380,7 +1387,7 @@ public partial class Contact : INotifyPropertyChanging, INotifyPropertyChanged
 		}
 	}
 	
-	[Column(Storage="_Contact_Credit", DbType="Decimal(6,2)")]
+	[Column(Storage="_Contact_Credit", DbType="Decimal(10,2)")]
 	public System.Nullable<decimal> Contact_Credit
 	{
 		get
@@ -1554,7 +1561,7 @@ public partial class Content : INotifyPropertyChanging, INotifyPropertyChanged
 		}
 	}
 	
-	[Column(Storage="_Content_Quantity", DbType="Decimal(6,2)")]
+	[Column(Storage="_Content_Quantity", DbType="Decimal(10,2)")]
 	public System.Nullable<decimal> Content_Quantity
 	{
 		get
@@ -1574,7 +1581,7 @@ public partial class Content : INotifyPropertyChanging, INotifyPropertyChanged
 		}
 	}
 	
-	[Column(Storage="_Content_UnitPrice", DbType="Decimal(6,2)")]
+	[Column(Storage="_Content_UnitPrice", DbType="Decimal(10,2)")]
 	public System.Nullable<decimal> Content_UnitPrice
 	{
 		get
@@ -1594,7 +1601,7 @@ public partial class Content : INotifyPropertyChanging, INotifyPropertyChanged
 		}
 	}
 	
-	[Column(Storage="_Content_Discount", DbType="Decimal(6,2)")]
+	[Column(Storage="_Content_Discount", DbType="Decimal(10,2)")]
 	public System.Nullable<decimal> Content_Discount
 	{
 		get
@@ -1614,7 +1621,7 @@ public partial class Content : INotifyPropertyChanging, INotifyPropertyChanged
 		}
 	}
 	
-	[Column(Storage="_Content_Cost", DbType="Decimal(6,2)")]
+	[Column(Storage="_Content_Cost", DbType="Decimal(10,2)")]
 	public System.Nullable<decimal> Content_Cost
 	{
 		get
@@ -1816,7 +1823,7 @@ public partial class Converter : INotifyPropertyChanging, INotifyPropertyChanged
 		}
 	}
 	
-	[Column(Storage="_Converter_InventoryQuantity", DbType="Decimal(6,2)")]
+	[Column(Storage="_Converter_InventoryQuantity", DbType="Decimal(10,2)")]
 	public System.Nullable<decimal> Converter_InventoryQuantity
 	{
 		get
@@ -2220,7 +2227,7 @@ public partial class Inventory : INotifyPropertyChanging, INotifyPropertyChanged
 		}
 	}
 	
-	[Column(Storage="_Inventory_BuyingPrice", DbType="Decimal(6,2)")]
+	[Column(Storage="_Inventory_BuyingPrice", DbType="Decimal(10,2)")]
 	public System.Nullable<decimal> Inventory_BuyingPrice
 	{
 		get
@@ -2240,7 +2247,7 @@ public partial class Inventory : INotifyPropertyChanging, INotifyPropertyChanged
 		}
 	}
 	
-	[Column(Storage="_Inventory_Threshold", DbType="Decimal(6,2)")]
+	[Column(Storage="_Inventory_Threshold", DbType="Decimal(10,2)")]
 	public System.Nullable<decimal> Inventory_Threshold
 	{
 		get
@@ -2260,7 +2267,7 @@ public partial class Inventory : INotifyPropertyChanging, INotifyPropertyChanged
 		}
 	}
 	
-	[Column(Storage="_Inventory_Quantity", DbType="Decimal(6,2)")]
+	[Column(Storage="_Inventory_Quantity", DbType="Decimal(10,2)")]
 	public System.Nullable<decimal> Inventory_Quantity
 	{
 		get
@@ -2300,7 +2307,7 @@ public partial class Inventory : INotifyPropertyChanging, INotifyPropertyChanged
 		}
 	}
 	
-	[Column(Storage="_Inventory_ConversionUnit", DbType="Decimal(6,2)")]
+	[Column(Storage="_Inventory_ConversionUnit", DbType="Decimal(10,2)")]
 	public System.Nullable<decimal> Inventory_ConversionUnit
 	{
 		get
@@ -2356,6 +2363,284 @@ public partial class Inventory : INotifyPropertyChanging, INotifyPropertyChanged
 				this._Inventory_TimeStamp = value;
 				this.SendPropertyChanged("Inventory_TimeStamp");
 				this.OnInventory_TimeStampChanged();
+			}
+		}
+	}
+	
+	public event PropertyChangingEventHandler PropertyChanging;
+	
+	public event PropertyChangedEventHandler PropertyChanged;
+	
+	protected virtual void SendPropertyChanging()
+	{
+		if ((this.PropertyChanging != null))
+		{
+			this.PropertyChanging(this, emptyChangingEventArgs);
+		}
+	}
+	
+	protected virtual void SendPropertyChanged(String propertyName)
+	{
+		if ((this.PropertyChanged != null))
+		{
+			this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+		}
+	}
+}
+
+[Table(Name="dbo.Invoice")]
+public partial class Invoice : INotifyPropertyChanging, INotifyPropertyChanged
+{
+	
+	private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+	
+	private int _Invoice_Id;
+	
+	private System.Nullable<decimal> _Invoice_Amount;
+	
+	private System.Nullable<decimal> _Invoice_Discount;
+	
+	private System.Nullable<decimal> _Invoice_Tax;
+	
+	private System.Nullable<int> _Invoice_Source;
+	
+	private string _Invoice_PaymentMode;
+	
+	private string _Invoice_Reason;
+	
+	private System.Nullable<int> _Invoice_Client;
+	
+	private System.Nullable<int> _Invoice_Status;
+	
+	private System.Nullable<System.DateTime> _Invoice_TimeStamp;
+	
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnInvoice_IdChanging(int value);
+    partial void OnInvoice_IdChanged();
+    partial void OnInvoice_AmountChanging(System.Nullable<decimal> value);
+    partial void OnInvoice_AmountChanged();
+    partial void OnInvoice_DiscountChanging(System.Nullable<decimal> value);
+    partial void OnInvoice_DiscountChanged();
+    partial void OnInvoice_TaxChanging(System.Nullable<decimal> value);
+    partial void OnInvoice_TaxChanged();
+    partial void OnInvoice_SourceChanging(System.Nullable<int> value);
+    partial void OnInvoice_SourceChanged();
+    partial void OnInvoice_PaymentModeChanging(string value);
+    partial void OnInvoice_PaymentModeChanged();
+    partial void OnInvoice_ReasonChanging(string value);
+    partial void OnInvoice_ReasonChanged();
+    partial void OnInvoice_ClientChanging(System.Nullable<int> value);
+    partial void OnInvoice_ClientChanged();
+    partial void OnInvoice_StatusChanging(System.Nullable<int> value);
+    partial void OnInvoice_StatusChanged();
+    partial void OnInvoice_TimeStampChanging(System.Nullable<System.DateTime> value);
+    partial void OnInvoice_TimeStampChanged();
+    #endregion
+	
+	public Invoice()
+	{
+		OnCreated();
+	}
+	
+	[Column(Storage="_Invoice_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+	public int Invoice_Id
+	{
+		get
+		{
+			return this._Invoice_Id;
+		}
+		set
+		{
+			if ((this._Invoice_Id != value))
+			{
+				this.OnInvoice_IdChanging(value);
+				this.SendPropertyChanging();
+				this._Invoice_Id = value;
+				this.SendPropertyChanged("Invoice_Id");
+				this.OnInvoice_IdChanged();
+			}
+		}
+	}
+	
+	[Column(Storage="_Invoice_Amount", DbType="Decimal(10,2)")]
+	public System.Nullable<decimal> Invoice_Amount
+	{
+		get
+		{
+			return this._Invoice_Amount;
+		}
+		set
+		{
+			if ((this._Invoice_Amount != value))
+			{
+				this.OnInvoice_AmountChanging(value);
+				this.SendPropertyChanging();
+				this._Invoice_Amount = value;
+				this.SendPropertyChanged("Invoice_Amount");
+				this.OnInvoice_AmountChanged();
+			}
+		}
+	}
+	
+	[Column(Storage="_Invoice_Discount", DbType="Decimal(10,2)")]
+	public System.Nullable<decimal> Invoice_Discount
+	{
+		get
+		{
+			return this._Invoice_Discount;
+		}
+		set
+		{
+			if ((this._Invoice_Discount != value))
+			{
+				this.OnInvoice_DiscountChanging(value);
+				this.SendPropertyChanging();
+				this._Invoice_Discount = value;
+				this.SendPropertyChanged("Invoice_Discount");
+				this.OnInvoice_DiscountChanged();
+			}
+		}
+	}
+	
+	[Column(Storage="_Invoice_Tax", DbType="Decimal(10,2)")]
+	public System.Nullable<decimal> Invoice_Tax
+	{
+		get
+		{
+			return this._Invoice_Tax;
+		}
+		set
+		{
+			if ((this._Invoice_Tax != value))
+			{
+				this.OnInvoice_TaxChanging(value);
+				this.SendPropertyChanging();
+				this._Invoice_Tax = value;
+				this.SendPropertyChanged("Invoice_Tax");
+				this.OnInvoice_TaxChanged();
+			}
+		}
+	}
+	
+	[Column(Storage="_Invoice_Source", DbType="Int")]
+	public System.Nullable<int> Invoice_Source
+	{
+		get
+		{
+			return this._Invoice_Source;
+		}
+		set
+		{
+			if ((this._Invoice_Source != value))
+			{
+				this.OnInvoice_SourceChanging(value);
+				this.SendPropertyChanging();
+				this._Invoice_Source = value;
+				this.SendPropertyChanged("Invoice_Source");
+				this.OnInvoice_SourceChanged();
+			}
+		}
+	}
+	
+	[Column(Storage="_Invoice_PaymentMode", DbType="VarChar(100)")]
+	public string Invoice_PaymentMode
+	{
+		get
+		{
+			return this._Invoice_PaymentMode;
+		}
+		set
+		{
+			if ((this._Invoice_PaymentMode != value))
+			{
+				this.OnInvoice_PaymentModeChanging(value);
+				this.SendPropertyChanging();
+				this._Invoice_PaymentMode = value;
+				this.SendPropertyChanged("Invoice_PaymentMode");
+				this.OnInvoice_PaymentModeChanged();
+			}
+		}
+	}
+	
+	[Column(Storage="_Invoice_Reason", DbType="VarChar(200)")]
+	public string Invoice_Reason
+	{
+		get
+		{
+			return this._Invoice_Reason;
+		}
+		set
+		{
+			if ((this._Invoice_Reason != value))
+			{
+				this.OnInvoice_ReasonChanging(value);
+				this.SendPropertyChanging();
+				this._Invoice_Reason = value;
+				this.SendPropertyChanged("Invoice_Reason");
+				this.OnInvoice_ReasonChanged();
+			}
+		}
+	}
+	
+	[Column(Storage="_Invoice_Client", DbType="Int")]
+	public System.Nullable<int> Invoice_Client
+	{
+		get
+		{
+			return this._Invoice_Client;
+		}
+		set
+		{
+			if ((this._Invoice_Client != value))
+			{
+				this.OnInvoice_ClientChanging(value);
+				this.SendPropertyChanging();
+				this._Invoice_Client = value;
+				this.SendPropertyChanged("Invoice_Client");
+				this.OnInvoice_ClientChanged();
+			}
+		}
+	}
+	
+	[Column(Storage="_Invoice_Status", DbType="Int")]
+	public System.Nullable<int> Invoice_Status
+	{
+		get
+		{
+			return this._Invoice_Status;
+		}
+		set
+		{
+			if ((this._Invoice_Status != value))
+			{
+				this.OnInvoice_StatusChanging(value);
+				this.SendPropertyChanging();
+				this._Invoice_Status = value;
+				this.SendPropertyChanged("Invoice_Status");
+				this.OnInvoice_StatusChanged();
+			}
+		}
+	}
+	
+	[Column(Storage="_Invoice_TimeStamp", DbType="DateTime")]
+	public System.Nullable<System.DateTime> Invoice_TimeStamp
+	{
+		get
+		{
+			return this._Invoice_TimeStamp;
+		}
+		set
+		{
+			if ((this._Invoice_TimeStamp != value))
+			{
+				this.OnInvoice_TimeStampChanging(value);
+				this.SendPropertyChanging();
+				this._Invoice_TimeStamp = value;
+				this.SendPropertyChanged("Invoice_TimeStamp");
+				this.OnInvoice_TimeStampChanged();
 			}
 		}
 	}
@@ -2482,7 +2767,7 @@ public partial class Menu : INotifyPropertyChanging, INotifyPropertyChanged
 		}
 	}
 	
-	[Column(Storage="_Menu_SellingPrice", DbType="Decimal(6,2)")]
+	[Column(Storage="_Menu_SellingPrice", DbType="Decimal(10,2)")]
 	public System.Nullable<decimal> Menu_SellingPrice
 	{
 		get
@@ -2538,6 +2823,236 @@ public partial class Menu : INotifyPropertyChanging, INotifyPropertyChanged
 				this._Menu_TimeStamp = value;
 				this.SendPropertyChanged("Menu_TimeStamp");
 				this.OnMenu_TimeStampChanged();
+			}
+		}
+	}
+	
+	public event PropertyChangingEventHandler PropertyChanging;
+	
+	public event PropertyChangedEventHandler PropertyChanged;
+	
+	protected virtual void SendPropertyChanging()
+	{
+		if ((this.PropertyChanging != null))
+		{
+			this.PropertyChanging(this, emptyChangingEventArgs);
+		}
+	}
+	
+	protected virtual void SendPropertyChanged(String propertyName)
+	{
+		if ((this.PropertyChanged != null))
+		{
+			this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+		}
+	}
+}
+
+[Table(Name="dbo.Offer")]
+public partial class Offer : INotifyPropertyChanging, INotifyPropertyChanged
+{
+	
+	private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+	
+	private int _Offer_Id;
+	
+	private string _Offer_Name;
+	
+	private System.Nullable<int> _Offer_Menu;
+	
+	private System.Nullable<int> _Offer_Quantity;
+	
+	private System.Nullable<decimal> _Offer_Cost;
+	
+	private string _Offer_Type;
+	
+	private System.Nullable<int> _Offer_Status;
+	
+	private System.Nullable<System.DateTime> _Offer_TimeStamp;
+	
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnOffer_IdChanging(int value);
+    partial void OnOffer_IdChanged();
+    partial void OnOffer_NameChanging(string value);
+    partial void OnOffer_NameChanged();
+    partial void OnOffer_MenuChanging(System.Nullable<int> value);
+    partial void OnOffer_MenuChanged();
+    partial void OnOffer_QuantityChanging(System.Nullable<int> value);
+    partial void OnOffer_QuantityChanged();
+    partial void OnOffer_CostChanging(System.Nullable<decimal> value);
+    partial void OnOffer_CostChanged();
+    partial void OnOffer_TypeChanging(string value);
+    partial void OnOffer_TypeChanged();
+    partial void OnOffer_StatusChanging(System.Nullable<int> value);
+    partial void OnOffer_StatusChanged();
+    partial void OnOffer_TimeStampChanging(System.Nullable<System.DateTime> value);
+    partial void OnOffer_TimeStampChanged();
+    #endregion
+	
+	public Offer()
+	{
+		OnCreated();
+	}
+	
+	[Column(Storage="_Offer_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+	public int Offer_Id
+	{
+		get
+		{
+			return this._Offer_Id;
+		}
+		set
+		{
+			if ((this._Offer_Id != value))
+			{
+				this.OnOffer_IdChanging(value);
+				this.SendPropertyChanging();
+				this._Offer_Id = value;
+				this.SendPropertyChanged("Offer_Id");
+				this.OnOffer_IdChanged();
+			}
+		}
+	}
+	
+	[Column(Storage="_Offer_Name", DbType="VarChar(100)")]
+	public string Offer_Name
+	{
+		get
+		{
+			return this._Offer_Name;
+		}
+		set
+		{
+			if ((this._Offer_Name != value))
+			{
+				this.OnOffer_NameChanging(value);
+				this.SendPropertyChanging();
+				this._Offer_Name = value;
+				this.SendPropertyChanged("Offer_Name");
+				this.OnOffer_NameChanged();
+			}
+		}
+	}
+	
+	[Column(Storage="_Offer_Menu", DbType="Int")]
+	public System.Nullable<int> Offer_Menu
+	{
+		get
+		{
+			return this._Offer_Menu;
+		}
+		set
+		{
+			if ((this._Offer_Menu != value))
+			{
+				this.OnOffer_MenuChanging(value);
+				this.SendPropertyChanging();
+				this._Offer_Menu = value;
+				this.SendPropertyChanged("Offer_Menu");
+				this.OnOffer_MenuChanged();
+			}
+		}
+	}
+	
+	[Column(Storage="_Offer_Quantity", DbType="Int")]
+	public System.Nullable<int> Offer_Quantity
+	{
+		get
+		{
+			return this._Offer_Quantity;
+		}
+		set
+		{
+			if ((this._Offer_Quantity != value))
+			{
+				this.OnOffer_QuantityChanging(value);
+				this.SendPropertyChanging();
+				this._Offer_Quantity = value;
+				this.SendPropertyChanged("Offer_Quantity");
+				this.OnOffer_QuantityChanged();
+			}
+		}
+	}
+	
+	[Column(Storage="_Offer_Cost", DbType="Decimal(10,2)")]
+	public System.Nullable<decimal> Offer_Cost
+	{
+		get
+		{
+			return this._Offer_Cost;
+		}
+		set
+		{
+			if ((this._Offer_Cost != value))
+			{
+				this.OnOffer_CostChanging(value);
+				this.SendPropertyChanging();
+				this._Offer_Cost = value;
+				this.SendPropertyChanged("Offer_Cost");
+				this.OnOffer_CostChanged();
+			}
+		}
+	}
+	
+	[Column(Storage="_Offer_Type", DbType="Char(5)")]
+	public string Offer_Type
+	{
+		get
+		{
+			return this._Offer_Type;
+		}
+		set
+		{
+			if ((this._Offer_Type != value))
+			{
+				this.OnOffer_TypeChanging(value);
+				this.SendPropertyChanging();
+				this._Offer_Type = value;
+				this.SendPropertyChanged("Offer_Type");
+				this.OnOffer_TypeChanged();
+			}
+		}
+	}
+	
+	[Column(Storage="_Offer_Status", DbType="Int")]
+	public System.Nullable<int> Offer_Status
+	{
+		get
+		{
+			return this._Offer_Status;
+		}
+		set
+		{
+			if ((this._Offer_Status != value))
+			{
+				this.OnOffer_StatusChanging(value);
+				this.SendPropertyChanging();
+				this._Offer_Status = value;
+				this.SendPropertyChanged("Offer_Status");
+				this.OnOffer_StatusChanged();
+			}
+		}
+	}
+	
+	[Column(Storage="_Offer_TimeStamp", DbType="DateTime")]
+	public System.Nullable<System.DateTime> Offer_TimeStamp
+	{
+		get
+		{
+			return this._Offer_TimeStamp;
+		}
+		set
+		{
+			if ((this._Offer_TimeStamp != value))
+			{
+				this.OnOffer_TimeStampChanging(value);
+				this.SendPropertyChanging();
+				this._Offer_TimeStamp = value;
+				this.SendPropertyChanged("Offer_TimeStamp");
+				this.OnOffer_TimeStampChanged();
 			}
 		}
 	}
@@ -2806,7 +3321,7 @@ public partial class PettyCash : INotifyPropertyChanging, INotifyPropertyChanged
 		}
 	}
 	
-	[Column(Storage="_PettyCash_Amount", DbType="Decimal(6,2)")]
+	[Column(Storage="_PettyCash_Amount", DbType="Decimal(10,2)")]
 	public System.Nullable<decimal> PettyCash_Amount
 	{
 		get
@@ -2826,7 +3341,7 @@ public partial class PettyCash : INotifyPropertyChanging, INotifyPropertyChanged
 		}
 	}
 	
-	[Column(Storage="_PettyCash_Balance", DbType="Decimal(6,2)")]
+	[Column(Storage="_PettyCash_Balance", DbType="Decimal(10,2)")]
 	public System.Nullable<decimal> PettyCash_Balance
 	{
 		get
@@ -2988,7 +3503,7 @@ public partial class PettyExpense : INotifyPropertyChanging, INotifyPropertyChan
 		}
 	}
 	
-	[Column(Storage="_PettyExpense_Amount", DbType="Decimal(6,2)")]
+	[Column(Storage="_PettyExpense_Amount", DbType="Decimal(10,2)")]
 	public System.Nullable<decimal> PettyExpense_Amount
 	{
 		get
@@ -3028,7 +3543,7 @@ public partial class PettyExpense : INotifyPropertyChanging, INotifyPropertyChan
 		}
 	}
 	
-	[Column(Storage="_PettyExpense_Quantity", DbType="Decimal(6,2)")]
+	[Column(Storage="_PettyExpense_Quantity", DbType="Decimal(10,2)")]
 	public System.Nullable<decimal> PettyExpense_Quantity
 	{
 		get
@@ -3186,7 +3701,7 @@ public partial class Purchase : INotifyPropertyChanging, INotifyPropertyChanged
 		}
 	}
 	
-	[Column(Storage="_Purchase_Quantity", DbType="Decimal(6,2)")]
+	[Column(Storage="_Purchase_Quantity", DbType="Decimal(10,2)")]
 	public System.Nullable<decimal> Purchase_Quantity
 	{
 		get
@@ -3242,6 +3757,188 @@ public partial class Purchase : INotifyPropertyChanging, INotifyPropertyChanged
 				this._Purchase_TimeStamp = value;
 				this.SendPropertyChanged("Purchase_TimeStamp");
 				this.OnPurchase_TimeStampChanged();
+			}
+		}
+	}
+	
+	public event PropertyChangingEventHandler PropertyChanging;
+	
+	public event PropertyChangedEventHandler PropertyChanged;
+	
+	protected virtual void SendPropertyChanging()
+	{
+		if ((this.PropertyChanging != null))
+		{
+			this.PropertyChanging(this, emptyChangingEventArgs);
+		}
+	}
+	
+	protected virtual void SendPropertyChanged(String propertyName)
+	{
+		if ((this.PropertyChanged != null))
+		{
+			this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+		}
+	}
+}
+
+[Table(Name="dbo.Receipt")]
+public partial class Receipt : INotifyPropertyChanging, INotifyPropertyChanged
+{
+	
+	private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+	
+	private int _Receipt_Id;
+	
+	private System.Nullable<decimal> _Receipt_Amount;
+	
+	private string _Receipt_PaymentMode;
+	
+	private System.Nullable<int> _Receipt_Client;
+	
+	private System.Nullable<int> _Receipt_Status;
+	
+	private System.Nullable<System.DateTime> _Receipt_TimeStamp;
+	
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnReceipt_IdChanging(int value);
+    partial void OnReceipt_IdChanged();
+    partial void OnReceipt_AmountChanging(System.Nullable<decimal> value);
+    partial void OnReceipt_AmountChanged();
+    partial void OnReceipt_PaymentModeChanging(string value);
+    partial void OnReceipt_PaymentModeChanged();
+    partial void OnReceipt_ClientChanging(System.Nullable<int> value);
+    partial void OnReceipt_ClientChanged();
+    partial void OnReceipt_StatusChanging(System.Nullable<int> value);
+    partial void OnReceipt_StatusChanged();
+    partial void OnReceipt_TimeStampChanging(System.Nullable<System.DateTime> value);
+    partial void OnReceipt_TimeStampChanged();
+    #endregion
+	
+	public Receipt()
+	{
+		OnCreated();
+	}
+	
+	[Column(Storage="_Receipt_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+	public int Receipt_Id
+	{
+		get
+		{
+			return this._Receipt_Id;
+		}
+		set
+		{
+			if ((this._Receipt_Id != value))
+			{
+				this.OnReceipt_IdChanging(value);
+				this.SendPropertyChanging();
+				this._Receipt_Id = value;
+				this.SendPropertyChanged("Receipt_Id");
+				this.OnReceipt_IdChanged();
+			}
+		}
+	}
+	
+	[Column(Storage="_Receipt_Amount", DbType="Decimal(10,2)")]
+	public System.Nullable<decimal> Receipt_Amount
+	{
+		get
+		{
+			return this._Receipt_Amount;
+		}
+		set
+		{
+			if ((this._Receipt_Amount != value))
+			{
+				this.OnReceipt_AmountChanging(value);
+				this.SendPropertyChanging();
+				this._Receipt_Amount = value;
+				this.SendPropertyChanged("Receipt_Amount");
+				this.OnReceipt_AmountChanged();
+			}
+		}
+	}
+	
+	[Column(Storage="_Receipt_PaymentMode", DbType="VarChar(100)")]
+	public string Receipt_PaymentMode
+	{
+		get
+		{
+			return this._Receipt_PaymentMode;
+		}
+		set
+		{
+			if ((this._Receipt_PaymentMode != value))
+			{
+				this.OnReceipt_PaymentModeChanging(value);
+				this.SendPropertyChanging();
+				this._Receipt_PaymentMode = value;
+				this.SendPropertyChanged("Receipt_PaymentMode");
+				this.OnReceipt_PaymentModeChanged();
+			}
+		}
+	}
+	
+	[Column(Storage="_Receipt_Client", DbType="Int")]
+	public System.Nullable<int> Receipt_Client
+	{
+		get
+		{
+			return this._Receipt_Client;
+		}
+		set
+		{
+			if ((this._Receipt_Client != value))
+			{
+				this.OnReceipt_ClientChanging(value);
+				this.SendPropertyChanging();
+				this._Receipt_Client = value;
+				this.SendPropertyChanged("Receipt_Client");
+				this.OnReceipt_ClientChanged();
+			}
+		}
+	}
+	
+	[Column(Storage="_Receipt_Status", DbType="Int")]
+	public System.Nullable<int> Receipt_Status
+	{
+		get
+		{
+			return this._Receipt_Status;
+		}
+		set
+		{
+			if ((this._Receipt_Status != value))
+			{
+				this.OnReceipt_StatusChanging(value);
+				this.SendPropertyChanging();
+				this._Receipt_Status = value;
+				this.SendPropertyChanged("Receipt_Status");
+				this.OnReceipt_StatusChanged();
+			}
+		}
+	}
+	
+	[Column(Storage="_Receipt_TimeStamp", DbType="DateTime")]
+	public System.Nullable<System.DateTime> Receipt_TimeStamp
+	{
+		get
+		{
+			return this._Receipt_TimeStamp;
+		}
+		set
+		{
+			if ((this._Receipt_TimeStamp != value))
+			{
+				this.OnReceipt_TimeStampChanging(value);
+				this.SendPropertyChanging();
+				this._Receipt_TimeStamp = value;
+				this.SendPropertyChanged("Receipt_TimeStamp");
+				this.OnReceipt_TimeStampChanged();
 			}
 		}
 	}
@@ -3356,7 +4053,7 @@ public partial class Sale : INotifyPropertyChanging, INotifyPropertyChanged
 		}
 	}
 	
-	[Column(Storage="_Sales_Quantity", DbType="Decimal(6,2)")]
+	[Column(Storage="_Sales_Quantity", DbType="Decimal(10,2)")]
 	public System.Nullable<decimal> Sales_Quantity
 	{
 		get
@@ -3376,7 +4073,7 @@ public partial class Sale : INotifyPropertyChanging, INotifyPropertyChanged
 		}
 	}
 	
-	[Column(Storage="_Sales_Cost", DbType="Decimal(6,2)")]
+	[Column(Storage="_Sales_Cost", DbType="Decimal(10,2)")]
 	public System.Nullable<decimal> Sales_Cost
 	{
 		get
@@ -3598,7 +4295,7 @@ public partial class Source : INotifyPropertyChanging, INotifyPropertyChanged
 		}
 	}
 	
-	[Column(Storage="_Source_AmountPayable", DbType="Decimal(6,2)")]
+	[Column(Storage="_Source_AmountPayable", DbType="Decimal(10,2)")]
 	public System.Nullable<decimal> Source_AmountPayable
 	{
 		get
@@ -3654,696 +4351,6 @@ public partial class Source : INotifyPropertyChanging, INotifyPropertyChanged
 				this._Source_TimeStamp = value;
 				this.SendPropertyChanged("Source_TimeStamp");
 				this.OnSource_TimeStampChanged();
-			}
-		}
-	}
-	
-	public event PropertyChangingEventHandler PropertyChanging;
-	
-	public event PropertyChangedEventHandler PropertyChanged;
-	
-	protected virtual void SendPropertyChanging()
-	{
-		if ((this.PropertyChanging != null))
-		{
-			this.PropertyChanging(this, emptyChangingEventArgs);
-		}
-	}
-	
-	protected virtual void SendPropertyChanged(String propertyName)
-	{
-		if ((this.PropertyChanged != null))
-		{
-			this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-		}
-	}
-}
-
-[Table(Name="dbo.Invoice")]
-public partial class Invoice : INotifyPropertyChanging, INotifyPropertyChanged
-{
-	
-	private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-	
-	private int _Invoice_Id;
-	
-	private System.Nullable<decimal> _Invoice_Amount;
-	
-	private System.Nullable<decimal> _Invoice_Discount;
-	
-	private System.Nullable<decimal> _Invoice_Tax;
-	
-	private System.Nullable<int> _Invoice_Source;
-	
-	private string _Invoice_PaymentMode;
-	
-	private string _Invoice_Reason;
-	
-	private System.Nullable<int> _Invoice_Client;
-	
-	private System.Nullable<int> _Invoice_Status;
-	
-	private System.Nullable<System.DateTime> _Invoice_TimeStamp;
-	
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnInvoice_IdChanging(int value);
-    partial void OnInvoice_IdChanged();
-    partial void OnInvoice_AmountChanging(System.Nullable<decimal> value);
-    partial void OnInvoice_AmountChanged();
-    partial void OnInvoice_DiscountChanging(System.Nullable<decimal> value);
-    partial void OnInvoice_DiscountChanged();
-    partial void OnInvoice_TaxChanging(System.Nullable<decimal> value);
-    partial void OnInvoice_TaxChanged();
-    partial void OnInvoice_SourceChanging(System.Nullable<int> value);
-    partial void OnInvoice_SourceChanged();
-    partial void OnInvoice_PaymentModeChanging(string value);
-    partial void OnInvoice_PaymentModeChanged();
-    partial void OnInvoice_ReasonChanging(string value);
-    partial void OnInvoice_ReasonChanged();
-    partial void OnInvoice_ClientChanging(System.Nullable<int> value);
-    partial void OnInvoice_ClientChanged();
-    partial void OnInvoice_StatusChanging(System.Nullable<int> value);
-    partial void OnInvoice_StatusChanged();
-    partial void OnInvoice_TimeStampChanging(System.Nullable<System.DateTime> value);
-    partial void OnInvoice_TimeStampChanged();
-    #endregion
-	
-	public Invoice()
-	{
-		OnCreated();
-	}
-	
-	[Column(Storage="_Invoice_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-	public int Invoice_Id
-	{
-		get
-		{
-			return this._Invoice_Id;
-		}
-		set
-		{
-			if ((this._Invoice_Id != value))
-			{
-				this.OnInvoice_IdChanging(value);
-				this.SendPropertyChanging();
-				this._Invoice_Id = value;
-				this.SendPropertyChanged("Invoice_Id");
-				this.OnInvoice_IdChanged();
-			}
-		}
-	}
-	
-	[Column(Storage="_Invoice_Amount", DbType="Decimal(6,2)")]
-	public System.Nullable<decimal> Invoice_Amount
-	{
-		get
-		{
-			return this._Invoice_Amount;
-		}
-		set
-		{
-			if ((this._Invoice_Amount != value))
-			{
-				this.OnInvoice_AmountChanging(value);
-				this.SendPropertyChanging();
-				this._Invoice_Amount = value;
-				this.SendPropertyChanged("Invoice_Amount");
-				this.OnInvoice_AmountChanged();
-			}
-		}
-	}
-	
-	[Column(Storage="_Invoice_Discount", DbType="Decimal(6,2)")]
-	public System.Nullable<decimal> Invoice_Discount
-	{
-		get
-		{
-			return this._Invoice_Discount;
-		}
-		set
-		{
-			if ((this._Invoice_Discount != value))
-			{
-				this.OnInvoice_DiscountChanging(value);
-				this.SendPropertyChanging();
-				this._Invoice_Discount = value;
-				this.SendPropertyChanged("Invoice_Discount");
-				this.OnInvoice_DiscountChanged();
-			}
-		}
-	}
-	
-	[Column(Storage="_Invoice_Tax", DbType="Decimal(6,2)")]
-	public System.Nullable<decimal> Invoice_Tax
-	{
-		get
-		{
-			return this._Invoice_Tax;
-		}
-		set
-		{
-			if ((this._Invoice_Tax != value))
-			{
-				this.OnInvoice_TaxChanging(value);
-				this.SendPropertyChanging();
-				this._Invoice_Tax = value;
-				this.SendPropertyChanged("Invoice_Tax");
-				this.OnInvoice_TaxChanged();
-			}
-		}
-	}
-	
-	[Column(Storage="_Invoice_Source", DbType="Int")]
-	public System.Nullable<int> Invoice_Source
-	{
-		get
-		{
-			return this._Invoice_Source;
-		}
-		set
-		{
-			if ((this._Invoice_Source != value))
-			{
-				this.OnInvoice_SourceChanging(value);
-				this.SendPropertyChanging();
-				this._Invoice_Source = value;
-				this.SendPropertyChanged("Invoice_Source");
-				this.OnInvoice_SourceChanged();
-			}
-		}
-	}
-	
-	[Column(Storage="_Invoice_PaymentMode", DbType="VarChar(100)")]
-	public string Invoice_PaymentMode
-	{
-		get
-		{
-			return this._Invoice_PaymentMode;
-		}
-		set
-		{
-			if ((this._Invoice_PaymentMode != value))
-			{
-				this.OnInvoice_PaymentModeChanging(value);
-				this.SendPropertyChanging();
-				this._Invoice_PaymentMode = value;
-				this.SendPropertyChanged("Invoice_PaymentMode");
-				this.OnInvoice_PaymentModeChanged();
-			}
-		}
-	}
-	
-	[Column(Storage="_Invoice_Reason", DbType="VarChar(200)")]
-	public string Invoice_Reason
-	{
-		get
-		{
-			return this._Invoice_Reason;
-		}
-		set
-		{
-			if ((this._Invoice_Reason != value))
-			{
-				this.OnInvoice_ReasonChanging(value);
-				this.SendPropertyChanging();
-				this._Invoice_Reason = value;
-				this.SendPropertyChanged("Invoice_Reason");
-				this.OnInvoice_ReasonChanged();
-			}
-		}
-	}
-	
-	[Column(Storage="_Invoice_Client", DbType="Int")]
-	public System.Nullable<int> Invoice_Client
-	{
-		get
-		{
-			return this._Invoice_Client;
-		}
-		set
-		{
-			if ((this._Invoice_Client != value))
-			{
-				this.OnInvoice_ClientChanging(value);
-				this.SendPropertyChanging();
-				this._Invoice_Client = value;
-				this.SendPropertyChanged("Invoice_Client");
-				this.OnInvoice_ClientChanged();
-			}
-		}
-	}
-	
-	[Column(Storage="_Invoice_Status", DbType="Int")]
-	public System.Nullable<int> Invoice_Status
-	{
-		get
-		{
-			return this._Invoice_Status;
-		}
-		set
-		{
-			if ((this._Invoice_Status != value))
-			{
-				this.OnInvoice_StatusChanging(value);
-				this.SendPropertyChanging();
-				this._Invoice_Status = value;
-				this.SendPropertyChanged("Invoice_Status");
-				this.OnInvoice_StatusChanged();
-			}
-		}
-	}
-	
-	[Column(Storage="_Invoice_TimeStamp", DbType="DateTime")]
-	public System.Nullable<System.DateTime> Invoice_TimeStamp
-	{
-		get
-		{
-			return this._Invoice_TimeStamp;
-		}
-		set
-		{
-			if ((this._Invoice_TimeStamp != value))
-			{
-				this.OnInvoice_TimeStampChanging(value);
-				this.SendPropertyChanging();
-				this._Invoice_TimeStamp = value;
-				this.SendPropertyChanged("Invoice_TimeStamp");
-				this.OnInvoice_TimeStampChanged();
-			}
-		}
-	}
-	
-	public event PropertyChangingEventHandler PropertyChanging;
-	
-	public event PropertyChangedEventHandler PropertyChanged;
-	
-	protected virtual void SendPropertyChanging()
-	{
-		if ((this.PropertyChanging != null))
-		{
-			this.PropertyChanging(this, emptyChangingEventArgs);
-		}
-	}
-	
-	protected virtual void SendPropertyChanged(String propertyName)
-	{
-		if ((this.PropertyChanged != null))
-		{
-			this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-		}
-	}
-}
-
-[Table(Name="dbo.Receipt")]
-public partial class Receipt : INotifyPropertyChanging, INotifyPropertyChanged
-{
-	
-	private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-	
-	private int _Receipt_Id;
-	
-	private System.Nullable<decimal> _Receipt_Amount;
-	
-	private string _Receipt_PaymentMode;
-	
-	private System.Nullable<int> _Receipt_Client;
-	
-	private System.Nullable<int> _Receipt_Status;
-	
-	private System.Nullable<System.DateTime> _Receipt_TimeStamp;
-	
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnReceipt_IdChanging(int value);
-    partial void OnReceipt_IdChanged();
-    partial void OnReceipt_AmountChanging(System.Nullable<decimal> value);
-    partial void OnReceipt_AmountChanged();
-    partial void OnReceipt_PaymentModeChanging(string value);
-    partial void OnReceipt_PaymentModeChanged();
-    partial void OnReceipt_ClientChanging(System.Nullable<int> value);
-    partial void OnReceipt_ClientChanged();
-    partial void OnReceipt_StatusChanging(System.Nullable<int> value);
-    partial void OnReceipt_StatusChanged();
-    partial void OnReceipt_TimeStampChanging(System.Nullable<System.DateTime> value);
-    partial void OnReceipt_TimeStampChanged();
-    #endregion
-	
-	public Receipt()
-	{
-		OnCreated();
-	}
-	
-	[Column(Storage="_Receipt_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-	public int Receipt_Id
-	{
-		get
-		{
-			return this._Receipt_Id;
-		}
-		set
-		{
-			if ((this._Receipt_Id != value))
-			{
-				this.OnReceipt_IdChanging(value);
-				this.SendPropertyChanging();
-				this._Receipt_Id = value;
-				this.SendPropertyChanged("Receipt_Id");
-				this.OnReceipt_IdChanged();
-			}
-		}
-	}
-	
-	[Column(Storage="_Receipt_Amount", DbType="Decimal(6,2)")]
-	public System.Nullable<decimal> Receipt_Amount
-	{
-		get
-		{
-			return this._Receipt_Amount;
-		}
-		set
-		{
-			if ((this._Receipt_Amount != value))
-			{
-				this.OnReceipt_AmountChanging(value);
-				this.SendPropertyChanging();
-				this._Receipt_Amount = value;
-				this.SendPropertyChanged("Receipt_Amount");
-				this.OnReceipt_AmountChanged();
-			}
-		}
-	}
-	
-	[Column(Storage="_Receipt_PaymentMode", DbType="VarChar(100)")]
-	public string Receipt_PaymentMode
-	{
-		get
-		{
-			return this._Receipt_PaymentMode;
-		}
-		set
-		{
-			if ((this._Receipt_PaymentMode != value))
-			{
-				this.OnReceipt_PaymentModeChanging(value);
-				this.SendPropertyChanging();
-				this._Receipt_PaymentMode = value;
-				this.SendPropertyChanged("Receipt_PaymentMode");
-				this.OnReceipt_PaymentModeChanged();
-			}
-		}
-	}
-	
-	[Column(Storage="_Receipt_Client", DbType="Int")]
-	public System.Nullable<int> Receipt_Client
-	{
-		get
-		{
-			return this._Receipt_Client;
-		}
-		set
-		{
-			if ((this._Receipt_Client != value))
-			{
-				this.OnReceipt_ClientChanging(value);
-				this.SendPropertyChanging();
-				this._Receipt_Client = value;
-				this.SendPropertyChanged("Receipt_Client");
-				this.OnReceipt_ClientChanged();
-			}
-		}
-	}
-	
-	[Column(Storage="_Receipt_Status", DbType="Int")]
-	public System.Nullable<int> Receipt_Status
-	{
-		get
-		{
-			return this._Receipt_Status;
-		}
-		set
-		{
-			if ((this._Receipt_Status != value))
-			{
-				this.OnReceipt_StatusChanging(value);
-				this.SendPropertyChanging();
-				this._Receipt_Status = value;
-				this.SendPropertyChanged("Receipt_Status");
-				this.OnReceipt_StatusChanged();
-			}
-		}
-	}
-	
-	[Column(Storage="_Receipt_TimeStamp", DbType="DateTime")]
-	public System.Nullable<System.DateTime> Receipt_TimeStamp
-	{
-		get
-		{
-			return this._Receipt_TimeStamp;
-		}
-		set
-		{
-			if ((this._Receipt_TimeStamp != value))
-			{
-				this.OnReceipt_TimeStampChanging(value);
-				this.SendPropertyChanging();
-				this._Receipt_TimeStamp = value;
-				this.SendPropertyChanged("Receipt_TimeStamp");
-				this.OnReceipt_TimeStampChanged();
-			}
-		}
-	}
-	
-	public event PropertyChangingEventHandler PropertyChanging;
-	
-	public event PropertyChangedEventHandler PropertyChanged;
-	
-	protected virtual void SendPropertyChanging()
-	{
-		if ((this.PropertyChanging != null))
-		{
-			this.PropertyChanging(this, emptyChangingEventArgs);
-		}
-	}
-	
-	protected virtual void SendPropertyChanged(String propertyName)
-	{
-		if ((this.PropertyChanged != null))
-		{
-			this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-		}
-	}
-}
-
-[Table(Name="dbo.Offer")]
-public partial class Offer : INotifyPropertyChanging, INotifyPropertyChanged
-{
-	
-	private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-	
-	private int _Offer_Id;
-	
-	private string _Offer_Name;
-	
-	private System.Nullable<int> _Offer_Menu;
-	
-	private System.Nullable<int> _Offer_Quantity;
-	
-	private System.Nullable<decimal> _Offer_Cost;
-	
-	private string _Offer_Type;
-	
-	private System.Nullable<int> _Offer_Status;
-	
-	private System.Nullable<System.DateTime> _Offer_TimeStamp;
-	
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnOffer_IdChanging(int value);
-    partial void OnOffer_IdChanged();
-    partial void OnOffer_NameChanging(string value);
-    partial void OnOffer_NameChanged();
-    partial void OnOffer_MenuChanging(System.Nullable<int> value);
-    partial void OnOffer_MenuChanged();
-    partial void OnOffer_QuantityChanging(System.Nullable<int> value);
-    partial void OnOffer_QuantityChanged();
-    partial void OnOffer_CostChanging(System.Nullable<decimal> value);
-    partial void OnOffer_CostChanged();
-    partial void OnOffer_TypeChanging(string value);
-    partial void OnOffer_TypeChanged();
-    partial void OnOffer_StatusChanging(System.Nullable<int> value);
-    partial void OnOffer_StatusChanged();
-    partial void OnOffer_TimeStampChanging(System.Nullable<System.DateTime> value);
-    partial void OnOffer_TimeStampChanged();
-    #endregion
-	
-	public Offer()
-	{
-		OnCreated();
-	}
-	
-	[Column(Storage="_Offer_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-	public int Offer_Id
-	{
-		get
-		{
-			return this._Offer_Id;
-		}
-		set
-		{
-			if ((this._Offer_Id != value))
-			{
-				this.OnOffer_IdChanging(value);
-				this.SendPropertyChanging();
-				this._Offer_Id = value;
-				this.SendPropertyChanged("Offer_Id");
-				this.OnOffer_IdChanged();
-			}
-		}
-	}
-	
-	[Column(Storage="_Offer_Name", DbType="VarChar(100)")]
-	public string Offer_Name
-	{
-		get
-		{
-			return this._Offer_Name;
-		}
-		set
-		{
-			if ((this._Offer_Name != value))
-			{
-				this.OnOffer_NameChanging(value);
-				this.SendPropertyChanging();
-				this._Offer_Name = value;
-				this.SendPropertyChanged("Offer_Name");
-				this.OnOffer_NameChanged();
-			}
-		}
-	}
-	
-	[Column(Storage="_Offer_Menu", DbType="Int")]
-	public System.Nullable<int> Offer_Menu
-	{
-		get
-		{
-			return this._Offer_Menu;
-		}
-		set
-		{
-			if ((this._Offer_Menu != value))
-			{
-				this.OnOffer_MenuChanging(value);
-				this.SendPropertyChanging();
-				this._Offer_Menu = value;
-				this.SendPropertyChanged("Offer_Menu");
-				this.OnOffer_MenuChanged();
-			}
-		}
-	}
-	
-	[Column(Storage="_Offer_Quantity", DbType="Int")]
-	public System.Nullable<int> Offer_Quantity
-	{
-		get
-		{
-			return this._Offer_Quantity;
-		}
-		set
-		{
-			if ((this._Offer_Quantity != value))
-			{
-				this.OnOffer_QuantityChanging(value);
-				this.SendPropertyChanging();
-				this._Offer_Quantity = value;
-				this.SendPropertyChanged("Offer_Quantity");
-				this.OnOffer_QuantityChanged();
-			}
-		}
-	}
-	
-	[Column(Storage="_Offer_Cost", DbType="Decimal(10,3)")]
-	public System.Nullable<decimal> Offer_Cost
-	{
-		get
-		{
-			return this._Offer_Cost;
-		}
-		set
-		{
-			if ((this._Offer_Cost != value))
-			{
-				this.OnOffer_CostChanging(value);
-				this.SendPropertyChanging();
-				this._Offer_Cost = value;
-				this.SendPropertyChanged("Offer_Cost");
-				this.OnOffer_CostChanged();
-			}
-		}
-	}
-	
-	[Column(Storage="_Offer_Type", DbType="Char(5)")]
-	public string Offer_Type
-	{
-		get
-		{
-			return this._Offer_Type;
-		}
-		set
-		{
-			if ((this._Offer_Type != value))
-			{
-				this.OnOffer_TypeChanging(value);
-				this.SendPropertyChanging();
-				this._Offer_Type = value;
-				this.SendPropertyChanged("Offer_Type");
-				this.OnOffer_TypeChanged();
-			}
-		}
-	}
-	
-	[Column(Storage="_Offer_Status", DbType="Int")]
-	public System.Nullable<int> Offer_Status
-	{
-		get
-		{
-			return this._Offer_Status;
-		}
-		set
-		{
-			if ((this._Offer_Status != value))
-			{
-				this.OnOffer_StatusChanging(value);
-				this.SendPropertyChanging();
-				this._Offer_Status = value;
-				this.SendPropertyChanged("Offer_Status");
-				this.OnOffer_StatusChanged();
-			}
-		}
-	}
-	
-	[Column(Storage="_Offer_TimeStamp", DbType="DateTime")]
-	public System.Nullable<System.DateTime> Offer_TimeStamp
-	{
-		get
-		{
-			return this._Offer_TimeStamp;
-		}
-		set
-		{
-			if ((this._Offer_TimeStamp != value))
-			{
-				this.OnOffer_TimeStampChanging(value);
-				this.SendPropertyChanging();
-				this._Offer_TimeStamp = value;
-				this.SendPropertyChanged("Offer_TimeStamp");
-				this.OnOffer_TimeStampChanged();
 			}
 		}
 	}

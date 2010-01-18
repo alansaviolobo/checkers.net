@@ -14,7 +14,7 @@ public partial class Controls_PettyCash : System.Web.UI.UserControl
         Checkers = new CheckersDataContext();
 
         var RecievedBy = from R in Checkers.Contacts
-                         where R.Contact_Type != "Customer"
+                         where R.Contact_Type != "Customer" && R.Contact_Status.Equals(1) && R.Contact_Name != "Administrator"
                          select R;
 
         foreach (var R in RecievedBy)
@@ -24,7 +24,7 @@ public partial class Controls_PettyCash : System.Web.UI.UserControl
 
             DdlGivenBy.Items.Add(new ListItem(R.Contact_Name, R.Contact_Id.ToString()));
         }
-        ((AjaxControlToolkit.Accordion)Page.Master.FindControl("AccMenu")).SelectedIndex = 4;
+        ((AjaxControlToolkit.Accordion)Page.Master.FindControl("AccMenu")).SelectedIndex = 5;
     }
     protected void BtnAdd_Click(object sender, EventArgs e)
     {
@@ -35,6 +35,6 @@ public partial class Controls_PettyCash : System.Web.UI.UserControl
 
         var CashBalance = (from C in Checkers.PettyCashes select C.PettyCash_Balance).ToList().Last();
         LtrMessage.Text = Status == 1 ? "Amount " + TxtAmount.Text + " Added. Total Balance " + CashBalance.ToString() : "Error Occurred.";
-        if(Status == 1) Status = Checkers.ActivityNew("PettyCash Of Amount " + TxtAmount.Text + " Added", int.Parse(Session["UserId"].ToString()));
+        if (Status == 1) Status = Checkers.ActivityNew("PettyCash Of Amount " + TxtAmount.Text + " Added", int.Parse(Session["UserId"].ToString()));
     }
 }

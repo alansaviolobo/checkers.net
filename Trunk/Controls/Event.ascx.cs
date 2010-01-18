@@ -21,7 +21,7 @@ public partial class Controls_Event : System.Web.UI.UserControl
                 case "Edit": BtnSearch.Visible = true; AutoCompSearch.Enabled = true; BtnSubmit.Text = "Update"; break;
                 case "Delete": BtnSearch.Visible = true; AutoCompSearch.Enabled = true; BtnSubmit.Text = "Delete"; break;
             }
-            ((AjaxControlToolkit.Accordion)Page.Master.FindControl("AccMenu")).SelectedIndex = 5;
+            ((AjaxControlToolkit.Accordion)Page.Master.FindControl("AccMenu")).SelectedIndex = 6;
             ClearForm();
         }
     }
@@ -108,7 +108,7 @@ public partial class Controls_Event : System.Web.UI.UserControl
         DdlOrganizer.Items.FindByValue(EventDetails.Event_Organizer.ToString()).Selected = true;
         TxtVenue.Text = EventDetails.Event_Venue;
         TxtName.Text = EventDetails.Event_Name;
-        TxtFromDate.Text = EventDetails.Event_FromTimeStamp.ToString();
-        TxtToDate.Text = EventDetails.Event_ToTimeStamp.ToString();
+        TxtFromDate.Text = EventDetails.Event_FromTimeStamp.ToString().Substring(0, 10).Replace("-", "/");
+        TxtToDate.Text = EventDetails.Event_ToTimeStamp.ToString().Substring(0, 10).Replace("-", "/");
     }
 }

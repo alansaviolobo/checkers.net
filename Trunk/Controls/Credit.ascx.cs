@@ -26,7 +26,7 @@ public partial class Controls_Credit : System.Web.UI.UserControl
                                         select C.Contact_Credit.Value).Sum().ToString();
         else
             LtrTotalOutstanding.Text = "0";
-        ((AjaxControlToolkit.Accordion)Page.Master.FindControl("AccMenu")).SelectedIndex = 2;
+        ((AjaxControlToolkit.Accordion)Page.Master.FindControl("AccMenu")).SelectedIndex = 3;
     }
     protected void BtnSelect_Click(object sender, EventArgs e)
     {
@@ -55,8 +55,8 @@ public partial class Controls_Credit : System.Web.UI.UserControl
                 LblDate.Text = DateTime.Today.ToShortDateString();
                 LblPaidTo.Text = "Quatro. Verna-Goa.";
                 LblPaidBy.Text = DdlClientName.SelectedItem.Text;
-                LblAmountNumber.Text = "Rs. " + TxtAmount.Text;
-                LblAmountWord.Text = "Rs. " + Num.changeCurrencyToWords(double.Parse(TxtAmount.Text)).ToString();
+                LblAmountNumber.Text = "Rs." + TxtAmount.Text + "/-";
+                LblAmountWord.Text = "Rs." + Num.changeCurrencyToWords(double.Parse(TxtAmount.Text)).ToString();
                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "Print", "javascript:CallPrint('PrintReceipt');", true);
             }
             else
@@ -68,6 +68,7 @@ public partial class Controls_Credit : System.Web.UI.UserControl
 
     public void FillData()
     {
+        ClearForm();
         Checkers = new CheckersDataContext();
         decimal BillAmount = 0;
 
@@ -93,8 +94,13 @@ public partial class Controls_Credit : System.Web.UI.UserControl
             if (Enumerable.Count(Receipts) > 0)
             {
                 LtrAmountPaid.Text = Checkers.Receipts.Where(R => R.Receipt_Client == int.Parse(HdnClientId.Value) && R.Receipt_Status == 0).Select(R => R.Receipt_Amount.Value).Sum().ToString();
-                LtrBillsNumber.Text = "(Total : " + Enumerable.Count(Receipts).ToString() + ")";
+                LtrReceiptsNumber.Text = "(Total : " + Enumerable.Count(Receipts).ToString() + ")";
                 DgReceipts.DataSource = Receipts;
+                DgReceipts.DataBind();
+            }
+            else
+            {
+                DgReceipts.DataSource = null;
                 DgReceipts.DataBind();
             }
 
@@ -102,6 +108,11 @@ public partial class Controls_Credit : System.Web.UI.UserControl
             {
                 LtrBillsNumber.Text = "(Total : " + Enumerable.Count(Bills).ToString() + ")";
                 DgBills.DataSource = Bills;
+                DgBills.DataBind();
+            }
+            else
+            {
+                DgBills.DataSource = null;
                 DgBills.DataBind();
             }
 
@@ -124,6 +135,7 @@ public partial class Controls_Credit : System.Web.UI.UserControl
         {
             LtrMessage.Text = "Please Select A Client.";
         }
+        FillData();
     }
     protected void BtnYes_Click(object sender, EventArgs e)
     {
@@ -145,5 +157,15 @@ public partial class Controls_Credit : System.Web.UI.UserControl
         LtrMessage.Text = "Action Cancelled By The User.";
         BtnYes.Visible = false;
         BtnNo.Visible = false;
+    }
+
+    public void ClearForm()
+    {
+        LtrAmountPaid.Text = "0";
+        LtrAmountPayable.Text = "0";
+        LtrAmountRemaining.Text = "0";
+        LtrBillsNumber.Text = "(Total : 0)";
+        LtrReceiptsNumber.Text = "(Total : 0)";
+        LtrTotalOutstanding.Text = "0";
     }
 }

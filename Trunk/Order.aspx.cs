@@ -132,10 +132,10 @@ public partial class Order : System.Web.UI.Page
 
                 LblOt.Text = MenuType.ToString() == "Bar" ? "BOT" : "KOT";
 
-                Ot.InnerHtml = "<br /><br /><strong>Table No: </strong>" + HdnTableId.Value + "<br /><br />";
+                Ot.InnerHtml = "<div style=\"width: 396px; font-size: 7px; font-type: Arial\"><br /><br /><strong>Table No: </strong>" + HdnTableId.Value + "<br /><br />";
                 Ot.InnerHtml += "<hr>";
                 Ot.InnerHtml += "<strong>Item: </strong>" + DdlItem.SelectedItem.Text + "<br />";
-                Ot.InnerHtml += "<strong>Quantity: </strong>" + decimal.Parse(DdlQuantity.SelectedItem.Text);
+                Ot.InnerHtml += "<strong>Quantity: </strong>" + decimal.Parse(DdlQuantity.SelectedItem.Text) + "</div>";
                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "Print", "javascript:CallPrint('PrintOt');", true);
 
                 ShowOrders();
@@ -275,14 +275,21 @@ public partial class Order : System.Web.UI.Page
                 HtmlTableCell TblBillFooterCell1 = new HtmlTableCell();
                 HtmlTableCell TblBillFooterCellKey = new HtmlTableCell();
                 HtmlTableCell TblBillFooterCellValue = new HtmlTableCell();
+                TblBillFooterCell1.ColSpan = 3;
+                TblBillFooterCell1.InnerHtml = "&nbsp;";
+                TblBillFooter.Cells.Add(TblBillFooterCell1);
+                TblBill.Rows.Add(TblBillFooter);
 
-                TblBillFooterCell1.InnerHtml = "<div style=\"width: 50%; float: left; text-align: center\">Cashier</div><div style=\"width: 50%; float: right; text-align: center\">Customer</div>";
+                TblBillFooter = new HtmlTableRow();
+                TblBillFooterCell1 = new HtmlTableCell();
+
+                TblBillFooterCell1.InnerHtml = "<div style=\"width: 50%; float: left; text-align: center\">Cashier</div><div style=\"width: 50%; float: left; text-align: center\">Customer</div>";
                 TblBillFooterCell1.VAlign = "bottom";
                 TblBillFooterCellKey.InnerHtml = "<strong>S.Total<br />Tax<br />Discount<br />Total</strong>";
-                TblBillFooterCellValue.InnerHtml = "Rs. " + SubTotal + "<br />";
-                TblBillFooterCellValue.InnerHtml += "Rs. " + Tax + "<br />";
-                TblBillFooterCellValue.InnerHtml += "Rs. " + Discount + "<br />";
-                TblBillFooterCellValue.InnerHtml += "Rs. " + Total;
+                TblBillFooterCellValue.InnerHtml = "Rs." + Math.Round(SubTotal, 2) + "<br />";
+                TblBillFooterCellValue.InnerHtml += "Rs." + Math.Round(Tax, 2) + "<br />";
+                TblBillFooterCellValue.InnerHtml += "Rs." + Math.Round(Discount, 2) + "<br />";
+                TblBillFooterCellValue.InnerHtml += "Rs." + Math.Round(Total, 2) + "/-";
 
                 TblBillFooter.Cells.Add(TblBillFooterCell1);
                 TblBillFooter.Cells.Add(TblBillFooterCellKey);
@@ -398,16 +405,20 @@ public partial class Order : System.Web.UI.Page
     {
         Checkers = new CheckersDataContext();
         int Status;
+        if (HdnClientId.Value != "")
+        {
+            Status = Checkers.InvoiceCloseCredit(int.Parse(HdnBillNumber.Value), int.Parse(HdnClientId.Value), int.Parse(HdnTableSource.Value));
+            LtrMessage.Text = Status == 1 ? "Bill " + HdnBillNumber.Value + " Closed." : "Error Occurred.";
 
-        Status = Checkers.InvoiceCloseCredit(int.Parse(HdnBillNumber.Value), int.Parse(HdnClientId.Value), int.Parse(HdnTableSource.Value));
-        LtrMessage.Text = Status == 1 ? "Bill " + HdnBillNumber.Value + " Closed." : "Error Occurred.";
+            FillTables();
+            ClearForm();
 
-        FillTables();
-        ClearForm();
-
-        LtrClient.Visible = false;
-        TxtClient.Visible = false;
-        BtnCreditOk.Visible = false;
+            LtrClient.Visible = false;
+            TxtClient.Visible = false;
+            BtnCreditOk.Visible = false;
+        }
+        else
+            LtrMessage.Text = "No Contact Found With The Name " + TxtClient.Text;
     }
 
     protected void BtnCredit_Click(object sender, EventArgs e)

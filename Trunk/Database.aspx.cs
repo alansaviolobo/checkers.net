@@ -14,7 +14,7 @@ public partial class Database : System.Web.UI.Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        ((AjaxControlToolkit.Accordion)Page.Master.FindControl("AccMenu")).SelectedIndex = 7;
+        ((AjaxControlToolkit.Accordion)Page.Master.FindControl("AccMenu")).SelectedIndex = 8;
     }
     protected void BtnBackup_Click(object sender, EventArgs e)
     {

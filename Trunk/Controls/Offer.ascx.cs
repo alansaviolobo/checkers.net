@@ -29,7 +29,7 @@ public partial class Controls_Offer : System.Web.UI.UserControl
             case "Edit": BtnSearch.Visible = true; AutoCompSearch.Enabled = true; BtnSubmit.Text = "Update"; break;
             case "Delete": BtnSearch.Visible = true; AutoCompSearch.Enabled = true; BtnSubmit.Text = "Delete"; break;
         }
-        ((AjaxControlToolkit.Accordion)Page.Master.FindControl("AccMenu")).SelectedIndex = 0;
+        ((AjaxControlToolkit.Accordion)Page.Master.FindControl("AccMenu")).SelectedIndex = 1;
     }
 
     protected void BtnYes_Click(object sender, EventArgs e)
@@ -98,9 +98,14 @@ public partial class Controls_Offer : System.Web.UI.UserControl
 
         if (TxtName.Text != "")
         {
-            Status = Checkers.OfferNew(TxtName.Text, int.Parse(DdlMenuRequiredName.SelectedItem.Value), int.Parse(DdlMenuRequiredQuantity.SelectedItem.Text), "Key");
-            LtrMessage.Text = Status == 1 ? "Item " + DdlMenuRequiredName.Text + " Inserted." : "Error occurred.";
-            FillData();
+            if (Checkers.Offers.Where(O => O.Offer_Name == TxtName.Text && O.Offer_Status.Equals(1)).Any().Equals(true))
+                LtrMessage.Text = "Offer name already exists.";
+            else
+            {
+                Status = Checkers.OfferNew(TxtName.Text, int.Parse(DdlMenuRequiredName.SelectedItem.Value), int.Parse(DdlMenuRequiredQuantity.SelectedItem.Text), 0, "Key");
+                LtrMessage.Text = Status == 1 ? "Item " + DdlMenuRequiredName.Text + " Inserted." : "Error occurred.";
+                FillData();
+            }
         }
         else
             LtrMessage.Text = "Please enter a offer name.";
@@ -113,9 +118,14 @@ public partial class Controls_Offer : System.Web.UI.UserControl
 
         if (TxtName.Text != "")
         {
-            Status = Checkers.OfferNew(TxtName.Text, int.Parse(DdlMenuRequiredName.SelectedItem.Value), int.Parse(DdlMenuRequiredQuantity.SelectedItem.Text), "Value");
-            LtrMessage.Text = Status == 1 ? "Item " + DdlMenuRequiredName.Text + " Inserted." : "Error occurred.";
-            FillData();
+            if (Checkers.Offers.Where(O => O.Offer_Name == TxtName.Text && O.Offer_Status.Equals(1)).Any().Equals(true))
+                LtrMessage.Text = "Offer name already exists.";
+            else
+            {
+                Status = Checkers.OfferNew(TxtName.Text, int.Parse(DdlMenuRequiredName.SelectedItem.Value), int.Parse(DdlMenuRequiredQuantity.SelectedItem.Text), int.Parse(DdlMenuOfferDiscount.SelectedItem.Text), "Value");
+                LtrMessage.Text = Status == 1 ? "Item " + DdlMenuRequiredName.Text + " Inserted." : "Error occurred.";
+                FillData();
+            }
         }
         else
             LtrMessage.Text = "Please enter a offer name.";
@@ -128,6 +138,7 @@ public partial class Controls_Offer : System.Web.UI.UserControl
         DdlMenuRequiredQuantity.Items.Clear();
         DdlMenuOfferName.Items.Clear();
         DdlMenuOfferQuantity.Items.Clear();
+        DdlMenuOfferDiscount.Items.Clear();
 
         var Item = from I in Checkers.Menus
                    where I.Menu_Status.Equals(1)
@@ -157,12 +168,12 @@ public partial class Controls_Offer : System.Web.UI.UserControl
 
         if (TxtName.Text != "")
         {
-            var Key = Checkers.Offers.Where(O => O.Offer_Status == 1 && O.Offer_Type == "Key").Select(O => O);
-            DgMenuRequired.DataSource = Key;
+            var Key = Checkers.Offers.Where(O => O.Offer_Status == 1 && O.Offer_Type == "Key" && O.Offer_Name == TxtName.Text).Select(O => O);
+            DgMenuRequired.DataSource = Enumerable.Count(Key) > 0 ? Key : null;            
             DgMenuRequired.DataBind();
 
-            var Value = Checkers.Offers.Where(O => O.Offer_Status == 1 && O.Offer_Type == "Value").Select(O => O);
-            DgMenuOffer.DataSource = Value;
+            var Value = Checkers.Offers.Where(O => O.Offer_Status == 1 && O.Offer_Type == "Value" &&  O.Offer_Name== TxtName.Text).Select(O => O);
+            DgMenuOffer.DataSource = Enumerable.Count(Value) > 0 ? Key : null;
             DgMenuOffer.DataBind();
         }
         else

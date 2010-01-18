@@ -14,7 +14,7 @@ public partial class Controls_PettyExpense : System.Web.UI.UserControl
         Checkers = new CheckersDataContext();
 
         var RecievedBy = from R in Checkers.Contacts
-                         where R.Contact_Type != "Customer"
+                         where R.Contact_Type != "Customer" && R.Contact_Status.Equals(1) 
                          select R;
 
         foreach (var R in RecievedBy)
@@ -22,7 +22,7 @@ public partial class Controls_PettyExpense : System.Web.UI.UserControl
             if (R.Contact_Id == int.Parse(Session["UserId"].ToString()))
                 LtrReceivedBy.Text = R.Contact_Name;
         }
-        ((AjaxControlToolkit.Accordion)Page.Master.FindControl("AccMenu")).SelectedIndex = 4;
+        ((AjaxControlToolkit.Accordion)Page.Master.FindControl("AccMenu")).SelectedIndex = 5;
     }
     protected void BtnAdd_Click(object sender, EventArgs e)
     {

@@ -1,7 +1,7 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="Offer.ascx.cs" Inherits="Controls_Offer" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="Ajax" %>
 <div id="Message">
-    <asp:Literal ID="LtrMessage" runat="server" Text="Menu Management" />
+    <asp:Literal ID="LtrMessage" runat="server" Text="Offer Management" />
     &nbsp;&nbsp;
     <asp:LinkButton ID="BtnYes" runat="server" OnClick="BtnYes_Click" Visible="false">Yes</asp:LinkButton>
     &nbsp;
@@ -22,7 +22,7 @@
     </tr>
 </table>
 <div style="float: left; width: auto; margin-top: 15px; border: 1px dotted black;
-    padding: 7px;">
+    padding: 7px;" runat="server" id="PnlRequirement">
     <strong>Menu Items Required - </strong>
     <table cellpadding="5" cellspacing="5">
         <tr>
@@ -56,7 +56,7 @@
     </asp:DataGrid>
 </div>
 <div style="float: left; margin-left: 50px; margin-top: 15px; border: 1px dotted black;
-    padding: 7px;">
+    padding: 7px;" runat="server" id="PnlOffer">
     <strong>Menu Items Offer - </strong>
     <table cellpadding="5" cellspacing="5">
         <tr>

@@ -90,7 +90,7 @@
             <td>
                 <asp:TextBox ID="TxtConversionUnit" runat="server" Width="80px" Height="22px" />
                 <asp:RegularExpressionValidator ID="RegVldConversionUnit" runat="server" 
-                    ControlToValidate="TxtConversionUnit" Display="None" ValidationExpression="^\d+$" 
+                    ControlToValidate="TxtConversionUnit" Display="None" ValidationExpression="^\d{1,10}(\.\d{0,2})?$" 
                     ErrorMessage="Please Enter A Valid Amount"></asp:RegularExpressionValidator>
                 <Ajax:ValidatorCalloutExtender ID="RegVldConversionUnitExtender" runat="server" 
                     Enabled="True" TargetControlID="RegVldConversionUnit">

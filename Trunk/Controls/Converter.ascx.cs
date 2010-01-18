@@ -15,20 +15,14 @@ public partial class Controls_Converter : System.Web.UI.UserControl
         if (!Page.IsPostBack)
         {
             Action = Request.QueryString["Action"] != null ? Request.QueryString["Action"].ToString() : "Add";
-            switch (Action)
-            {
-                //case "New": AutoCompMenuSearch.Visible = true; break;
-                //case "Edit": AutoCompMenuSearch.Visible = true; break;
-                //case "Delete": AutoCompMenuSearch.Visible = true; BtnDelete.Visible = true; break;
-            }
             ClearForm();
         }
-        ((AjaxControlToolkit.Accordion)Page.Master.FindControl("AccMenu")).SelectedIndex = 1;
+        ((AjaxControlToolkit.Accordion)Page.Master.FindControl("AccMenu")).SelectedIndex = 2;
     }
     protected void BtnEnter_Click(object sender, EventArgs e)
     {
         Checkers = new CheckersDataContext();
-
+        ClearForm();
         if (HdnInventoryId.Value != "")
         {
             var Status = Checkers.ConverterNew(int.Parse(HdnMenuId.Value), int.Parse(HdnInventoryId.Value), decimal.Parse(TxtInventoryQuantity.Text));
@@ -67,6 +61,7 @@ public partial class Controls_Converter : System.Web.UI.UserControl
                                   select new { I.Converter_Id, I.Converter_Menu, I.Converter_InventoryQuantity, In.Inventory_Name });
         if (Enumerable.Count(MenuConverterValue) > 0)
         {
+            PnlConversionDetails.Visible = true;
             DgConverterList.Visible = true;
             DgConverterList.DataSource = MenuConverterValue.ToList();
             DgConverterList.DataBind();
@@ -74,6 +69,7 @@ public partial class Controls_Converter : System.Web.UI.UserControl
         }
         else
         {
+            PnlConversionDetails.Visible = false;
             LtrMessage.Text = "No Converter Values Present For The Item " + LtrMenuName.Text;
             //TxtInventoryName.Text = "";
             //TxtInventoryQuantity.Text = "";
@@ -109,7 +105,6 @@ public partial class Controls_Converter : System.Web.UI.UserControl
     public void ClearForm()
     {
         Checkers = new CheckersDataContext();
-        DgConverterList.Visible = false;
         TxtMenuName.Text = "";
         TxtInventoryName.Text = "";
         TxtInventoryQuantity.Text = "";

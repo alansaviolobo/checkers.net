@@ -14,15 +14,21 @@ public partial class Controls_Package : System.Web.UI.UserControl
     {
         if (!Page.IsPostBack)
         {
+            ClearForm();
             Action = Request.QueryString["Action"] != null ? Request.QueryString["Action"].ToString() : "Add";
+            if (Request.QueryString["Id"] != null)
+            {
+                HdnPackageId.Value = Request.QueryString["Id"].ToString();
+                FillData();
+            }
+
             switch (Action)
             {
                 case "New": BtnSearch.Visible = false; AutoCompSearch.Enabled = false; BtnSubmit.Text = "Add"; break;
                 case "Edit": BtnSearch.Visible = true; AutoCompSearch.Enabled = true; BtnSubmit.Text = "Update"; break;
                 case "Delete": BtnSearch.Visible = true; AutoCompSearch.Enabled = true; BtnSubmit.Text = "Delete"; break;
             }
-            ((AjaxControlToolkit.Accordion)Page.Master.FindControl("AccMenu")).SelectedIndex = 6;
-            ClearForm();
+            ((AjaxControlToolkit.Accordion)Page.Master.FindControl("AccMenu")).SelectedIndex = 7;
         }
     }
     protected void BtnSubmit_Click(object sender, EventArgs e)
@@ -96,6 +102,11 @@ public partial class Controls_Package : System.Web.UI.UserControl
         DdlType.Items.Add(new ListItem("Anniversary"));
     }
     protected void BtnSearch_Click(object sender, EventArgs e)
+    {
+        FillData();
+    }
+
+    public void FillData()
     {
         Checkers = new CheckersDataContext();
 

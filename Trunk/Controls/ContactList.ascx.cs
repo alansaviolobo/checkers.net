@@ -27,7 +27,7 @@ public partial class Controls_ContactList : System.Web.UI.UserControl
                 LtrMessage.Text = "No Contacts found.";
             }
         }
-        ((AjaxControlToolkit.Accordion)Page.Master.FindControl("AccMenu")).SelectedIndex = 2;
+        ((AjaxControlToolkit.Accordion)Page.Master.FindControl("AccMenu")).SelectedIndex = 3;
     }
     protected void BtnSearch_Click(object sender, EventArgs e)
     {

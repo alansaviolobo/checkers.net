@@ -13,7 +13,7 @@ public partial class Controls_Purchase : System.Web.UI.UserControl
     protected void Page_Load(object sender, EventArgs e)
     {
         ClearForm();
-        ((AjaxControlToolkit.Accordion)Page.Master.FindControl("AccMenu")).SelectedIndex = 1;
+        ((AjaxControlToolkit.Accordion)Page.Master.FindControl("AccMenu")).SelectedIndex = 2;
     }
     protected void BtnPurchase_Click(object sender, EventArgs e)
     {
@@ -23,7 +23,7 @@ public partial class Controls_Purchase : System.Web.UI.UserControl
         Status = Checkers.PurchaseNew(int.Parse(HdnInventoryId.Value), decimal.Parse(TxtPurchaseQuantity.Text));
         LtrMessage.Text = Status == 1 ? "Quantity " + TxtPurchaseQuantity.Text + " Purchased For Item " + TxtName.Text + "." : "Error Occured.";
         if (Status == 1) Status = Checkers.ActivityNew("Quantity " + TxtPurchaseQuantity.Text + " Purchased For Item " + TxtName.Text, int.Parse(Session["UserId"].ToString()));
-        ((AjaxControlToolkit.Accordion)Page.Master.FindControl("AccMenu")).SelectedIndex = 1;
+        
         ClearForm();
     }
     private void ClearForm()
@@ -32,7 +32,6 @@ public partial class Controls_Purchase : System.Web.UI.UserControl
 
         TxtName.Text = "";
         TxtExistingQuantity.Text = "";
-        TxtPurchaseQuantity.Text = "";
         TxtPurchaseQuantity.Text = "0";
         LtrPurchaseUnit1.Text = "";
         LtrPurchaseUnit2.Text = "";
@@ -45,7 +44,7 @@ public partial class Controls_Purchase : System.Web.UI.UserControl
         {
             var IngrdientData = (from I in Checkers.Inventories where I.Inventory_Id == int.Parse(HdnInventoryId.Value) select I).Single();
 
-            TxtExistingQuantity.Text = (IngrdientData.Inventory_Quantity / IngrdientData.Inventory_ConversionUnit).ToString();
+            TxtExistingQuantity.Text = (IngrdientData.Inventory_Quantity / (IngrdientData.Inventory_ConversionUnit == 0 ? 1 : IngrdientData.Inventory_ConversionUnit)).ToString();
             LtrPurchaseUnit1.Text = IngrdientData.Inventory_PurchaseUnit;
             LtrPurchaseUnit2.Text = IngrdientData.Inventory_PurchaseUnit;
         }

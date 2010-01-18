@@ -57,15 +57,16 @@
                             <a href="Operation.aspx?Section=MenuList">List</a>
                         </Content>
                     </Ajax:AccordionPane>
-                    <%--<Ajax:AccordionPane runat="server" ID="PaneOffer">
+                    <Ajax:AccordionPane runat="server" ID="PaneOffer">
                         <Header>
                             Offer</Header>
                         <Content>
-                            <a href="Operation.aspx?Section=Offer&Action=New">New</a><br />
+                            <%--<a href="Operation.aspx?Section=Offer&Action=New">New</a><br />
                             <a href="Operation.aspx?Section=Offer&Action=Edit">Edit</a><br />
-                            <a href="Operation.aspx?Section=Offer&Action=Delete">Delete</a>
+                            <a href="Operation.aspx?Section=Offer&Action=Delete">Delete</a>--%>
+                            Under Construction
                         </Content>
-                    </Ajax:AccordionPane>--%>
+                    </Ajax:AccordionPane>
                     <Ajax:AccordionPane runat="server" ID="PaneIngredient">
                         <Header>
                             Ingredient</Header>
@@ -108,24 +109,27 @@
                             <a href="Operation.aspx?Section=PettyExpense">PettyExpense</a>
                         </Content>
                     </Ajax:AccordionPane>
-                    <%--<Ajax:AccordionPane runat="server" ID="PaneEvent">
+                    <Ajax:AccordionPane runat="server" ID="PaneEvent">
                         <Header>
                             Event</Header>
                         <Content>
-                            <a href="Operation.aspx?Section=Event&Action=New">New</a><br />
+                           <%-- <a href="Operation.aspx?Section=Event&Action=New">New</a><br />
                             <a href="Operation.aspx?Section=Event&Action=Edit">Edit</a><br />
-                            <a href="Operation.aspx?Section=Event&Action=Delete">Delete</a>
+                            <a href="Operation.aspx?Section=Event&Action=Delete">Delete</a>--%>
+                            Under Construction
                         </Content>
                     </Ajax:AccordionPane>
                     <Ajax:AccordionPane runat="server" ID="PanePackage">
                         <Header>
                             Package</Header>
                         <Content>
-                            <a href="Operation.aspx?Section=Package&Action=New">New</a><br />
+                            <%--<a href="Operation.aspx?Section=Package&Action=New">New</a><br />
                             <a href="Operation.aspx?Section=Package&Action=Edit">Edit</a><br />
-                            <a href="Operation.aspx?Section=Package&Action=Delete">Delete</a>
+                            <a href="Operation.aspx?Section=Package&Action=Delete">Delete</a><br />
+                            <a href="Operation.aspx?Section=PackageList">List</a>--%>
+                            Under Construction
                         </Content>
-                    </Ajax:AccordionPane>--%>
+                    </Ajax:AccordionPane>
                     <Ajax:AccordionPane runat="server" ID="PaneMiscellaneous">
                         <Header>
                             Miscellaneous</Header>

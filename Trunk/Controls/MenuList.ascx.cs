@@ -27,6 +27,7 @@ public partial class Controls_MenuList : System.Web.UI.UserControl
                 LtrMessage.Text = "No menu items found.";
             }
         }
+        ((AjaxControlToolkit.Accordion)Page.Master.FindControl("AccMenu")).SelectedIndex = 0;
     }
     protected void BtnYes_Click(object sender, EventArgs e)
     {

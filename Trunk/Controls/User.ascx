@@ -47,7 +47,7 @@
         <td>
             <asp:TextBox ID="TxtUserName" runat="server" />
             <asp:RequiredFieldValidator ID="ReqVldUserName" runat="server" ErrorMessage="Please Enter UserName."
-                ControlToValidate="TxtUserName" Display="None" Enabled="false" />
+                ControlToValidate="TxtUserName" Display="None" />
             <Ajax:ValidatorCalloutExtender ID="ReqVldUserNameExtender" runat="server" Enabled="True"
                 TargetControlID="ReqVldUserName">
             </Ajax:ValidatorCalloutExtender>
@@ -71,10 +71,6 @@
         </td>
         <td>
             <asp:TextBox ID="TxtPhone" runat="server" />
-            <asp:RegularExpressionValidator ID="RegVldPhone" runat="server" ControlToValidate="TxtPhone"
-                ErrorMessage="Please Check The Number. Only 10 Digit." Display="None" ValidationExpression="\d{10}" />
-            <Ajax:ValidatorCalloutExtender ID="RegVldPhoneExtender" runat="server" Enabled="True"
-                TargetControlID="RegVldPhone" />
         </td>
     </tr>
     <tr>
@@ -91,11 +87,6 @@
         </td>
         <td>
             <asp:TextBox ID="TxtEmail" runat="server" />
-            <asp:RegularExpressionValidator ID="RegVldEmail" runat="server" ErrorMessage="Email Not In Proper Format."
-                ControlToValidate="TxtEmail" Display="None" ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*" />
-            <Ajax:ValidatorCalloutExtender ID="RegVldEmailExtender" runat="server" Enabled="True"
-                TargetControlID="RegVldEmail">
-            </Ajax:ValidatorCalloutExtender>
         </td>
     </tr>
     <tr>

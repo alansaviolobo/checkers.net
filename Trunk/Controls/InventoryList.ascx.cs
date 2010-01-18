@@ -27,7 +27,7 @@ public partial class Controls_InventoryList : System.Web.UI.UserControl
                 LtrMessage.Text = "No menu items found.";
             }
         }
-        ((AjaxControlToolkit.Accordion)Page.Master.FindControl("AccMenu")).SelectedIndex = 1;
+        ((AjaxControlToolkit.Accordion)Page.Master.FindControl("AccMenu")).SelectedIndex = 2;
     }
     protected void BtnSearch_Click(object sender, EventArgs e)
     {

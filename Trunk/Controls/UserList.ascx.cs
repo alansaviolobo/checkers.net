@@ -27,7 +27,7 @@ public partial class Controls_UserList : System.Web.UI.UserControl
                 LtrMessage.Text = "No Users found.";
             }
         }
-        ((AjaxControlToolkit.Accordion)Page.Master.FindControl("AccMenu")).SelectedIndex = 3;
+        ((AjaxControlToolkit.Accordion)Page.Master.FindControl("AccMenu")).SelectedIndex = 4;
     }
     protected void BtnSearch_Click(object sender, EventArgs e)
     {

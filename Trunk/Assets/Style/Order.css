@@ -6,7 +6,7 @@
 }
 body
 {
-	font-family: calibri;
+	font-family: Calibri;
 	font-size: medium;
 }
 table
@@ -74,7 +74,7 @@ table
 #PrintBill
 {
 	display: none;
-	width: 453px;
+	width: 396px;
 	text-align: center;
 }
 #BillLogo
@@ -82,6 +82,7 @@ table
 	margin-left: auto;
 	margin-right: auto;
 	text-align: center;
+	width: 396px;
 }
 #BillContactDetails
 {
@@ -92,6 +93,7 @@ table
 {
 	width: 33.33%;
 	text-align: center;
+	float:left;
 }
 .Division4
 {
@@ -101,9 +103,7 @@ table
 }
 .FullWidth
 {
-	width: 100%;
-	border: 1px black solid;
-	border-collapse: collapse;
+	width: 396px;
 }
 #PrintOt
 {
@@ -112,6 +112,6 @@ table
 }
 .OtTitle
 {
-	font-size: larger;
+	font-size: 10px;
 	font-weight: bold;	
 }

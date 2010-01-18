@@ -22,7 +22,7 @@
                     var strOldOne = document.getElementById(strid);
                     var WinPrint = window.open('', '', 'left=0,top=0,width=1,height=1,toolbar=0,scrollbars=0,status=0');
                     WinPrint.document.write("<link href=\"Assets/Style/Order.css\" rel=\"stylesheet\" type=\"text/css\" />");
-                    WinPrint.document.write("<style rel=\"stylesheet\" type=\"text/css\">body * {margin-right: auto; margin-left: auto; font-family: calibri; font-size: 10px; }</style>");
+                    WinPrint.document.write("<style rel=\"stylesheet\" type=\"text/css\">body * {margin-left:auto; margin-right:auto;font-family: Arial; font-size: 5px; letter-spacing: 3px; word-spacing: 5px; line-height: 200%;}</style>");
                     WinPrint.document.write(strOldOne.innerHTML);
                     WinPrint.document.close();
                     WinPrint.focus();
@@ -225,12 +225,18 @@
             <asp:HiddenField ID="HdnTableSource" runat="server" />
             <asp:HiddenField ID="HdnClientId" runat="server" />
             <div id="PrintBill">
-                <div class="Division3" style="float: left;">
-                    TIN: 30241108428</div>
-                <div class="Division3" style="float: left;">
-                    CASH / CREDIT MEMO</div>
-                <div class="Division3" style="float: left;">
-                    Bill No.&nbsp;<asp:Literal ID="LtrBillNo" runat="server" />
+            <br />
+            <br />
+            <br />
+            <br />
+                <div class="FullWidth">
+                    <div class="Division3">
+                        TIN: 30241108428</div>
+                    <div class="Division3">
+                        CASH / CREDIT MEMO</div>
+                    <div class="Division3">
+                        Bill No.&nbsp;<asp:Literal ID="LtrBillNo" runat="server" />
+                    </div>
                 </div>
                 <br />
                 <br />
@@ -239,30 +245,36 @@
                     <br />
                     Along NH-17 Verna By-Pass Road, Manjo Verna, Goa, 403722<br />
                     Ph: 0832-2887406
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                </div>
+                <div class="FullWidth">
+                    <div class="Division4">
+                        <b>Date</b><br />
+                        <asp:Literal ID="LtrDate" runat="server" />
+                    </div>
+                    <div class="Division4">
+                        <b>Time</b><br />
+                        <asp:Literal ID="LtrTime" runat="server" />
+                    </div>
+                    <div class="Division4">
+                        <b>Table No.</b><br />
+                        <asp:Literal ID="LtrTableNo" runat="server" />
+                    </div>
+                    <div class="Division4">
+                        <b>Steward</b><br />
+                    </div>
                 </div>
                 <br />
                 <br />
-                <div class="Division4">
-                    Date:
-                    <asp:Literal ID="LtrDate" runat="server" />
-                </div>
-                <div class="Division4">
-                    Time:
-                    <asp:Literal ID="LtrTime" runat="server" />
-                </div>
-                <div class="Division4">
-                    Table No.
-                    <asp:Literal ID="LtrTableNo" runat="server" />
-                </div>
-                <div class="Division4">
-                    Steward:
-                </div>
                 <br />
                 <br />
-                <table id="TblBill" runat="server" class="FullWidth" border="1">
+                <table id="TblBill" runat="server" class="FullWidth" style="margin-left:auto; margin-right: auto;">
                     <thead>
                         <tr>
-                            <td style="width: 75%">
+                            <td style="width: 60%">
                                 <strong>Item</strong>
                             </td>
                             <td>
@@ -278,6 +290,8 @@
                 <br />
             </div>
             <div id="PrintOt">
+            <br />
+            <br /><br />
                 <asp:Label ID="LblOt" runat="server" CssClass="OtTitle" />
                 <span id="Ot" runat="server" />
             </div>

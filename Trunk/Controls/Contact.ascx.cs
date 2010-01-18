@@ -35,8 +35,8 @@ public partial class Controls_Contact : System.Web.UI.UserControl
             {
                 HdnContactId.Value = Request.QueryString["Id"].ToString();
                 FillData();
-            } 
-            ((AjaxControlToolkit.Accordion)Page.Master.FindControl("AccMenu")).SelectedIndex = 2;
+            }
+            ((AjaxControlToolkit.Accordion)Page.Master.FindControl("AccMenu")).SelectedIndex = 3;
         }
     }
     protected void BtnSearchPersonalName_Click(object sender, EventArgs e)

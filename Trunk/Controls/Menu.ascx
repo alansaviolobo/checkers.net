@@ -59,6 +59,12 @@
             </td>
             <td>
                 <asp:TextBox ID="TxtPrice" runat="server" Width="80px" />
+                <asp:RegularExpressionValidator ID="RegVldPrice" runat="server" 
+                    ControlToValidate="TxtPrice" Display="None" 
+                    ErrorMessage="Please Enter A Number" ValidationExpression="^\d{1,10}(\.\d{0,2})?$"></asp:RegularExpressionValidator>
+                <Ajax:ValidatorCalloutExtender ID="RegVldPriceExtender" runat="server" 
+                    Enabled="True" TargetControlID="RegVldPrice">
+                </Ajax:ValidatorCalloutExtender>
             </td>
         </tr>
         <tr>

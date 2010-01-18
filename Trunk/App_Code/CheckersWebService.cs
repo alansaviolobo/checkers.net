@@ -26,7 +26,7 @@ public class CheckersWebService : System.Web.Services.WebService
         CheckersDataContext Checkers = new CheckersDataContext();
 
         return (from M in Checkers.Menus
-                where M.Menu_Name.Equals(MenuName)
+                where M.Menu_Name.Equals(MenuName) && M.Menu_Status.Equals(1)
                 select M.Menu_Id).Single();
     }
     #endregion
@@ -68,7 +68,7 @@ public class CheckersWebService : System.Web.Services.WebService
         CheckersDataContext Checkers = new CheckersDataContext();
 
         return (from P in Checkers.Packages
-                where P.Package_Name.Equals(PackageName)
+                where P.Package_Name.Equals(PackageName) && P.Package_Status.Equals(1)
                 select P.Package_Id).Single();
     }
     #endregion
@@ -80,7 +80,7 @@ public class CheckersWebService : System.Web.Services.WebService
         CheckersDataContext Checkers = new CheckersDataContext();
         return (from E in Checkers.Events
                 where E.Event_Name.StartsWith(prefixText) && E.Event_Status.Equals(1)
-                select E.Event_Name).ToArray<string>();
+                select E.Event_Name + "-" + E.Event_Organizer).ToArray<string>();
     }
 
     [WebMethod]
@@ -88,8 +88,10 @@ public class CheckersWebService : System.Web.Services.WebService
     {
         CheckersDataContext Checkers = new CheckersDataContext();
 
+        string[] Name = EventName.Split('-');
+
         return (from E in Checkers.Events
-                where E.Event_Name.Equals(EventName)
+                where E.Event_Name.Equals(Name[0]) && E.Event_Status.Equals(1) && E.Event_Organizer.Equals(Name[1])
                 select E.Event_Id).Single();
     }
     #endregion

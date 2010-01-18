@@ -28,7 +28,7 @@ public partial class Controls_User : System.Web.UI.UserControl
                 case "Delete": BtnSearch.Visible = true; AutoCompSearch.Enabled = true; BtnSubmit.Text = "Delete"; break;
             }
         }
-        ((AjaxControlToolkit.Accordion)Page.Master.FindControl("AccMenu")).SelectedIndex = 3;
+        ((AjaxControlToolkit.Accordion)Page.Master.FindControl("AccMenu")).SelectedIndex = 4;
     }
     protected void BtnSubmit_Click(object sender, EventArgs e)
     {
@@ -39,7 +39,7 @@ public partial class Controls_User : System.Web.UI.UserControl
         {
             Status = Checkers.ContactNew(0, TxtName.Text, TxtUserName.Text, "checkers", DdlType.SelectedItem.Text, TxtPhone.Text, TxtAddress.Text, TxtEmail.Text, null, null, null);
             LtrMessage.Text = Status == 1 ? "User " + TxtName.Text + " Added." : "User Name " + TxtName.Text + " Already Exists.";
-            if (Status == 1) Status = Checkers.ActivityNew("User " + TxtName.Text + " Added", int.Parse(Session["UserId"].ToString()));
+            if (Status == 1) Status = Checkers.ActivityNew("User " + TxtName.Text + " Added With Default Password - checkers", int.Parse(Session["UserId"].ToString()));
 
             ClearForm();
         }

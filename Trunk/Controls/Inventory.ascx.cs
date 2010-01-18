@@ -27,11 +27,15 @@ public partial class Controls_Inventory : System.Web.UI.UserControl
                 case "Edit": BtnSearch.Visible = true; AutoCompSearch.Enabled = true; BtnSubmit.Text = "Update"; break;
                 case "Delete": BtnSearch.Visible = true; AutoCompSearch.Enabled = true; BtnSubmit.Text = "Delete"; break;
             }
-            ((AjaxControlToolkit.Accordion)Page.Master.FindControl("AccMenu")).SelectedIndex = 1;
+            ((AjaxControlToolkit.Accordion)Page.Master.FindControl("AccMenu")).SelectedIndex = 2;
         }
     }
     protected void BtnSubmit_Click(object sender, EventArgs e)
     {
+        TxtThreshold.Text = TxtThreshold.Text == "" ? "1" : TxtThreshold.Text;
+        TxtConversionUnit.Text = TxtConversionUnit.Text == "" ? "1" : TxtConversionUnit.Text;
+        TxtBuyingPrice.Text = TxtBuyingPrice.Text == "" ? "1" : TxtBuyingPrice.Text;
+
         Checkers = new CheckersDataContext();
         int Status;
 
@@ -95,11 +99,11 @@ public partial class Controls_Inventory : System.Web.UI.UserControl
         TxtName.Text = "";
         TxtBuyingPrice.Text = "";
         TxtBuyingPrice.Text = "0";
-        TxtThreshold.Text = "";
-        TxtConversionUnit.Text = "";
+        TxtThreshold.Text = "0";
+        TxtConversionUnit.Text = "1";
         LtrInventoryItems.Text = "";
         LtrPurchaseUnit1.Text = "Per Kg";
-        LtrPurchaseUnit2.Text = "Kg";
+        LtrPurchaseUnit2.Text = "Kg(s)";
         LtrPurchaseUnit3.Text = "Kg";
         BtnNo.Visible = false;
         BtnYes.Visible = false;
@@ -113,7 +117,7 @@ public partial class Controls_Inventory : System.Web.UI.UserControl
     protected void DdlPurchaseUnit_SelectedIndexChanged(object sender, EventArgs e)
     {
         LtrPurchaseUnit1.Text = "Per " + DdlPurchaseUnit.SelectedItem.Text;
-        LtrPurchaseUnit2.Text = DdlPurchaseUnit.SelectedItem.Text;
+        LtrPurchaseUnit2.Text = DdlPurchaseUnit.SelectedItem.Text + "(s)";
         LtrPurchaseUnit3.Text = DdlPurchaseUnit.SelectedItem.Text;
         LtrName.Text = TxtName.Text;
     }
@@ -129,7 +133,7 @@ public partial class Controls_Inventory : System.Web.UI.UserControl
         TxtConversionUnit.Text = InventoryDetails.Inventory_ConversionUnit.ToString();
         LtrName.Text = InventoryDetails.Inventory_Name.ToString();
         LtrPurchaseUnit1.Text = "Per " + InventoryDetails.Inventory_PurchaseUnit.ToString();
-        LtrPurchaseUnit2.Text = InventoryDetails.Inventory_PurchaseUnit.ToString();
+        LtrPurchaseUnit2.Text = InventoryDetails.Inventory_PurchaseUnit.ToString() + "(s)";
         LtrPurchaseUnit3.Text = InventoryDetails.Inventory_PurchaseUnit.ToString();
     }
 }

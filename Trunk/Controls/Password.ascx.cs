@@ -14,7 +14,7 @@ public partial class Controls_Password : System.Web.UI.UserControl
         Checkers = new CheckersDataContext();
 
         LtrUserName.Text = (from U in Checkers.Contacts where U.Contact_Id == int.Parse(Session["UserId"].ToString()) select U.Contact_Name).Single().ToString();
-        ((AjaxControlToolkit.Accordion)Page.Master.FindControl("AccMenu")).SelectedIndex = 3;
+        ((AjaxControlToolkit.Accordion)Page.Master.FindControl("AccMenu")).SelectedIndex = 4;
     }
     protected void BtnChangePassword_Click(object sender, EventArgs e)
     {
