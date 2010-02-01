@@ -35,6 +35,9 @@ public partial class CheckersDataContext : System.Data.Linq.DataContext
   partial void InsertToken(Token instance);
   partial void UpdateToken(Token instance);
   partial void DeleteToken(Token instance);
+  partial void InsertAsset(Asset instance);
+  partial void UpdateAsset(Asset instance);
+  partial void DeleteAsset(Asset instance);
   partial void InsertCatalog(Catalog instance);
   partial void UpdateCatalog(Catalog instance);
   partial void DeleteCatalog(Catalog instance);
@@ -131,6 +134,14 @@ public partial class CheckersDataContext : System.Data.Linq.DataContext
 		}
 	}
 	
+	public System.Data.Linq.Table<Asset> Assets
+	{
+		get
+		{
+			return this.GetTable<Asset>();
+		}
+	}
+	
 	public System.Data.Linq.Table<Catalog> Catalogs
 	{
 		get
@@ -192,6 +203,14 @@ public partial class CheckersDataContext : System.Data.Linq.DataContext
 		get
 		{
 			return this.GetTable<Menu>();
+		}
+	}
+	
+	public System.Data.Linq.Table<Miscellaneous> Miscellaneous
+	{
+		get
+		{
+			return this.GetTable<Miscellaneous>();
 		}
 	}
 	
@@ -260,16 +279,37 @@ public partial class CheckersDataContext : System.Data.Linq.DataContext
 	}
 	
 	[Function(Name="dbo.ActivityNew")]
-	public int ActivityNew([Parameter(Name="Action", DbType="VarChar(1000)")] string action, [Parameter(Name="User", DbType="Int")] System.Nullable<int> user)
+	public int ActivityNew([Parameter(Name="Action", DbType="VarChar(1000)")] string action, [Parameter(Name="User", DbType="Int")] System.Nullable<int> user, [Parameter(Name="TimeStamp", DbType="DateTime")] System.Nullable<System.DateTime> timeStamp)
 	{
-		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), action, user);
+		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), action, user, timeStamp);
 		return ((int)(result.ReturnValue));
 	}
 	
 	[Function(Name="dbo.TokenNew")]
-	public int TokenNew([Parameter(Name="Type", DbType="VarChar(50)")] string type, [Parameter(Name="Menu", DbType="Int")] System.Nullable<int> menu, [Parameter(Name="Quantity", DbType="Decimal")] System.Nullable<decimal> quantity, [Parameter(Name="Source", DbType="Int")] System.Nullable<int> source)
+	public int TokenNew([Parameter(Name="Type", DbType="VarChar(50)")] string type, [Parameter(Name="Menu", DbType="Int")] System.Nullable<int> menu, [Parameter(Name="Quantity", DbType="Decimal")] System.Nullable<decimal> quantity, [Parameter(Name="Source", DbType="Int")] System.Nullable<int> source, [Parameter(Name="TimeStamp", DbType="DateTime")] System.Nullable<System.DateTime> timeStamp)
 	{
-		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), type, menu, quantity, source);
+		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), type, menu, quantity, source, timeStamp);
+		return ((int)(result.ReturnValue));
+	}
+	
+	[Function(Name="dbo.AssetDelete")]
+	public int AssetDelete([Parameter(Name="Id", DbType="Int")] System.Nullable<int> id)
+	{
+		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id);
+		return ((int)(result.ReturnValue));
+	}
+	
+	[Function(Name="dbo.AssetEdit")]
+	public int AssetEdit([Parameter(Name="Id", DbType="Int")] System.Nullable<int> id, [Parameter(Name="Name", DbType="VarChar(100)")] string name, [Parameter(Name="Quantity", DbType="Int")] System.Nullable<int> quantity, [Parameter(Name="PurchaseDate", DbType="DateTime")] System.Nullable<System.DateTime> purchaseDate, [Parameter(Name="TimeStamp", DbType="DateTime")] System.Nullable<System.DateTime> timeStamp)
+	{
+		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id, name, quantity, purchaseDate, timeStamp);
+		return ((int)(result.ReturnValue));
+	}
+	
+	[Function(Name="dbo.AssetNew")]
+	public int AssetNew([Parameter(Name="Name", DbType="VarChar(100)")] string name, [Parameter(Name="Quantity", DbType="Int")] System.Nullable<int> quantity, [Parameter(Name="PurchaseDate", DbType="DateTime")] System.Nullable<System.DateTime> purchaseDate, [Parameter(Name="TimeStamp", DbType="DateTime")] System.Nullable<System.DateTime> timeStamp)
+	{
+		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), name, quantity, purchaseDate, timeStamp);
 		return ((int)(result.ReturnValue));
 	}
 	
@@ -281,9 +321,9 @@ public partial class CheckersDataContext : System.Data.Linq.DataContext
 	}
 	
 	[Function(Name="dbo.CatalogEdit")]
-	public int CatalogEdit([Parameter(Name="Id", DbType="Int")] System.Nullable<int> id, [Parameter(Name="Name", DbType="VarChar(100)")] string name, [Parameter(Name="Type", DbType="VarChar(50)")] string type)
+	public int CatalogEdit([Parameter(Name="Id", DbType="Int")] System.Nullable<int> id, [Parameter(Name="Name", DbType="VarChar(100)")] string name, [Parameter(Name="Type", DbType="VarChar(50)")] string type, [Parameter(Name="TimeStamp", DbType="DateTime")] System.Nullable<System.DateTime> timeStamp)
 	{
-		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id, name, type);
+		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id, name, type, timeStamp);
 		return ((int)(result.ReturnValue));
 	}
 	
@@ -316,9 +356,23 @@ public partial class CheckersDataContext : System.Data.Linq.DataContext
 	}
 	
 	[Function(Name="dbo.ContactNew")]
-	public int ContactNew([Parameter(Name="Id", DbType="Int")] System.Nullable<int> id, [Parameter(Name="Name", DbType="VarChar(100)")] string name, [Parameter(Name="UserName", DbType="VarChar(100)")] string userName, [Parameter(Name="Password", DbType="VarChar(100)")] string password, [Parameter(Name="Type", DbType="VarChar(100)")] string type, [Parameter(Name="Phone", DbType="VarChar(100)")] string phone, [Parameter(Name="Address", DbType="VarChar(200)")] string address, [Parameter(Name="Email", DbType="VarChar(100)")] string email, [Parameter(Name="OrganizationName", DbType="VarChar(100)")] string organizationName, [Parameter(Name="OrganizationAddress", DbType="VarChar(200)")] string organizationAddress, [Parameter(Name="OrganizationPhone", DbType="VarChar(100)")] string organizationPhone)
+	public int ContactNew([Parameter(Name="Id", DbType="Int")] System.Nullable<int> id, [Parameter(Name="Name", DbType="VarChar(100)")] string name, [Parameter(Name="UserName", DbType="VarChar(100)")] string userName, [Parameter(Name="Password", DbType="VarChar(100)")] string password, [Parameter(Name="Type", DbType="VarChar(100)")] string type, [Parameter(Name="Phone", DbType="VarChar(100)")] string phone, [Parameter(Name="Address", DbType="VarChar(200)")] string address, [Parameter(Name="Email", DbType="VarChar(100)")] string email, [Parameter(Name="OrganizationName", DbType="VarChar(100)")] string organizationName, [Parameter(Name="OrganizationAddress", DbType="VarChar(200)")] string organizationAddress, [Parameter(Name="OrganizationPhone", DbType="VarChar(100)")] string organizationPhone, [Parameter(Name="TimeStamp", DbType="DateTime")] System.Nullable<System.DateTime> timeStamp)
 	{
-		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id, name, userName, password, type, phone, address, email, organizationName, organizationAddress, organizationPhone);
+		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id, name, userName, password, type, phone, address, email, organizationName, organizationAddress, organizationPhone, timeStamp);
+		return ((int)(result.ReturnValue));
+	}
+	
+	[Function(Name="dbo.ContentDelete")]
+	public int ContentDelete([Parameter(Name="Id", DbType="Int")] System.Nullable<int> id)
+	{
+		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id);
+		return ((int)(result.ReturnValue));
+	}
+	
+	[Function(Name="dbo.ContentNew")]
+	public int ContentNew([Parameter(Name="Id", DbType="Int")] System.Nullable<int> id, [Parameter(Name="Menu", DbType="Int")] System.Nullable<int> menu, [Parameter(Name="Quantity", DbType="Decimal")] System.Nullable<decimal> quantity, [Parameter(Name="UnitPrice", DbType="Decimal")] System.Nullable<decimal> unitPrice, [Parameter(Name="Cost", DbType="Decimal")] System.Nullable<decimal> cost, [Parameter(Name="Package", DbType="Int")] System.Nullable<int> package, [Parameter(Name="Status", DbType="Int")] System.Nullable<int> status, [Parameter(Name="TimeStamp", DbType="DateTime")] System.Nullable<System.DateTime> timeStamp)
+	{
+		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id, menu, quantity, unitPrice, cost, package, status, timeStamp);
 		return ((int)(result.ReturnValue));
 	}
 	
@@ -337,9 +391,9 @@ public partial class CheckersDataContext : System.Data.Linq.DataContext
 	}
 	
 	[Function(Name="dbo.ConverterNew")]
-	public int ConverterNew([Parameter(Name="Menu", DbType="Int")] System.Nullable<int> menu, [Parameter(Name="Inventory", DbType="Int")] System.Nullable<int> inventory, [Parameter(Name="InventoryQuantity", DbType="Decimal")] System.Nullable<decimal> inventoryQuantity)
+	public int ConverterNew([Parameter(Name="Menu", DbType="Int")] System.Nullable<int> menu, [Parameter(Name="Inventory", DbType="Int")] System.Nullable<int> inventory, [Parameter(Name="InventoryQuantity", DbType="Decimal")] System.Nullable<decimal> inventoryQuantity, [Parameter(Name="TimeStamp", DbType="DateTime")] System.Nullable<System.DateTime> timeStamp)
 	{
-		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), menu, inventory, inventoryQuantity);
+		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), menu, inventory, inventoryQuantity, timeStamp);
 		return ((int)(result.ReturnValue));
 	}
 	
@@ -358,9 +412,9 @@ public partial class CheckersDataContext : System.Data.Linq.DataContext
 	}
 	
 	[Function(Name="dbo.EventNew")]
-	public int EventNew([Parameter(Name="Name", DbType="VarChar(100)")] string name, [Parameter(Name="From", DbType="DateTime")] System.Nullable<System.DateTime> from, [Parameter(Name="To", DbType="DateTime")] System.Nullable<System.DateTime> to, [Parameter(Name="Organizer", DbType="Int")] System.Nullable<int> organizer, [Parameter(Name="Venue", DbType="VarChar(100)")] string venue)
+	public int EventNew([Parameter(Name="Name", DbType="VarChar(100)")] string name, [Parameter(Name="From", DbType="DateTime")] System.Nullable<System.DateTime> from, [Parameter(Name="To", DbType="DateTime")] System.Nullable<System.DateTime> to, [Parameter(Name="Organizer", DbType="Int")] System.Nullable<int> organizer, [Parameter(Name="Venue", DbType="VarChar(100)")] string venue, [Parameter(Name="TimeStamp", DbType="DateTime")] System.Nullable<System.DateTime> timeStamp)
 	{
-		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), name, from, to, organizer, venue);
+		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), name, from, to, organizer, venue, timeStamp);
 		return ((int)(result.ReturnValue));
 	}
 	
@@ -386,9 +440,9 @@ public partial class CheckersDataContext : System.Data.Linq.DataContext
 	}
 	
 	[Function(Name="dbo.InventoryNew")]
-	public int InventoryNew([Parameter(Name="Name", DbType="VarChar(100)")] string name, [Parameter(Name="BuyingPrice", DbType="Decimal")] System.Nullable<decimal> buyingPrice, [Parameter(Name="Threshold", DbType="Decimal")] System.Nullable<decimal> threshold, [Parameter(Name="PurchaseUnit", DbType="VarChar(100)")] string purchaseUnit, [Parameter(Name="ConversionUnit", DbType="Decimal")] System.Nullable<decimal> conversionUnit)
+	public int InventoryNew([Parameter(Name="Name", DbType="VarChar(100)")] string name, [Parameter(Name="BuyingPrice", DbType="Decimal")] System.Nullable<decimal> buyingPrice, [Parameter(Name="Threshold", DbType="Decimal")] System.Nullable<decimal> threshold, [Parameter(Name="PurchaseUnit", DbType="VarChar(100)")] string purchaseUnit, [Parameter(Name="ConversionUnit", DbType="Decimal")] System.Nullable<decimal> conversionUnit, [Parameter(Name="TimeStamp", DbType="DateTime")] System.Nullable<System.DateTime> timeStamp)
 	{
-		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), name, buyingPrice, threshold, purchaseUnit, conversionUnit);
+		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), name, buyingPrice, threshold, purchaseUnit, conversionUnit, timeStamp);
 		return ((int)(result.ReturnValue));
 	}
 	
@@ -428,16 +482,16 @@ public partial class CheckersDataContext : System.Data.Linq.DataContext
 	}
 	
 	[Function(Name="dbo.InvoiceEdit")]
-	public int InvoiceEdit([Parameter(Name="Id", DbType="Int")] System.Nullable<int> id, [Parameter(Name="Amount", DbType="Decimal")] System.Nullable<decimal> amount, [Parameter(Name="Discount", DbType="Decimal")] System.Nullable<decimal> discount, [Parameter(Name="Tax", DbType="Decimal")] System.Nullable<decimal> tax, [Parameter(Name="Source", DbType="Int")] System.Nullable<int> source, [Parameter(Name="PaymentMode", DbType="VarChar(100)")] string paymentMode, [Parameter(Name="Status", DbType="Int")] System.Nullable<int> status, [Parameter(Name="Reason", DbType="VarChar(200)")] string reason)
+	public int InvoiceEdit([Parameter(Name="Id", DbType="Int")] System.Nullable<int> id, [Parameter(Name="AmountBar", DbType="Decimal")] System.Nullable<decimal> amountBar, [Parameter(Name="AmountRestaurant", DbType="Decimal")] System.Nullable<decimal> amountRestaurant, [Parameter(Name="DiscountBar", DbType="Decimal")] System.Nullable<decimal> discountBar, [Parameter(Name="DiscountRestaurant", DbType="Decimal")] System.Nullable<decimal> discountRestaurant)
 	{
-		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id, amount, discount, tax, source, paymentMode, status, reason);
+		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id, amountBar, amountRestaurant, discountBar, discountRestaurant);
 		return ((int)(result.ReturnValue));
 	}
 	
 	[Function(Name="dbo.InvoiceNew")]
-	public int InvoiceNew([Parameter(Name="Id", DbType="Int")] System.Nullable<int> id, [Parameter(Name="Amount", DbType="Decimal")] System.Nullable<decimal> amount, [Parameter(Name="Discount", DbType="Decimal")] System.Nullable<decimal> discount, [Parameter(Name="Tax", DbType="Decimal")] System.Nullable<decimal> tax, [Parameter(Name="Source", DbType="Int")] System.Nullable<int> source, [Parameter(Name="PaymentMode", DbType="VarChar(100)")] string paymentMode)
+	public int InvoiceNew([Parameter(Name="Id", DbType="Int")] System.Nullable<int> id, [Parameter(Name="Amount", DbType="Decimal")] System.Nullable<decimal> amount, [Parameter(Name="Discount", DbType="Decimal")] System.Nullable<decimal> discount, [Parameter(Name="AmountBar", DbType="Decimal")] System.Nullable<decimal> amountBar, [Parameter(Name="AmountRestaurant", DbType="Decimal")] System.Nullable<decimal> amountRestaurant, [Parameter(Name="DiscountBar", DbType="Decimal")] System.Nullable<decimal> discountBar, [Parameter(Name="DiscountRestaurant", DbType="Decimal")] System.Nullable<decimal> discountRestaurant, [Parameter(Name="Source", DbType="Int")] System.Nullable<int> source, [Parameter(Name="PaymentMode", DbType="VarChar(100)")] string paymentMode, [Parameter(Name="Steward", DbType="Int")] System.Nullable<int> steward, [Parameter(Name="NoOfPeople", DbType="Int")] System.Nullable<int> noOfPeople, [Parameter(Name="TimeStamp", DbType="DateTime")] System.Nullable<System.DateTime> timeStamp)
 	{
-		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id, amount, discount, tax, source, paymentMode);
+		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id, amount, discount, amountBar, amountRestaurant, discountBar, discountRestaurant, source, paymentMode, steward, noOfPeople, timeStamp);
 		return ((int)(result.ReturnValue));
 	}
 	
@@ -449,16 +503,30 @@ public partial class CheckersDataContext : System.Data.Linq.DataContext
 	}
 	
 	[Function(Name="dbo.MenuEdit")]
-	public int MenuEdit([Parameter(Name="Id", DbType="Int")] System.Nullable<int> id, [Parameter(Name="Name", DbType="VarChar(100)")] string name, [Parameter(Name="Category", DbType="VarChar(100)")] string category, [Parameter(Name="Price", DbType="Decimal")] System.Nullable<decimal> price)
+	public int MenuEdit([Parameter(Name="Id", DbType="Int")] System.Nullable<int> id, [Parameter(Name="Name", DbType="VarChar(100)")] string name, [Parameter(Name="Category", DbType="VarChar(100)")] string category, [Parameter(Name="TokenSection", DbType="VarChar(100)")] string tokenSection, [Parameter(Name="Price", DbType="Decimal")] System.Nullable<decimal> price)
 	{
-		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id, name, category, price);
+		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id, name, category, tokenSection, price);
 		return ((int)(result.ReturnValue));
 	}
 	
 	[Function(Name="dbo.MenuNew")]
-	public int MenuNew([Parameter(Name="Id", DbType="Int")] System.Nullable<int> id, [Parameter(Name="Name", DbType="VarChar(100)")] string name, [Parameter(Name="Category", DbType="VarChar(100)")] string category, [Parameter(Name="Price", DbType="Decimal")] System.Nullable<decimal> price)
+	public int MenuNew([Parameter(Name="Id", DbType="Int")] System.Nullable<int> id, [Parameter(Name="Name", DbType="VarChar(100)")] string name, [Parameter(Name="Category", DbType="VarChar(100)")] string category, [Parameter(Name="TokenSection", DbType="VarChar(100)")] string tokenSection, [Parameter(Name="Price", DbType="Decimal")] System.Nullable<decimal> price, [Parameter(Name="TimeStamp", DbType="DateTime")] System.Nullable<System.DateTime> timeStamp)
 	{
-		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id, name, category, price);
+		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id, name, category, tokenSection, price, timeStamp);
+		return ((int)(result.ReturnValue));
+	}
+	
+	[Function(Name="dbo.MiscellaneousEdit")]
+	public int MiscellaneousEdit([Parameter(Name="Key", DbType="VarChar(100)")] string key, [Parameter(Name="Value", DbType="VarChar(100)")] string value)
+	{
+		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), key, value);
+		return ((int)(result.ReturnValue));
+	}
+	
+	[Function(Name="dbo.MiscellaneousNew")]
+	public int MiscellaneousNew([Parameter(Name="Key", DbType="VarChar(100)")] string key, [Parameter(Name="Value", DbType="VarChar(100)")] string value)
+	{
+		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), key, value);
 		return ((int)(result.ReturnValue));
 	}
 	
@@ -483,6 +551,13 @@ public partial class CheckersDataContext : System.Data.Linq.DataContext
 		return ((int)(result.ReturnValue));
 	}
 	
+	[Function(Name="dbo.OfferNew")]
+	public int OfferNew([Parameter(Name="Name", DbType="VarChar(100)")] string name, [Parameter(Name="Menu", DbType="Int")] System.Nullable<int> menu, [Parameter(Name="Quantity", DbType="Int")] System.Nullable<int> quantity, [Parameter(Name="Discount", DbType="Int")] System.Nullable<int> discount, [Parameter(Name="Type", DbType="Char(10)")] string type, [Parameter(Name="TimeStamp", DbType="DateTime")] System.Nullable<System.DateTime> timeStamp)
+	{
+		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), name, menu, quantity, discount, type, timeStamp);
+		return ((int)(result.ReturnValue));
+	}
+	
 	[Function(Name="dbo.PackageDelete")]
 	public int PackageDelete([Parameter(Name="Id", DbType="Int")] System.Nullable<int> id)
 	{
@@ -498,23 +573,23 @@ public partial class CheckersDataContext : System.Data.Linq.DataContext
 	}
 	
 	[Function(Name="dbo.PackageNew")]
-	public int PackageNew([Parameter(Name="Name", DbType="VarChar(100)")] string name, [Parameter(Name="Type", DbType="VarChar(50)")] string type, [Parameter(Name="Comments", DbType="VarChar(200)")] string comments)
+	public int PackageNew([Parameter(Name="Name", DbType="VarChar(100)")] string name, [Parameter(Name="Type", DbType="VarChar(50)")] string type, [Parameter(Name="Comments", DbType="VarChar(200)")] string comments, [Parameter(Name="TimeStamp", DbType="DateTime")] System.Nullable<System.DateTime> timeStamp)
 	{
-		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), name, type, comments);
+		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), name, type, comments, timeStamp);
 		return ((int)(result.ReturnValue));
 	}
 	
 	[Function(Name="dbo.PettyCashNew")]
-	public int PettyCashNew([Parameter(Name="Amount", DbType="Decimal")] System.Nullable<decimal> amount, [Parameter(Name="GivenBy", DbType="Int")] System.Nullable<int> givenBy, [Parameter(Name="ReceivedBy", DbType="Int")] System.Nullable<int> receivedBy)
+	public int PettyCashNew([Parameter(Name="Amount", DbType="Decimal")] System.Nullable<decimal> amount, [Parameter(Name="GivenBy", DbType="Int")] System.Nullable<int> givenBy, [Parameter(Name="ReceivedBy", DbType="Int")] System.Nullable<int> receivedBy, [Parameter(Name="TimeStamp", DbType="DateTime")] System.Nullable<System.DateTime> timeStamp)
 	{
-		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), amount, givenBy, receivedBy);
+		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), amount, givenBy, receivedBy, timeStamp);
 		return ((int)(result.ReturnValue));
 	}
 	
 	[Function(Name="dbo.PettyExpenseNew")]
-	public int PettyExpenseNew([Parameter(Name="Amount", DbType="Decimal")] System.Nullable<decimal> amount, [Parameter(Name="Merchandise", DbType="VarChar(200)")] string merchandise, [Parameter(Name="Quantity", DbType="Decimal")] System.Nullable<decimal> quantity, [Parameter(Name="ReceivedBy", DbType="Int")] System.Nullable<int> receivedBy)
+	public int PettyExpenseNew([Parameter(Name="Amount", DbType="Decimal")] System.Nullable<decimal> amount, [Parameter(Name="Narration", DbType="VarChar(200)")] string narration, [Parameter(Name="Quantity", DbType="Decimal")] System.Nullable<decimal> quantity, [Parameter(Name="ReceivedBy", DbType="Int")] System.Nullable<int> receivedBy, [Parameter(Name="TimeStamp", DbType="DateTime")] System.Nullable<System.DateTime> timeStamp)
 	{
-		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), amount, merchandise, quantity, receivedBy);
+		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), amount, narration, quantity, receivedBy, timeStamp);
 		return ((int)(result.ReturnValue));
 	}
 	
@@ -533,9 +608,9 @@ public partial class CheckersDataContext : System.Data.Linq.DataContext
 	}
 	
 	[Function(Name="dbo.PurchaseNew")]
-	public int PurchaseNew([Parameter(Name="Inventory", DbType="Int")] System.Nullable<int> inventory, [Parameter(Name="Quantity", DbType="Decimal")] System.Nullable<decimal> quantity)
+	public int PurchaseNew([Parameter(Name="Inventory", DbType="Int")] System.Nullable<int> inventory, [Parameter(Name="Quantity", DbType="Decimal")] System.Nullable<decimal> quantity, [Parameter(Name="TimeStamp", DbType="DateTime")] System.Nullable<System.DateTime> timeStamp)
 	{
-		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), inventory, quantity);
+		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), inventory, quantity, timeStamp);
 		return ((int)(result.ReturnValue));
 	}
 	
@@ -547,30 +622,37 @@ public partial class CheckersDataContext : System.Data.Linq.DataContext
 	}
 	
 	[Function(Name="dbo.ReceiptNew")]
-	public int ReceiptNew([Parameter(Name="Amount", DbType="Decimal")] System.Nullable<decimal> amount, [Parameter(Name="PaymentMode", DbType="VarChar(100)")] string paymentMode, [Parameter(Name="ClientId", DbType="Int")] System.Nullable<int> clientId)
+	public int ReceiptNew([Parameter(Name="Amount", DbType="Decimal")] System.Nullable<decimal> amount, [Parameter(Name="PaymentMode", DbType="VarChar(100)")] string paymentMode, [Parameter(Name="ClientId", DbType="Int")] System.Nullable<int> clientId, [Parameter(Name="TimeStamp", DbType="DateTime")] System.Nullable<System.DateTime> timeStamp)
 	{
-		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), amount, paymentMode, clientId);
+		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), amount, paymentMode, clientId, timeStamp);
 		return ((int)(result.ReturnValue));
 	}
 	
 	[Function(Name="dbo.SalesDelete")]
-	public int SalesDelete([Parameter(Name="Id", DbType="Int")] System.Nullable<int> id, [Parameter(Name="Menu", DbType="Int")] System.Nullable<int> menu, [Parameter(Name="Quantity", DbType="Decimal")] System.Nullable<decimal> quantity, [Parameter(Name="Source", DbType="Int")] System.Nullable<int> source, [Parameter(Name="SourceType", DbType="VarChar(100)")] string sourceType)
+	public int SalesDelete([Parameter(Name="Id", DbType="Int")] System.Nullable<int> id, [Parameter(Name="Menu", DbType="Int")] System.Nullable<int> menu, [Parameter(Name="Quantity", DbType="Decimal")] System.Nullable<decimal> quantity, [Parameter(Name="Source", DbType="Int")] System.Nullable<int> source, [Parameter(Name="SourceType", DbType="VarChar(100)")] string sourceType, [Parameter(Name="TimeStamp", DbType="DateTime")] System.Nullable<System.DateTime> timeStamp)
 	{
-		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id, menu, quantity, source, sourceType);
+		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id, menu, quantity, source, sourceType, timeStamp);
 		return ((int)(result.ReturnValue));
 	}
 	
 	[Function(Name="dbo.SalesEdit")]
-	public int SalesEdit([Parameter(Name="Id", DbType="Int")] System.Nullable<int> id, [Parameter(Name="Menu", DbType="Int")] System.Nullable<int> menu, [Parameter(Name="Quantity", DbType="Decimal")] System.Nullable<decimal> quantity, [Parameter(Name="Source", DbType="Int")] System.Nullable<int> source, [Parameter(Name="SourceType", DbType="VarChar(100)")] string sourceType, [Parameter(Name="Package", DbType="Int")] System.Nullable<int> package)
+	public int SalesEdit([Parameter(Name="Id", DbType="Int")] System.Nullable<int> id, [Parameter(Name="Menu", DbType="Int")] System.Nullable<int> menu, [Parameter(Name="Quantity", DbType="Decimal")] System.Nullable<decimal> quantity, [Parameter(Name="Source", DbType="Int")] System.Nullable<int> source, [Parameter(Name="SourceType", DbType="VarChar(100)")] string sourceType, [Parameter(Name="Package", DbType="Int")] System.Nullable<int> package, [Parameter(Name="TimeStamp", DbType="DateTime")] System.Nullable<System.DateTime> timeStamp)
 	{
-		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id, menu, quantity, source, sourceType, package);
+		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id, menu, quantity, source, sourceType, package, timeStamp);
 		return ((int)(result.ReturnValue));
 	}
 	
 	[Function(Name="dbo.SalesNew")]
-	public int SalesNew([Parameter(Name="Id", DbType="Int")] System.Nullable<int> id, [Parameter(Name="Menu", DbType="Int")] System.Nullable<int> menu, [Parameter(Name="Quantity", DbType="Decimal")] System.Nullable<decimal> quantity, [Parameter(Name="Source", DbType="Int")] System.Nullable<int> source, [Parameter(Name="SourceType", DbType="VarChar(100)")] string sourceType, [Parameter(Name="Package", DbType="Int")] System.Nullable<int> package)
+	public int SalesNew([Parameter(Name="Id", DbType="Int")] System.Nullable<int> id, [Parameter(Name="Menu", DbType="Int")] System.Nullable<int> menu, [Parameter(Name="Quantity", DbType="Decimal")] System.Nullable<decimal> quantity, [Parameter(Name="Source", DbType="Int")] System.Nullable<int> source, [Parameter(Name="SourceType", DbType="VarChar(100)")] string sourceType, [Parameter(Name="Package", DbType="Int")] System.Nullable<int> package, [Parameter(Name="TimeStamp", DbType="DateTime")] System.Nullable<System.DateTime> timeStamp)
 	{
-		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id, menu, quantity, source, sourceType, package);
+		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id, menu, quantity, source, sourceType, package, timeStamp);
+		return ((int)(result.ReturnValue));
+	}
+	
+	[Function(Name="dbo.SalesOffer")]
+	public int SalesOffer([Parameter(Name="Id", DbType="Int")] System.Nullable<int> id, [Parameter(Name="Menu", DbType="Int")] System.Nullable<int> menu, [Parameter(Name="Quantity", DbType="Decimal")] System.Nullable<decimal> quantity, [Parameter(Name="Source", DbType="Int")] System.Nullable<int> source, [Parameter(Name="SourceType", DbType="VarChar(100)")] string sourceType, [Parameter(Name="Cost", DbType="Decimal")] System.Nullable<decimal> cost, [Parameter(Name="Package", DbType="Int")] System.Nullable<int> package, [Parameter(Name="TimeStamp", DbType="DateTime")] System.Nullable<System.DateTime> timeStamp)
+	{
+		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id, menu, quantity, source, sourceType, cost, package, timeStamp);
 		return ((int)(result.ReturnValue));
 	}
 	
@@ -582,16 +664,16 @@ public partial class CheckersDataContext : System.Data.Linq.DataContext
 	}
 	
 	[Function(Name="dbo.SpContent")]
-	public int SpContent([Parameter(Name="Id", DbType="Int")] System.Nullable<int> id, [Parameter(Name="Material", DbType="Int")] System.Nullable<int> material, [Parameter(Name="Quantity", DbType="Decimal")] System.Nullable<decimal> quantity, [Parameter(Name="UnitPrice", DbType="Decimal")] System.Nullable<decimal> unitPrice, [Parameter(Name="Discount", DbType="Decimal")] System.Nullable<decimal> discount, [Parameter(Name="Cost", DbType="Decimal")] System.Nullable<decimal> cost, [Parameter(Name="Package", DbType="Int")] System.Nullable<int> package, [Parameter(Name="Status", DbType="Int")] System.Nullable<int> status, [Parameter(Name="Operation", DbType="VarChar(50)")] string operation)
+	public int SpContent([Parameter(Name="Id", DbType="Int")] System.Nullable<int> id, [Parameter(Name="Menu", DbType="Int")] System.Nullable<int> menu, [Parameter(Name="Quantity", DbType="Decimal")] System.Nullable<decimal> quantity, [Parameter(Name="UnitPrice", DbType="Decimal")] System.Nullable<decimal> unitPrice, [Parameter(Name="Cost", DbType="Decimal")] System.Nullable<decimal> cost, [Parameter(Name="Package", DbType="Int")] System.Nullable<int> package, [Parameter(Name="Status", DbType="Int")] System.Nullable<int> status, [Parameter(Name="Operation", DbType="VarChar(50)")] string operation)
 	{
-		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id, material, quantity, unitPrice, discount, cost, package, status, operation);
+		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id, menu, quantity, unitPrice, cost, package, status, operation);
 		return ((int)(result.ReturnValue));
 	}
 	
-	[Function(Name="dbo.OfferNew")]
-	public int OfferNew([Parameter(Name="Name", DbType="VarChar(100)")] string name, [Parameter(Name="Menu", DbType="Int")] System.Nullable<int> menu, [Parameter(Name="Quantity", DbType="Int")] System.Nullable<int> quantity, [Parameter(Name="Discount", DbType="Int")] System.Nullable<int> discount, [Parameter(Name="Type", DbType="Char(10)")] string type)
+	[Function(Name="dbo.TokenDelete")]
+	public int TokenDelete([Parameter(Name="Id", DbType="Int")] System.Nullable<int> id, [Parameter(Name="Reason", DbType="VarChar(200)")] string reason)
 	{
-		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), name, menu, quantity, discount, type);
+		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id, reason);
 		return ((int)(result.ReturnValue));
 	}
 }
@@ -748,6 +830,8 @@ public partial class Token : INotifyPropertyChanging, INotifyPropertyChanged
 	
 	private System.Nullable<int> _Token_Status;
 	
+	private string _Token_Reason;
+	
 	private System.Nullable<System.DateTime> _Token_TimeStamp;
 	
     #region Extensibility Method Definitions
@@ -766,6 +850,8 @@ public partial class Token : INotifyPropertyChanging, INotifyPropertyChanged
     partial void OnToken_SourceChanged();
     partial void OnToken_StatusChanging(System.Nullable<int> value);
     partial void OnToken_StatusChanged();
+    partial void OnToken_ReasonChanging(string value);
+    partial void OnToken_ReasonChanged();
     partial void OnToken_TimeStampChanging(System.Nullable<System.DateTime> value);
     partial void OnToken_TimeStampChanged();
     #endregion
@@ -895,6 +981,26 @@ public partial class Token : INotifyPropertyChanging, INotifyPropertyChanged
 		}
 	}
 	
+	[Column(Storage="_Token_Reason", DbType="VarChar(200)")]
+	public string Token_Reason
+	{
+		get
+		{
+			return this._Token_Reason;
+		}
+		set
+		{
+			if ((this._Token_Reason != value))
+			{
+				this.OnToken_ReasonChanging(value);
+				this.SendPropertyChanging();
+				this._Token_Reason = value;
+				this.SendPropertyChanged("Token_Reason");
+				this.OnToken_ReasonChanged();
+			}
+		}
+	}
+	
 	[Column(Storage="_Token_TimeStamp", DbType="DateTime")]
 	public System.Nullable<System.DateTime> Token_TimeStamp
 	{
@@ -911,6 +1017,188 @@ public partial class Token : INotifyPropertyChanging, INotifyPropertyChanged
 				this._Token_TimeStamp = value;
 				this.SendPropertyChanged("Token_TimeStamp");
 				this.OnToken_TimeStampChanged();
+			}
+		}
+	}
+	
+	public event PropertyChangingEventHandler PropertyChanging;
+	
+	public event PropertyChangedEventHandler PropertyChanged;
+	
+	protected virtual void SendPropertyChanging()
+	{
+		if ((this.PropertyChanging != null))
+		{
+			this.PropertyChanging(this, emptyChangingEventArgs);
+		}
+	}
+	
+	protected virtual void SendPropertyChanged(String propertyName)
+	{
+		if ((this.PropertyChanged != null))
+		{
+			this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+		}
+	}
+}
+
+[Table(Name="dbo.Asset")]
+public partial class Asset : INotifyPropertyChanging, INotifyPropertyChanged
+{
+	
+	private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+	
+	private int _Asset_Id;
+	
+	private string _Asset_Name;
+	
+	private System.Nullable<int> _Asset_Quantity;
+	
+	private System.Nullable<System.DateTime> _Asset_PurchaseDate;
+	
+	private System.Nullable<int> _Asset_Status;
+	
+	private System.Nullable<System.DateTime> _Asset_TimeStamp;
+	
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnAsset_IdChanging(int value);
+    partial void OnAsset_IdChanged();
+    partial void OnAsset_NameChanging(string value);
+    partial void OnAsset_NameChanged();
+    partial void OnAsset_QuantityChanging(System.Nullable<int> value);
+    partial void OnAsset_QuantityChanged();
+    partial void OnAsset_PurchaseDateChanging(System.Nullable<System.DateTime> value);
+    partial void OnAsset_PurchaseDateChanged();
+    partial void OnAsset_StatusChanging(System.Nullable<int> value);
+    partial void OnAsset_StatusChanged();
+    partial void OnAsset_TimeStampChanging(System.Nullable<System.DateTime> value);
+    partial void OnAsset_TimeStampChanged();
+    #endregion
+	
+	public Asset()
+	{
+		OnCreated();
+	}
+	
+	[Column(Storage="_Asset_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+	public int Asset_Id
+	{
+		get
+		{
+			return this._Asset_Id;
+		}
+		set
+		{
+			if ((this._Asset_Id != value))
+			{
+				this.OnAsset_IdChanging(value);
+				this.SendPropertyChanging();
+				this._Asset_Id = value;
+				this.SendPropertyChanged("Asset_Id");
+				this.OnAsset_IdChanged();
+			}
+		}
+	}
+	
+	[Column(Storage="_Asset_Name", DbType="VarChar(100)")]
+	public string Asset_Name
+	{
+		get
+		{
+			return this._Asset_Name;
+		}
+		set
+		{
+			if ((this._Asset_Name != value))
+			{
+				this.OnAsset_NameChanging(value);
+				this.SendPropertyChanging();
+				this._Asset_Name = value;
+				this.SendPropertyChanged("Asset_Name");
+				this.OnAsset_NameChanged();
+			}
+		}
+	}
+	
+	[Column(Storage="_Asset_Quantity", DbType="Int")]
+	public System.Nullable<int> Asset_Quantity
+	{
+		get
+		{
+			return this._Asset_Quantity;
+		}
+		set
+		{
+			if ((this._Asset_Quantity != value))
+			{
+				this.OnAsset_QuantityChanging(value);
+				this.SendPropertyChanging();
+				this._Asset_Quantity = value;
+				this.SendPropertyChanged("Asset_Quantity");
+				this.OnAsset_QuantityChanged();
+			}
+		}
+	}
+	
+	[Column(Storage="_Asset_PurchaseDate", DbType="DateTime")]
+	public System.Nullable<System.DateTime> Asset_PurchaseDate
+	{
+		get
+		{
+			return this._Asset_PurchaseDate;
+		}
+		set
+		{
+			if ((this._Asset_PurchaseDate != value))
+			{
+				this.OnAsset_PurchaseDateChanging(value);
+				this.SendPropertyChanging();
+				this._Asset_PurchaseDate = value;
+				this.SendPropertyChanged("Asset_PurchaseDate");
+				this.OnAsset_PurchaseDateChanged();
+			}
+		}
+	}
+	
+	[Column(Storage="_Asset_Status", DbType="Int")]
+	public System.Nullable<int> Asset_Status
+	{
+		get
+		{
+			return this._Asset_Status;
+		}
+		set
+		{
+			if ((this._Asset_Status != value))
+			{
+				this.OnAsset_StatusChanging(value);
+				this.SendPropertyChanging();
+				this._Asset_Status = value;
+				this.SendPropertyChanged("Asset_Status");
+				this.OnAsset_StatusChanged();
+			}
+		}
+	}
+	
+	[Column(Storage="_Asset_TimeStamp", DbType="DateTime")]
+	public System.Nullable<System.DateTime> Asset_TimeStamp
+	{
+		get
+		{
+			return this._Asset_TimeStamp;
+		}
+		set
+		{
+			if ((this._Asset_TimeStamp != value))
+			{
+				this.OnAsset_TimeStampChanging(value);
+				this.SendPropertyChanging();
+				this._Asset_TimeStamp = value;
+				this.SendPropertyChanged("Asset_TimeStamp");
+				this.OnAsset_TimeStampChanged();
 			}
 		}
 	}
@@ -1476,13 +1764,11 @@ public partial class Content : INotifyPropertyChanging, INotifyPropertyChanged
 	
 	private int _Content_Id;
 	
-	private System.Nullable<int> _Content_Material;
+	private System.Nullable<int> _Content_Menu;
 	
 	private System.Nullable<decimal> _Content_Quantity;
 	
 	private System.Nullable<decimal> _Content_UnitPrice;
-	
-	private System.Nullable<decimal> _Content_Discount;
 	
 	private System.Nullable<decimal> _Content_Cost;
 	
@@ -1498,14 +1784,12 @@ public partial class Content : INotifyPropertyChanging, INotifyPropertyChanged
     partial void OnCreated();
     partial void OnContent_IdChanging(int value);
     partial void OnContent_IdChanged();
-    partial void OnContent_MaterialChanging(System.Nullable<int> value);
-    partial void OnContent_MaterialChanged();
+    partial void OnContent_MenuChanging(System.Nullable<int> value);
+    partial void OnContent_MenuChanged();
     partial void OnContent_QuantityChanging(System.Nullable<decimal> value);
     partial void OnContent_QuantityChanged();
     partial void OnContent_UnitPriceChanging(System.Nullable<decimal> value);
     partial void OnContent_UnitPriceChanged();
-    partial void OnContent_DiscountChanging(System.Nullable<decimal> value);
-    partial void OnContent_DiscountChanged();
     partial void OnContent_CostChanging(System.Nullable<decimal> value);
     partial void OnContent_CostChanged();
     partial void OnContent_PackageChanging(System.Nullable<int> value);
@@ -1541,22 +1825,22 @@ public partial class Content : INotifyPropertyChanging, INotifyPropertyChanged
 		}
 	}
 	
-	[Column(Storage="_Content_Material", DbType="Int")]
-	public System.Nullable<int> Content_Material
+	[Column(Storage="_Content_Menu", DbType="Int")]
+	public System.Nullable<int> Content_Menu
 	{
 		get
 		{
-			return this._Content_Material;
+			return this._Content_Menu;
 		}
 		set
 		{
-			if ((this._Content_Material != value))
+			if ((this._Content_Menu != value))
 			{
-				this.OnContent_MaterialChanging(value);
+				this.OnContent_MenuChanging(value);
 				this.SendPropertyChanging();
-				this._Content_Material = value;
-				this.SendPropertyChanged("Content_Material");
-				this.OnContent_MaterialChanged();
+				this._Content_Menu = value;
+				this.SendPropertyChanged("Content_Menu");
+				this.OnContent_MenuChanged();
 			}
 		}
 	}
@@ -1597,26 +1881,6 @@ public partial class Content : INotifyPropertyChanging, INotifyPropertyChanged
 				this._Content_UnitPrice = value;
 				this.SendPropertyChanged("Content_UnitPrice");
 				this.OnContent_UnitPriceChanged();
-			}
-		}
-	}
-	
-	[Column(Storage="_Content_Discount", DbType="Decimal(10,2)")]
-	public System.Nullable<decimal> Content_Discount
-	{
-		get
-		{
-			return this._Content_Discount;
-		}
-		set
-		{
-			if ((this._Content_Discount != value))
-			{
-				this.OnContent_DiscountChanging(value);
-				this.SendPropertyChanging();
-				this._Content_Discount = value;
-				this.SendPropertyChanged("Content_Discount");
-				this.OnContent_DiscountChanged();
 			}
 		}
 	}
@@ -2400,7 +2664,13 @@ public partial class Invoice : INotifyPropertyChanging, INotifyPropertyChanged
 	
 	private System.Nullable<decimal> _Invoice_Discount;
 	
-	private System.Nullable<decimal> _Invoice_Tax;
+	private System.Nullable<decimal> _Invoice_AmountBar;
+	
+	private System.Nullable<decimal> _Invoice_AmountRestaurant;
+	
+	private System.Nullable<decimal> _Invoice_DiscountBar;
+	
+	private System.Nullable<decimal> _Invoice_DiscountRestaurant;
 	
 	private System.Nullable<int> _Invoice_Source;
 	
@@ -2408,7 +2678,11 @@ public partial class Invoice : INotifyPropertyChanging, INotifyPropertyChanged
 	
 	private string _Invoice_Reason;
 	
+	private System.Nullable<int> _Invoice_Steward;
+	
 	private System.Nullable<int> _Invoice_Client;
+	
+	private System.Nullable<int> _Invoice_NoOfPeople;
 	
 	private System.Nullable<int> _Invoice_Status;
 	
@@ -2424,16 +2698,26 @@ public partial class Invoice : INotifyPropertyChanging, INotifyPropertyChanged
     partial void OnInvoice_AmountChanged();
     partial void OnInvoice_DiscountChanging(System.Nullable<decimal> value);
     partial void OnInvoice_DiscountChanged();
-    partial void OnInvoice_TaxChanging(System.Nullable<decimal> value);
-    partial void OnInvoice_TaxChanged();
+    partial void OnInvoice_AmountBarChanging(System.Nullable<decimal> value);
+    partial void OnInvoice_AmountBarChanged();
+    partial void OnInvoice_AmountRestaurantChanging(System.Nullable<decimal> value);
+    partial void OnInvoice_AmountRestaurantChanged();
+    partial void OnInvoice_DiscountBarChanging(System.Nullable<decimal> value);
+    partial void OnInvoice_DiscountBarChanged();
+    partial void OnInvoice_DiscountRestaurantChanging(System.Nullable<decimal> value);
+    partial void OnInvoice_DiscountRestaurantChanged();
     partial void OnInvoice_SourceChanging(System.Nullable<int> value);
     partial void OnInvoice_SourceChanged();
     partial void OnInvoice_PaymentModeChanging(string value);
     partial void OnInvoice_PaymentModeChanged();
     partial void OnInvoice_ReasonChanging(string value);
     partial void OnInvoice_ReasonChanged();
+    partial void OnInvoice_StewardChanging(System.Nullable<int> value);
+    partial void OnInvoice_StewardChanged();
     partial void OnInvoice_ClientChanging(System.Nullable<int> value);
     partial void OnInvoice_ClientChanged();
+    partial void OnInvoice_NoOfPeopleChanging(System.Nullable<int> value);
+    partial void OnInvoice_NoOfPeopleChanged();
     partial void OnInvoice_StatusChanging(System.Nullable<int> value);
     partial void OnInvoice_StatusChanged();
     partial void OnInvoice_TimeStampChanging(System.Nullable<System.DateTime> value);
@@ -2505,22 +2789,82 @@ public partial class Invoice : INotifyPropertyChanging, INotifyPropertyChanged
 		}
 	}
 	
-	[Column(Storage="_Invoice_Tax", DbType="Decimal(10,2)")]
-	public System.Nullable<decimal> Invoice_Tax
+	[Column(Storage="_Invoice_AmountBar", DbType="Decimal(10,2)")]
+	public System.Nullable<decimal> Invoice_AmountBar
 	{
 		get
 		{
-			return this._Invoice_Tax;
+			return this._Invoice_AmountBar;
 		}
 		set
 		{
-			if ((this._Invoice_Tax != value))
+			if ((this._Invoice_AmountBar != value))
 			{
-				this.OnInvoice_TaxChanging(value);
+				this.OnInvoice_AmountBarChanging(value);
 				this.SendPropertyChanging();
-				this._Invoice_Tax = value;
-				this.SendPropertyChanged("Invoice_Tax");
-				this.OnInvoice_TaxChanged();
+				this._Invoice_AmountBar = value;
+				this.SendPropertyChanged("Invoice_AmountBar");
+				this.OnInvoice_AmountBarChanged();
+			}
+		}
+	}
+	
+	[Column(Storage="_Invoice_AmountRestaurant", DbType="Decimal(10,2)")]
+	public System.Nullable<decimal> Invoice_AmountRestaurant
+	{
+		get
+		{
+			return this._Invoice_AmountRestaurant;
+		}
+		set
+		{
+			if ((this._Invoice_AmountRestaurant != value))
+			{
+				this.OnInvoice_AmountRestaurantChanging(value);
+				this.SendPropertyChanging();
+				this._Invoice_AmountRestaurant = value;
+				this.SendPropertyChanged("Invoice_AmountRestaurant");
+				this.OnInvoice_AmountRestaurantChanged();
+			}
+		}
+	}
+	
+	[Column(Storage="_Invoice_DiscountBar", DbType="Decimal(10,2)")]
+	public System.Nullable<decimal> Invoice_DiscountBar
+	{
+		get
+		{
+			return this._Invoice_DiscountBar;
+		}
+		set
+		{
+			if ((this._Invoice_DiscountBar != value))
+			{
+				this.OnInvoice_DiscountBarChanging(value);
+				this.SendPropertyChanging();
+				this._Invoice_DiscountBar = value;
+				this.SendPropertyChanged("Invoice_DiscountBar");
+				this.OnInvoice_DiscountBarChanged();
+			}
+		}
+	}
+	
+	[Column(Storage="_Invoice_DiscountRestaurant", DbType="Decimal(10,2)")]
+	public System.Nullable<decimal> Invoice_DiscountRestaurant
+	{
+		get
+		{
+			return this._Invoice_DiscountRestaurant;
+		}
+		set
+		{
+			if ((this._Invoice_DiscountRestaurant != value))
+			{
+				this.OnInvoice_DiscountRestaurantChanging(value);
+				this.SendPropertyChanging();
+				this._Invoice_DiscountRestaurant = value;
+				this.SendPropertyChanged("Invoice_DiscountRestaurant");
+				this.OnInvoice_DiscountRestaurantChanged();
 			}
 		}
 	}
@@ -2585,6 +2929,26 @@ public partial class Invoice : INotifyPropertyChanging, INotifyPropertyChanged
 		}
 	}
 	
+	[Column(Storage="_Invoice_Steward", DbType="Int")]
+	public System.Nullable<int> Invoice_Steward
+	{
+		get
+		{
+			return this._Invoice_Steward;
+		}
+		set
+		{
+			if ((this._Invoice_Steward != value))
+			{
+				this.OnInvoice_StewardChanging(value);
+				this.SendPropertyChanging();
+				this._Invoice_Steward = value;
+				this.SendPropertyChanged("Invoice_Steward");
+				this.OnInvoice_StewardChanged();
+			}
+		}
+	}
+	
 	[Column(Storage="_Invoice_Client", DbType="Int")]
 	public System.Nullable<int> Invoice_Client
 	{
@@ -2601,6 +2965,26 @@ public partial class Invoice : INotifyPropertyChanging, INotifyPropertyChanged
 				this._Invoice_Client = value;
 				this.SendPropertyChanged("Invoice_Client");
 				this.OnInvoice_ClientChanged();
+			}
+		}
+	}
+	
+	[Column(Storage="_Invoice_NoOfPeople", DbType="Int")]
+	public System.Nullable<int> Invoice_NoOfPeople
+	{
+		get
+		{
+			return this._Invoice_NoOfPeople;
+		}
+		set
+		{
+			if ((this._Invoice_NoOfPeople != value))
+			{
+				this.OnInvoice_NoOfPeopleChanging(value);
+				this.SendPropertyChanging();
+				this._Invoice_NoOfPeople = value;
+				this.SendPropertyChanged("Invoice_NoOfPeople");
+				this.OnInvoice_NoOfPeopleChanged();
 			}
 		}
 	}
@@ -2678,6 +3062,8 @@ public partial class Menu : INotifyPropertyChanging, INotifyPropertyChanged
 	
 	private string _Menu_Category;
 	
+	private string _Menu_TokenSection;
+	
 	private System.Nullable<decimal> _Menu_SellingPrice;
 	
 	private System.Nullable<int> _Menu_Status;
@@ -2694,6 +3080,8 @@ public partial class Menu : INotifyPropertyChanging, INotifyPropertyChanged
     partial void OnMenu_NameChanged();
     partial void OnMenu_CategoryChanging(string value);
     partial void OnMenu_CategoryChanged();
+    partial void OnMenu_TokenSectionChanging(string value);
+    partial void OnMenu_TokenSectionChanged();
     partial void OnMenu_SellingPriceChanging(System.Nullable<decimal> value);
     partial void OnMenu_SellingPriceChanged();
     partial void OnMenu_StatusChanging(System.Nullable<int> value);
@@ -2763,6 +3151,26 @@ public partial class Menu : INotifyPropertyChanging, INotifyPropertyChanged
 				this._Menu_Category = value;
 				this.SendPropertyChanged("Menu_Category");
 				this.OnMenu_CategoryChanged();
+			}
+		}
+	}
+	
+	[Column(Storage="_Menu_TokenSection", DbType="VarChar(100)")]
+	public string Menu_TokenSection
+	{
+		get
+		{
+			return this._Menu_TokenSection;
+		}
+		set
+		{
+			if ((this._Menu_TokenSection != value))
+			{
+				this.OnMenu_TokenSectionChanging(value);
+				this.SendPropertyChanging();
+				this._Menu_TokenSection = value;
+				this.SendPropertyChanged("Menu_TokenSection");
+				this.OnMenu_TokenSectionChanged();
 			}
 		}
 	}
@@ -2844,6 +3252,51 @@ public partial class Menu : INotifyPropertyChanging, INotifyPropertyChanged
 		if ((this.PropertyChanged != null))
 		{
 			this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+		}
+	}
+}
+
+[Table(Name="dbo.Miscellaneous")]
+public partial class Miscellaneous
+{
+	
+	private string _Miscellaneous_Key;
+	
+	private string _Miscellaneous_Value;
+	
+	public Miscellaneous()
+	{
+	}
+	
+	[Column(Storage="_Miscellaneous_Key", DbType="VarChar(100) NOT NULL", CanBeNull=false)]
+	public string Miscellaneous_Key
+	{
+		get
+		{
+			return this._Miscellaneous_Key;
+		}
+		set
+		{
+			if ((this._Miscellaneous_Key != value))
+			{
+				this._Miscellaneous_Key = value;
+			}
+		}
+	}
+	
+	[Column(Storage="_Miscellaneous_Value", DbType="VarChar(100)")]
+	public string Miscellaneous_Value
+	{
+		get
+		{
+			return this._Miscellaneous_Value;
+		}
+		set
+		{
+			if ((this._Miscellaneous_Value != value))
+			{
+				this._Miscellaneous_Value = value;
+			}
 		}
 	}
 }
@@ -3452,7 +3905,7 @@ public partial class PettyExpense : INotifyPropertyChanging, INotifyPropertyChan
 	
 	private System.Nullable<decimal> _PettyExpense_Amount;
 	
-	private string _PettyExpense_Merchandise;
+	private string _PettyExpense_Narration;
 	
 	private System.Nullable<decimal> _PettyExpense_Quantity;
 	
@@ -3468,8 +3921,8 @@ public partial class PettyExpense : INotifyPropertyChanging, INotifyPropertyChan
     partial void OnPettyExpense_IdChanged();
     partial void OnPettyExpense_AmountChanging(System.Nullable<decimal> value);
     partial void OnPettyExpense_AmountChanged();
-    partial void OnPettyExpense_MerchandiseChanging(string value);
-    partial void OnPettyExpense_MerchandiseChanged();
+    partial void OnPettyExpense_NarrationChanging(string value);
+    partial void OnPettyExpense_NarrationChanged();
     partial void OnPettyExpense_QuantityChanging(System.Nullable<decimal> value);
     partial void OnPettyExpense_QuantityChanged();
     partial void OnPettyExpense_ReceivedByChanging(System.Nullable<int> value);
@@ -3523,22 +3976,22 @@ public partial class PettyExpense : INotifyPropertyChanging, INotifyPropertyChan
 		}
 	}
 	
-	[Column(Storage="_PettyExpense_Merchandise", DbType="VarChar(200)")]
-	public string PettyExpense_Merchandise
+	[Column(Storage="_PettyExpense_Narration", DbType="VarChar(200)")]
+	public string PettyExpense_Narration
 	{
 		get
 		{
-			return this._PettyExpense_Merchandise;
+			return this._PettyExpense_Narration;
 		}
 		set
 		{
-			if ((this._PettyExpense_Merchandise != value))
+			if ((this._PettyExpense_Narration != value))
 			{
-				this.OnPettyExpense_MerchandiseChanging(value);
+				this.OnPettyExpense_NarrationChanging(value);
 				this.SendPropertyChanging();
-				this._PettyExpense_Merchandise = value;
-				this.SendPropertyChanged("PettyExpense_Merchandise");
-				this.OnPettyExpense_MerchandiseChanged();
+				this._PettyExpense_Narration = value;
+				this.SendPropertyChanged("PettyExpense_Narration");
+				this.OnPettyExpense_NarrationChanged();
 			}
 		}
 	}

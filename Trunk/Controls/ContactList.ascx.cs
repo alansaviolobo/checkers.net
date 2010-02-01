@@ -14,7 +14,7 @@ public partial class Controls_ContactList : System.Web.UI.UserControl
         Checkers = new CheckersDataContext();
         if (!Page.IsPostBack)
         {
-            var User = Checkers.Contacts.Where(C => C.Contact_Status == 1 && C.Contact_Type == "Customer").Select(C => C);
+            var User = Checkers.Contacts.Where(C => C.Contact_Status == 1 && C.Contact_Type == "Customer").Select(C => C).OrderBy(C=>C.Contact_Name);
             if (User.Count() > 0)
             {
                 DgUser.Visible = true;
@@ -57,6 +57,7 @@ public partial class Controls_ContactList : System.Web.UI.UserControl
         {
             DgUser.Visible = true;
             DgUser.DataSource = User;
+            DgUser.CurrentPageIndex = 0;
             DgUser.DataBind();
         }
         else

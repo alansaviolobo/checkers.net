@@ -30,8 +30,13 @@ public partial class Controls_Credit : System.Web.UI.UserControl
     }
     protected void BtnSelect_Click(object sender, EventArgs e)
     {
-        HdnClientId.Value = DdlClientName.SelectedItem.Value;
-        FillData();
+        if (DdlClientName.Items.Count > 0)
+        {
+            HdnClientId.Value = DdlClientName.SelectedItem.Value;
+            FillData();
+        }
+        else
+            LtrMessage.Text = "No Credit Clients Exists.";
     }
     protected void BtnPayAmount_Click(object sender, EventArgs e)
     {
@@ -48,9 +53,9 @@ public partial class Controls_Credit : System.Web.UI.UserControl
         {
             if (HdnClientId.Value != "")
             {
-                Status = Checkers.ReceiptNew(decimal.Parse(TxtAmount.Text), DdlPayBy.SelectedItem.Text, int.Parse(HdnClientId.Value));
+                Status = Checkers.ReceiptNew(decimal.Parse(TxtAmount.Text), DdlPayBy.SelectedItem.Text, int.Parse(HdnClientId.Value), DateTime.Parse(Application["SalesSession"].ToString()));
                 LtrMessage.Text = Status == 1 ? "Payment Of Amount Rs." + TxtAmount.Text + " Received." : "Error Occurred.";
-                if (Status == 1) Status = Checkers.ActivityNew("Payment Of Amount Rs." + TxtAmount.Text + " Received From " + DdlClientName.SelectedItem.Text, int.Parse(Session["UserId"].ToString()));
+                if (Status == 1) Status = Checkers.ActivityNew("Payment Of Amount Rs." + TxtAmount.Text + " Received From " + DdlClientName.SelectedItem.Text, int.Parse(Application["UserId"].ToString()), DateTime.Parse(Application["SalesSession"].ToString()));
 
                 LblDate.Text = DateTime.Today.ToShortDateString();
                 LblPaidTo.Text = "Quatro. Verna-Goa.";
@@ -78,14 +83,14 @@ public partial class Controls_Credit : System.Web.UI.UserControl
 
         if (HdnClientId.Value != "")
         {
-            var Bills = Checkers.Invoices.Where(I => I.Invoice_Client == int.Parse(HdnClientId.Value)).Select(I => new { I.Invoice_Id, I.Invoice_Amount, I.Invoice_Tax, I.Invoice_Discount });
+            var Bills = Checkers.Invoices.Where(I => I.Invoice_Client == int.Parse(HdnClientId.Value)).Select(I => new { I.Invoice_Id, I.Invoice_Amount, I.Invoice_Discount });
 
             if (Enumerable.Count(Bills) > 0)
             {
                 var Source = Checkers.Invoices.Where(I => I.Invoice_Client == int.Parse(HdnClientId.Value)).Select(I => I);
                 foreach (var S in Source)
                 {
-                    BillAmount += (S.Invoice_Amount.Value - S.Invoice_Discount.Value) - S.Invoice_Tax.Value;
+                    BillAmount += (S.Invoice_Amount.Value - S.Invoice_Discount.Value);// -S.Invoice_Tax.Value;
                 }
                 LtrAmountPayable.Text = BillAmount.ToString();
             }
@@ -144,7 +149,7 @@ public partial class Controls_Credit : System.Web.UI.UserControl
 
         Status = Checkers.ReceiptDelete(Id, int.Parse(HdnClientId.Value));
         LtrMessage.Text = Status == 1 ? "Receipt No. " + Id + " Successfully Deleted." : "Error Occurred.";
-        if (Status == 1) Status = Checkers.ActivityNew("Receipt No. " + Id + " Successfully Deleted", int.Parse(Session["UserId"].ToString()));
+        if (Status == 1) Status = Checkers.ActivityNew("Receipt No. " + Id + " Successfully Deleted", int.Parse(Application["UserId"].ToString()), DateTime.Parse(Application["SalesSession"].ToString()));
 
         LtrMessage.Text = "Credit Management.";
         BtnYes.Visible = false;
@@ -167,5 +172,15 @@ public partial class Controls_Credit : System.Web.UI.UserControl
         LtrBillsNumber.Text = "(Total : 0)";
         LtrReceiptsNumber.Text = "(Total : 0)";
         LtrTotalOutstanding.Text = "0";
+    }
+    protected void DgBills_ItemCommand(object source, DataGridCommandEventArgs e)
+    {
+        if (e.CommandName == "View")
+            Response.Redirect("Operation.aspx?Section=Invoice&Id=" + e.Item.Cells[0].Text);
+    }
+    protected void DgReceipts_ItemCommand(object source, DataGridCommandEventArgs e)
+    {
+        if (e.CommandName == "View")
+            Response.Redirect("Receipt.aspx?Id=" + e.Item.Cells[0].Text);
     }
 }

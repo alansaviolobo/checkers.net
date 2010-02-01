@@ -1,4 +1,5 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Default.aspx.cs" Inherits="_Default" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Default.aspx.cs" Inherits="_Default"
+    EnableViewState="false" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -39,7 +40,7 @@
         }
         #Information
         {
-        	color: #916096;
+            color: #916096;
             text-transform: capitalize;
             text-align: center;
             padding: 6px;
@@ -61,6 +62,14 @@
         <p>
             Password:<br />
             <asp:TextBox ID="TxtPassword" runat="server" Width="200px" TextMode="Password" />
+        </p>
+        <p>
+            Sales Type:<br />
+            <asp:RadioButtonList ID="RdoLstSalesType" runat="server" RepeatDirection="Horizontal"
+                Width="200px">
+                <asp:ListItem Selected="True">Continue</asp:ListItem>
+                <asp:ListItem>New</asp:ListItem>
+            </asp:RadioButtonList>
         </p>
         <p class="CenterAlign">
             <asp:Button ID="BtnLogin" runat="server" Text="Login" OnClick="BtnLogin_Click" />

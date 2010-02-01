@@ -2,12 +2,14 @@
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="Ajax" %>
 
 <script type="text/javascript" language="javascript">
-    function GetPackageId(sender, eventArgs) {
-        CheckersWebService.GetPackageId(sender._element.value, OnSuccess, OnError);
+    function GetPackageDetails(sender, eventArgs) {
+        CheckersWebService.GetPackageDetails(sender._element.value, OnSuccess, OnError);
     }
 
     function OnSuccess(result) {
-        document.getElementById('<%=HdnPackageId.ClientID %>').value = result;
+        document.getElementById('<%=HdnPackageId.ClientID %>').value = result['Id'];
+        document.getElementById('<%=DdlType.ClientID %>').value = result['Type'];
+        document.getElementById('<%=TxtComments.ClientID %>').value = result['Comments'];       
     }
 
     function OnError(result) {
@@ -29,16 +31,15 @@
         </td>
         <td>
             <asp:TextBox ID="TxtName" runat="server" />
-            <asp:RequiredFieldValidator ID="ReqVldName" runat="server" 
-                ControlToValidate="TxtName" Display="None" ErrorMessage="Please Enter A Name"></asp:RequiredFieldValidator>
-            <Ajax:ValidatorCalloutExtender ID="ReqVldNameExtender" runat="server" 
-                Enabled="True" TargetControlID="ReqVldName">
+            <asp:RequiredFieldValidator ID="ReqVldName" runat="server" ControlToValidate="TxtName"
+                Display="None" ErrorMessage="Please Enter A Name"></asp:RequiredFieldValidator>
+            <Ajax:ValidatorCalloutExtender ID="ReqVldNameExtender" runat="server" Enabled="True"
+                TargetControlID="ReqVldName">
             </Ajax:ValidatorCalloutExtender>
             <Ajax:AutoCompleteExtender ID="AutoCompSearch" runat="server" TargetControlID="TxtName"
                 ServiceMethod="GetPackageList" CompletionInterval="100" CompletionSetCount="10"
-                ServicePath="~/CheckersWebService.asmx" MinimumPrefixLength="1" OnClientItemSelected="GetPackageId"
+                ServicePath="~/CheckersWebService.asmx" MinimumPrefixLength="1" OnClientItemSelected="GetPackageDetails"
                 Enabled="false" />
-            <asp:Button ID="BtnSearch" Text="Search" runat="server" OnClick="BtnSearch_Click" />
         </td>
     </tr>
     <tr>
@@ -46,7 +47,10 @@
             Type
         </td>
         <td>
-            <asp:DropDownList ID="DdlType" runat="server" />
+            <asp:DropDownList ID="DdlType" runat="server">
+                <asp:ListItem Value="Birthday">Birthday</asp:ListItem>
+                <asp:ListItem Value="Anniversary">Anniversary</asp:ListItem>
+            </asp:DropDownList>
         </td>
     </tr>
     <tr>
@@ -60,7 +64,6 @@
     <tr>
         <td colspan="2">
             <asp:Button ID="BtnSubmit" runat="server" OnClick="BtnSubmit_Click" />&nbsp;&nbsp;
-            <input type="reset" id="BtnReset" />
         </td>
     </tr>
 </table>

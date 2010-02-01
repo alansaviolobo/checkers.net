@@ -2,20 +2,20 @@
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="Ajax" %>
 
 <script type="text/javascript" language="javascript">
-    function GetMenuId(sender, eventArgs) {
-        CheckersWebService.GetMenuId(sender._element.value, OnMenuSuccess, OnError);
+    function GetMenuDetails(sender, eventArgs) {
+        CheckersWebService.GetMenuDetails(sender._element.value, OnMenuSuccess, OnError);
     }
 
-    function GetInventoryId(sender, eventArgs) {
-        CheckersWebService.GetInventoryId(sender._element.value, OnInventorySuccess, OnError);
+    function GetInventoryDetails(sender, eventArgs) {
+        CheckersWebService.GetInventoryDetails(sender._element.value, OnInventorySuccess, OnError);
     }
 
     function OnMenuSuccess(result) {
-        document.getElementById('<%=HdnMenuId.ClientID %>').value = result;
+        document.getElementById('<%=HdnMenuId.ClientID %>').value = result['Id'];
     }
 
     function OnInventorySuccess(result) {
-        document.getElementById('<%=HdnInventoryId.ClientID %>').value = result;
+        document.getElementById('<%=HdnInventoryId.ClientID %>').value = result['Id'];
     }
 
     function OnError(result) {
@@ -40,13 +40,12 @@
                 <asp:TextBox ID="TxtMenuName" runat="server" />
                 <Ajax:AutoCompleteExtender ID="AutoCompMenuSearch" runat="server" TargetControlID="TxtMenuName"
                     ServiceMethod="GetMenuList" CompletionInterval="100" CompletionSetCount="10"
-                    ServicePath="~/CheckersWebService.asmx" MinimumPrefixLength="1" OnClientItemSelected="GetMenuId" />
+                    ServicePath="~/CheckersWebService.asmx" MinimumPrefixLength="1" OnClientItemSelected="GetMenuDetails" />
                 <asp:RequiredFieldValidator ID="ReqVldMenuName" runat="server" ControlToValidate="TxtMenuName"
                     Display="None" ErrorMessage="Please Enter A Menu Name"></asp:RequiredFieldValidator>
                 <Ajax:ValidatorCalloutExtender ID="ReqVldMenuNameExtender" runat="server" Enabled="True"
                     TargetControlID="ReqVldMenuName">
                 </Ajax:ValidatorCalloutExtender>
-                <asp:Button ID="BtnSearch" runat="server" Text="Search" Visible="True" OnClick="BtnSearch_Click" />
             </td>
         </tr>
         <tr>
@@ -64,7 +63,7 @@
                 <asp:TextBox ID="TxtInventoryName" runat="server" />
                 <Ajax:AutoCompleteExtender ID="AutoCompleteExtender1" runat="server" TargetControlID="TxtInventoryName"
                     ServiceMethod="GetInventoryList" CompletionInterval="100" CompletionSetCount="10"
-                    ServicePath="~/CheckersWebService.asmx" MinimumPrefixLength="1" OnClientItemSelected="GetInventoryId" />
+                    ServicePath="~/CheckersWebService.asmx" MinimumPrefixLength="1" OnClientItemSelected="GetInventoryDetails" />
                 <asp:RequiredFieldValidator ID="ReqVldInventoryName" runat="server" ControlToValidate="TxtInventoryName"
                     Display="None" ErrorMessage="Please Enter A Inventory Name" Enabled="False"></asp:RequiredFieldValidator>
                 <Ajax:ValidatorCalloutExtender ID="ReqVldInventoryNameExtender" runat="server" Enabled="True"

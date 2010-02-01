@@ -2,16 +2,23 @@
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="Ajax" %>
 
 <script type="text/javascript" language="javascript">
-    function GetContactId(sender, eventArgs) {
-        CheckersWebService.GetContactId(sender._element.value, OnSuccess, OnError);
+    function GetContactDetails(sender, eventArgs) {
+        CheckersWebService.GetContactDetails(sender._element.value, OnSuccess, OnError);
     }
 
-    function GetOrganizationId(sender, eventArgs) {
-        CheckersWebService.GetOrganizationId(sender._element.value, OnSuccess, OnError);
+    function GetOrganizationDetails(sender, eventArgs) {
+        CheckersWebService.GetOrganizationDetails(sender._element.value, OnSuccess, OnError);
     }
 
     function OnSuccess(result) {
-        document.getElementById('<%=HdnContactId.ClientID %>').value = result;
+        document.getElementById('<%=HdnContactId.ClientID %>').value = result['Id'];
+        document.getElementById('<%=TxtPersonalName.ClientID %>').value = result['Name'];
+        document.getElementById('<%=TxtPersonalPhone.ClientID %>').value = result['Phone'];
+        document.getElementById('<%=TxtPersonalAddress.ClientID %>').value = result['Address'];
+        document.getElementById('<%=TxtPersonalEmail.ClientID %>').value = result['Email'];
+        document.getElementById('<%=TxtOrganizationName.ClientID %>').value = result['OrganizationName'];
+        document.getElementById('<%=TxtOrganizationPhone.ClientID %>').value = result['OrganizationPhone'];
+        document.getElementById('<%=TxtOrganizationAddress.ClientID %>').value = result['OrganizationAddress'];
     }
 
     function OnError(result) {
@@ -40,14 +47,12 @@
             <asp:TextBox ID="TxtPersonalName" runat="server" />
             <Ajax:AutoCompleteExtender ID="AutoCompSearchPersonalName" runat="server" TargetControlID="TxtPersonalName"
                 ServiceMethod="GetContactList" CompletionInterval="100" CompletionSetCount="10"
-                ServicePath="~/CheckersWebService.asmx" MinimumPrefixLength="1" OnClientItemSelected="GetContactId" />
+                ServicePath="~/CheckersWebService.asmx" MinimumPrefixLength="1" OnClientItemSelected="GetContactDetails" />
             <asp:RequiredFieldValidator ID="ReqVldPersonalName" runat="server" ErrorMessage="Please Enter Name."
                 ControlToValidate="TxtPersonalName" Display="None" Enabled="true" />
             <Ajax:ValidatorCalloutExtender ID="ReqVldPersonalNameExtender" runat="server" Enabled="True"
                 TargetControlID="ReqVldPersonalName">
             </Ajax:ValidatorCalloutExtender>
-            <asp:Button Text="Search" runat="server" ID="BtnSearchPersonalName" Visible="False"
-                OnClick="BtnSearchPersonalName_Click" />
         </td>
     </tr>
     <tr>
@@ -87,9 +92,7 @@
             <asp:TextBox ID="TxtOrganizationName" runat="server" />
             <Ajax:AutoCompleteExtender ID="AutoCompSearchOrganizationName" runat="server" TargetControlID="TxtOrganizationName"
                 ServiceMethod="GetOrganizationList" CompletionInterval="100" CompletionSetCount="10"
-                ServicePath="~/CheckersWebService.asmx" MinimumPrefixLength="1" OnClientItemSelected="GetOrganizationId" />
-            <asp:Button Text="Search" runat="server" ID="BtnSearchOrganizationName" Visible="False"
-                OnClick="BtnSearchOrganizationName_Click" />
+                ServicePath="~/CheckersWebService.asmx" MinimumPrefixLength="1" OnClientItemSelected="GetOrganizationDetails" />
         </td>
     </tr>
     <tr>

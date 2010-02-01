@@ -23,9 +23,9 @@ public partial class Controls_User : System.Web.UI.UserControl
             }
             switch (Action)
             {
-                case "New": BtnSearch.Visible = false; AutoCompSearch.Enabled = false; BtnSubmit.Text = "Add"; break;
-                case "Edit": BtnSearch.Visible = true; AutoCompSearch.Enabled = true; BtnSubmit.Text = "Update"; break;
-                case "Delete": BtnSearch.Visible = true; AutoCompSearch.Enabled = true; BtnSubmit.Text = "Delete"; break;
+                case "New": AutoCompSearch.Enabled = false; BtnSubmit.Text = "Add"; break;
+                case "Edit": AutoCompSearch.Enabled = true; BtnSubmit.Text = "Update"; break;
+                case "Delete": AutoCompSearch.Enabled = true; BtnSubmit.Text = "Delete"; break;
             }
         }
         ((AjaxControlToolkit.Accordion)Page.Master.FindControl("AccMenu")).SelectedIndex = 4;
@@ -37,9 +37,9 @@ public partial class Controls_User : System.Web.UI.UserControl
 
         if (Action == "New")
         {
-            Status = Checkers.ContactNew(0, TxtName.Text, TxtUserName.Text, "checkers", DdlType.SelectedItem.Text, TxtPhone.Text, TxtAddress.Text, TxtEmail.Text, null, null, null);
+            Status = Checkers.ContactNew(0, TxtName.Text, TxtUserName.Text, "checkers", DdlType.SelectedItem.Text, TxtPhone.Text, TxtAddress.Text, TxtEmail.Text, null, null, null, DateTime.Parse(Application["SalesSession"].ToString()));
             LtrMessage.Text = Status == 1 ? "User " + TxtName.Text + " Added." : "User Name " + TxtName.Text + " Already Exists.";
-            if (Status == 1) Status = Checkers.ActivityNew("User " + TxtName.Text + " Added With Default Password - checkers", int.Parse(Session["UserId"].ToString()));
+            if (Status == 1) Status = Checkers.ActivityNew("User " + TxtName.Text + " Added With Default Password - checkers", int.Parse(Application["UserId"].ToString()), DateTime.Parse(Application["SalesSession"].ToString()));
 
             ClearForm();
         }
@@ -49,7 +49,7 @@ public partial class Controls_User : System.Web.UI.UserControl
             {
                 Status = Checkers.ContactEdit(int.Parse(HdnUserId.Value), TxtName.Text, TxtUserName.Text, "checkers", DdlType.SelectedItem.Text, TxtPhone.Text, TxtAddress.Text, TxtEmail.Text, null, null, null);
                 LtrMessage.Text = Status == 1 ? "User " + TxtName.Text + " Updated." : "User Name " + TxtName.Text + " Already Exists.";
-                if (Status == 1) Status = Checkers.ActivityNew("User " + TxtName.Text + " Updated", int.Parse(Session["UserId"].ToString()));
+                if (Status == 1) Status = Checkers.ActivityNew("User " + TxtName.Text + " Updated", int.Parse(Application["UserId"].ToString()), DateTime.Parse(Application["SalesSession"].ToString()));
             }
             else
                 LtrMessage.Text = "Please Select An User.";
@@ -79,7 +79,7 @@ public partial class Controls_User : System.Web.UI.UserControl
         {
             Status = Checkers.ContactDelete(int.Parse(HdnUserId.Value));
             LtrMessage.Text = Status == 1 ? "User " + TxtName.Text + " Deleted." : "User Name " + TxtName.Text + " Already Exists.";
-            if (Status == 1) Status = Checkers.ActivityNew("User " + TxtName.Text + " Deleted", int.Parse(Session["UserId"].ToString()));
+            if (Status == 1) Status = Checkers.ActivityNew("User " + TxtName.Text + " Deleted", int.Parse(Application["UserId"].ToString()), DateTime.Parse(Application["SalesSession"].ToString()));
         }
         ClearForm();
     }
@@ -99,10 +99,6 @@ public partial class Controls_User : System.Web.UI.UserControl
         TxtEmail.Text = "";
         BtnNo.Visible = false;
         BtnYes.Visible = false;
-    }
-    protected void BtnSearch_Click(object sender, EventArgs e)
-    {
-        FillData();
     }
     public void FillData()
     {

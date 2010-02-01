@@ -14,15 +14,21 @@ public partial class Controls_Event : System.Web.UI.UserControl
     {
         if (!Page.IsPostBack)
         {
+            ClearForm();
+            Action = Request.QueryString["Action"] != null ? Request.QueryString["Action"].ToString() : "Add";
+            if (Request.QueryString["Id"] != null)
+            {
+                HdnEventId.Value = Request.QueryString["Id"].ToString();
+                FillData();
+            }
             Action = Request.QueryString["Action"] != null ? Request.QueryString["Action"].ToString() : "Add";
             switch (Action)
             {
-                case "New": BtnSearch.Visible = false; AutoCompSearch.Enabled = false; BtnSubmit.Text = "Add"; break;
-                case "Edit": BtnSearch.Visible = true; AutoCompSearch.Enabled = true; BtnSubmit.Text = "Update"; break;
-                case "Delete": BtnSearch.Visible = true; AutoCompSearch.Enabled = true; BtnSubmit.Text = "Delete"; break;
+                case "New": AutoCompSearch.Enabled = false; BtnSubmit.Text = "Add"; break;
+                case "Edit": AutoCompSearch.Enabled = true; BtnSubmit.Text = "Update"; break;
+                case "Delete": AutoCompSearch.Enabled = true; BtnSubmit.Text = "Delete"; break;
             }
             ((AjaxControlToolkit.Accordion)Page.Master.FindControl("AccMenu")).SelectedIndex = 6;
-            ClearForm();
         }
     }
     protected void BtnSubmit_Click(object sender, EventArgs e)
@@ -32,9 +38,9 @@ public partial class Controls_Event : System.Web.UI.UserControl
 
         if (Action == "New")
         {
-            Status = Checkers.EventNew(TxtName.Text, DateTime.Parse(TxtFromDate.Text), DateTime.Parse(TxtToDate.Text), int.Parse(DdlOrganizer.SelectedItem.Value), TxtVenue.Text);
+            Status = Checkers.EventNew(TxtName.Text, DateTime.Parse(TxtFromDate.Text), DateTime.Parse(TxtToDate.Text), int.Parse(DdlOrganizer.SelectedItem.Value), TxtVenue.Text, DateTime.Parse(Application["SalesSession"].ToString()));
             LtrMessage.Text = Status == 1 ? "Event Item " + TxtName.Text + " Added." : "Item Name " + TxtName.Text + " Already Exists.";
-            if (Status == 1) Status = Checkers.ActivityNew("Event Item " + TxtName.Text + " Added", int.Parse(Session["UserId"].ToString()));
+            if (Status == 1) Status = Checkers.ActivityNew("Event Item " + TxtName.Text + " Added", int.Parse(Application["UserId"].ToString()), DateTime.Parse(Application["SalesSession"].ToString()));
 
             ClearForm();
         }
@@ -44,7 +50,7 @@ public partial class Controls_Event : System.Web.UI.UserControl
             {
                 Status = Checkers.EventEdit(int.Parse(HdnEventId.Value), TxtName.Text, DateTime.Parse(TxtFromDate.Text), DateTime.Parse(TxtToDate.Text), int.Parse(DdlOrganizer.SelectedItem.Value), TxtVenue.Text);
                 LtrMessage.Text = Status == 1 ? "Event Item " + TxtName.Text + " Updated." : "Item Name " + TxtName.Text + " Already Exists.";
-                if (Status == 1) Status = Checkers.ActivityNew("Event Item " + TxtName.Text + " Updated", int.Parse(Session["UserId"].ToString()));
+                if (Status == 1) Status = Checkers.ActivityNew("Event Item " + TxtName.Text + " Updated", int.Parse(Application["UserId"].ToString()), DateTime.Parse(Application["SalesSession"].ToString()));
             }
             else
                 LtrMessage.Text = "Please Select An Item.";
@@ -74,7 +80,7 @@ public partial class Controls_Event : System.Web.UI.UserControl
         {
             Status = Checkers.EventDelete(int.Parse(HdnEventId.Value));
             LtrMessage.Text = Status == 1 ? "Event Item " + TxtName.Text + " Deleted." : "Error Occurred";
-            if (Status == 1) Status = Checkers.ActivityNew("Event Item " + TxtName.Text + " Deleted", int.Parse(Session["UserId"].ToString()));
+            if (Status == 1) Status = Checkers.ActivityNew("Event Item " + TxtName.Text + " Deleted", int.Parse(Application["UserId"].ToString()), DateTime.Parse(Application["SalesSession"].ToString()));
         }
         ClearForm();
     }
@@ -98,17 +104,17 @@ public partial class Controls_Event : System.Web.UI.UserControl
         var Organizer = Checkers.Contacts.Where(C => C.Contact_Type == "Customer" && C.Contact_Status.Equals(1)).Select(C => C);
 
         foreach (var O in Organizer)
-            DdlOrganizer.Items.Add(new ListItem(O.Contact_Name + " (" + O.Contact_OrganizationName + ")", O.Contact_Id.ToString()));
+            DdlOrganizer.Items.Add(new ListItem(O.Contact_Name + (O.Contact_OrganizationName != "" ? " (" + O.Contact_OrganizationName + ")" : ""), O.Contact_Id.ToString()));
     }
-    protected void BtnSearch_Click(object sender, EventArgs e)
+    public void FillData()
     {
         Checkers = new CheckersDataContext();
-        var EventDetails = Checkers.Events.Where(M => M.Event_Id == int.Parse(HdnEventId.Value) && M.Event_Status == 1).Select(M => M).Single();
+        var EventDetails = Checkers.Events.Where(E => E.Event_Id == int.Parse(HdnEventId.Value)).Select(E => E).Single();
+        TxtName.Text = EventDetails.Event_Name;
         DdlOrganizer.ClearSelection();
         DdlOrganizer.Items.FindByValue(EventDetails.Event_Organizer.ToString()).Selected = true;
-        TxtVenue.Text = EventDetails.Event_Venue;
-        TxtName.Text = EventDetails.Event_Name;
-        TxtFromDate.Text = EventDetails.Event_FromTimeStamp.ToString().Substring(0, 10).Replace("-", "/");
         TxtToDate.Text = EventDetails.Event_ToTimeStamp.ToString().Substring(0, 10).Replace("-", "/");
+        TxtFromDate.Text = EventDetails.Event_FromTimeStamp.ToString().Substring(0, 10).Replace("-", "/");
+        TxtVenue.Text = EventDetails.Event_Venue;
     }
 }

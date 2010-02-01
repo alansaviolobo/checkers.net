@@ -20,10 +20,10 @@ public partial class Controls_Purchase : System.Web.UI.UserControl
         Checkers = new CheckersDataContext();
         int Status;
 
-        Status = Checkers.PurchaseNew(int.Parse(HdnInventoryId.Value), decimal.Parse(TxtPurchaseQuantity.Text));
+        Status = Checkers.PurchaseNew(int.Parse(HdnInventoryId.Value), decimal.Parse(TxtPurchaseQuantity.Text), DateTime.Parse(Application["SalesSession"].ToString()));
         LtrMessage.Text = Status == 1 ? "Quantity " + TxtPurchaseQuantity.Text + " Purchased For Item " + TxtName.Text + "." : "Error Occured.";
-        if (Status == 1) Status = Checkers.ActivityNew("Quantity " + TxtPurchaseQuantity.Text + " Purchased For Item " + TxtName.Text, int.Parse(Session["UserId"].ToString()));
-        
+        if (Status == 1) Status = Checkers.ActivityNew("Quantity " + TxtPurchaseQuantity.Text + " Purchased For Item " + TxtName.Text, int.Parse(Application["UserId"].ToString()), DateTime.Parse(Application["SalesSession"].ToString()));
+
         ClearForm();
     }
     private void ClearForm()
@@ -33,8 +33,8 @@ public partial class Controls_Purchase : System.Web.UI.UserControl
         TxtName.Text = "";
         TxtExistingQuantity.Text = "";
         TxtPurchaseQuantity.Text = "0";
-        LtrPurchaseUnit1.Text = "";
-        LtrPurchaseUnit2.Text = "";
+        LblPurchaseUnit1.Text = "";
+        LblPurchaseUnit2.Text = "";
     }
     protected void BtnSearch_Click(object sender, EventArgs e)
     {
@@ -45,8 +45,8 @@ public partial class Controls_Purchase : System.Web.UI.UserControl
             var IngrdientData = (from I in Checkers.Inventories where I.Inventory_Id == int.Parse(HdnInventoryId.Value) select I).Single();
 
             TxtExistingQuantity.Text = (IngrdientData.Inventory_Quantity / (IngrdientData.Inventory_ConversionUnit == 0 ? 1 : IngrdientData.Inventory_ConversionUnit)).ToString();
-            LtrPurchaseUnit1.Text = IngrdientData.Inventory_PurchaseUnit;
-            LtrPurchaseUnit2.Text = IngrdientData.Inventory_PurchaseUnit;
+            LblPurchaseUnit1.Text = IngrdientData.Inventory_PurchaseUnit;
+            LblPurchaseUnit2.Text = IngrdientData.Inventory_PurchaseUnit;
         }
         else
         {

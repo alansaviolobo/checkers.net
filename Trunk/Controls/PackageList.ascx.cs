@@ -12,20 +12,17 @@ public partial class Controls_PackageList : System.Web.UI.UserControl
     protected void Page_Load(object sender, EventArgs e)
     {
         Checkers = new CheckersDataContext();
-        if (!Page.IsPostBack)
+        var Menu = Checkers.Packages.Where(P => P.Package_Status == 1).Select(P => P);
+        if (Menu.Count() > 0)
         {
-            var Menu = Checkers.Packages.Where(P => P.Package_Status == 1).Select(P => P);
-            if (Menu.Count() > 0)
-            {
-                DgPackage.Visible = true;
-                DgPackage.DataSource = Menu;
-                DgPackage.DataBind();
-            }
-            else
-            {
-                DgPackage.Visible = false;
-                LtrMessage.Text = "No menu items found.";
-            }
+            DgPackage.Visible = true;
+            DgPackage.DataSource = Menu;
+            DgPackage.DataBind();
+        }
+        else
+        {
+            DgPackage.Visible = false;
+            LtrMessage.Text = "No menu items found.";
         }
         ((AjaxControlToolkit.Accordion)Page.Master.FindControl("AccMenu")).SelectedIndex = 7;
     }
@@ -57,6 +54,7 @@ public partial class Controls_PackageList : System.Web.UI.UserControl
         {
             DgPackage.Visible = true;
             DgPackage.DataSource = Package;
+            DgPackage.CurrentPageIndex = 0;
             DgPackage.DataBind();
         }
         else
@@ -83,5 +81,15 @@ public partial class Controls_PackageList : System.Web.UI.UserControl
     {
         Checkers = new CheckersDataContext();
         Response.Redirect("Operation.aspx?Section=Package&Action=Edit&Id=" + e.Item.Cells[0].Text);
+    }
+    protected void DgPackage_PageIndexChanged(object source, DataGridPageChangedEventArgs e)
+    {
+        DgPackage.CurrentPageIndex = e.NewPageIndex;
+        DgPackage.DataBind();
+    }
+    protected void DgPackage_ItemCommand(object source, DataGridCommandEventArgs e)
+    {
+        if(e.CommandName == "Content")
+            Response.Redirect("Operation.aspx?Section=Content&PackageId=" + e.Item.Cells[0].Text);
     }
 }

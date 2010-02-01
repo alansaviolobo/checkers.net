@@ -9,9 +9,9 @@
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
     <style type="text/css">
-        .style1
+        .style2
         {
-            width: 658px;
+            width: 559px;
         }
     </style>
 </head>
@@ -29,10 +29,17 @@
                     <td style="width: 180px;">
                         <img src="Assets/Image/QuatroSmall.png" alt="" />
                     </td>
-                    <td style="padding-left: 20px;" class="style1">
+                    <td style="padding-left: 20px;" class="style2">
                         Hi <strong>
                             <asp:Literal ID="LtrUserLoggedIn" runat="server" /></strong>&nbsp;!<br />
-                        <asp:LinkButton ID="BtnLogout" Text="Logout" runat="server" OnClick="BtnLogout_Click" />
+                        <asp:LinkButton ID="BtnLogout" Text="Logout" runat="server" OnClick="BtnLogout_Click"
+                            CausesValidation="false" />
+                    </td>
+                    <td style="text-align: center">
+                        <asp:ImageButton ImageUrl="~/Assets/Image/StopSales.png" ToolTip="Stop Sales For The Day"
+                            ID="BtnStopSales" runat="server" CausesValidation="false" OnClick="BtnStopSales_Click" AlternateText="Stop Sales" />
+                        <br />
+                        Stop Sales
                     </td>
                     <td style="text-align: center">
                         <asp:ImageButton ImageUrl="~/Assets/Image/OrderSystem.png" ToolTip="Proceed To Order System"
@@ -61,10 +68,10 @@
                         <Header>
                             Offer</Header>
                         <Content>
-                            <%--<a href="Operation.aspx?Section=Offer&Action=New">New</a><br />
+                            <a href="Operation.aspx?Section=Offer&Action=New">New</a><br />
                             <a href="Operation.aspx?Section=Offer&Action=Edit">Edit</a><br />
-                            <a href="Operation.aspx?Section=Offer&Action=Delete">Delete</a>--%>
-                            Under Construction
+                            <a href="Operation.aspx?Section=Offer&Action=Delete">Delete</a><br />
+                            <a href="Operation.aspx?Section=OfferList">List</a>
                         </Content>
                     </Ajax:AccordionPane>
                     <Ajax:AccordionPane runat="server" ID="PaneIngredient">
@@ -113,21 +120,20 @@
                         <Header>
                             Event</Header>
                         <Content>
-                           <%-- <a href="Operation.aspx?Section=Event&Action=New">New</a><br />
+                            <a href="Operation.aspx?Section=Event&Action=New">New</a><br />
                             <a href="Operation.aspx?Section=Event&Action=Edit">Edit</a><br />
-                            <a href="Operation.aspx?Section=Event&Action=Delete">Delete</a>--%>
-                            Under Construction
+                            <a href="Operation.aspx?Section=Event&Action=Delete">Delete</a><br />
+                            <a href="Operation.aspx?Section=EventList">List</a>
                         </Content>
                     </Ajax:AccordionPane>
                     <Ajax:AccordionPane runat="server" ID="PanePackage">
                         <Header>
                             Package</Header>
                         <Content>
-                            <%--<a href="Operation.aspx?Section=Package&Action=New">New</a><br />
+                            <a href="Operation.aspx?Section=Package&Action=New">New</a><br />
                             <a href="Operation.aspx?Section=Package&Action=Edit">Edit</a><br />
                             <a href="Operation.aspx?Section=Package&Action=Delete">Delete</a><br />
-                            <a href="Operation.aspx?Section=PackageList">List</a>--%>
-                            Under Construction
+                            <a href="Operation.aspx?Section=PackageList">List</a>
                         </Content>
                     </Ajax:AccordionPane>
                     <Ajax:AccordionPane runat="server" ID="PaneMiscellaneous">
@@ -135,7 +141,8 @@
                             Miscellaneous</Header>
                         <Content>
                             <a href="Database.aspx">Database</a><br />
-                            <a href="Report.aspx">Report</a>
+                            <a href="Report.aspx">Report</a><br />
+                            <a href="Operation.aspx?Section=Invoice">Invoice</a>
                         </Content>
                     </Ajax:AccordionPane>
                 </Panes>

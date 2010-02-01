@@ -39,7 +39,7 @@
     </table>
     <br />
     <asp:DataGrid ID="DgUser" runat="server" AllowPaging="True" AllowSorting="True" AutoGenerateColumns="False"
-        OnDeleteCommand="DgUser_DeleteCommand" OnEditCommand="DgUser_EditCommand" PageSize="20">
+        OnDeleteCommand="DgUser_DeleteCommand" OnEditCommand="DgUser_EditCommand" PageSize="15">
         <PagerStyle Mode="NumericPages" />
         <Columns>
             <asp:BoundColumn DataField="Contact_Id" HeaderText="Id" Visible="False"></asp:BoundColumn>

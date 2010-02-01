@@ -23,9 +23,9 @@ public partial class Controls_Inventory : System.Web.UI.UserControl
             }
             switch (Action)
             {
-                case "New": BtnSearch.Visible = false; AutoCompSearch.Enabled = false; BtnSubmit.Text = "Add"; break;
-                case "Edit": BtnSearch.Visible = true; AutoCompSearch.Enabled = true; BtnSubmit.Text = "Update"; break;
-                case "Delete": BtnSearch.Visible = true; AutoCompSearch.Enabled = true; BtnSubmit.Text = "Delete"; break;
+                case "New": AutoCompSearch.Enabled = false; BtnSubmit.Text = "Add"; break;
+                case "Edit": AutoCompSearch.Enabled = true; BtnSubmit.Text = "Update"; break;
+                case "Delete": AutoCompSearch.Enabled = true; BtnSubmit.Text = "Delete"; break;
             }
             ((AjaxControlToolkit.Accordion)Page.Master.FindControl("AccMenu")).SelectedIndex = 2;
         }
@@ -41,9 +41,9 @@ public partial class Controls_Inventory : System.Web.UI.UserControl
 
         if (Action == "New")
         {
-            Status = Checkers.InventoryNew(TxtName.Text, decimal.Parse(TxtBuyingPrice.Text), decimal.Parse(TxtThreshold.Text), DdlPurchaseUnit.SelectedItem.Text, decimal.Parse(TxtConversionUnit.Text));
+            Status = Checkers.InventoryNew(TxtName.Text, decimal.Parse(TxtBuyingPrice.Text), decimal.Parse(TxtThreshold.Text), DdlPurchaseUnit.SelectedItem.Text, decimal.Parse(TxtConversionUnit.Text), DateTime.Parse(Application["SalesSession"].ToString()));
             LtrMessage.Text = Status == 1 ? "Inventory Item " + TxtName.Text + " Added." : "Item Name " + TxtName.Text + " Already Exists.";
-            if (Status == 1) Status = Checkers.ActivityNew("Inventory Item " + TxtName.Text + " Added", int.Parse(Session["UserId"].ToString()));
+            if (Status == 1) Status = Checkers.ActivityNew("Inventory Item " + TxtName.Text + " Added", int.Parse(Application["UserId"].ToString()), DateTime.Parse(Application["SalesSession"].ToString()));
 
             ClearForm();
         }
@@ -53,7 +53,7 @@ public partial class Controls_Inventory : System.Web.UI.UserControl
             {
                 Status = Checkers.InventoryEdit(int.Parse(HdnInventoryId.Value), TxtName.Text, decimal.Parse(TxtBuyingPrice.Text), decimal.Parse(TxtThreshold.Text), DdlPurchaseUnit.SelectedItem.Text, decimal.Parse(TxtConversionUnit.Text));
                 LtrMessage.Text = Status == 1 ? "Inventory Item " + TxtName.Text + " Updated." : "Item Name " + TxtName.Text + " Already Exists.";
-                if (Status == 1) Status = Checkers.ActivityNew("Inventory Item " + TxtName.Text + " Updated", int.Parse(Session["UserId"].ToString()));
+                if (Status == 1) Status = Checkers.ActivityNew("Inventory Item " + TxtName.Text + " Updated", int.Parse(Application["UserId"].ToString()), DateTime.Parse(Application["SalesSession"].ToString()));
             }
             else
                 LtrMessage.Text = "Please Select An Item.";
@@ -83,7 +83,7 @@ public partial class Controls_Inventory : System.Web.UI.UserControl
         {
             Status = Checkers.InventoryDelete(int.Parse(HdnInventoryId.Value));
             LtrMessage.Text = Status == 1 ? "Inventory Item " + TxtName.Text + " Deleted." : "Error Occurred";
-            if (Status == 1) Status = Checkers.ActivityNew("Inventory Item " + TxtName.Text + " Deleted", int.Parse(Session["UserId"].ToString()));
+            if (Status == 1) Status = Checkers.ActivityNew("Inventory Item " + TxtName.Text + " Deleted", int.Parse(Application["UserId"].ToString()), DateTime.Parse(Application["SalesSession"].ToString()));
         }
         ClearForm();
     }
@@ -102,24 +102,20 @@ public partial class Controls_Inventory : System.Web.UI.UserControl
         TxtThreshold.Text = "0";
         TxtConversionUnit.Text = "1";
         LtrInventoryItems.Text = "";
-        LtrPurchaseUnit1.Text = "Per Kg";
-        LtrPurchaseUnit2.Text = "Kg(s)";
-        LtrPurchaseUnit3.Text = "Kg";
+        LblPurchaseUnit1.Text = "Per Kg";
+        LblPurchaseUnit2.Text = "Kg(s)";
+        LblPurchaseUnit3.Text = "Kg";
         BtnNo.Visible = false;
         BtnYes.Visible = false;
 
         LtrInventoryItems.Text = Checkers.Inventories.Where(I => I.Inventory_Status == 1).Select(I => I).Count().ToString();
     }
-    protected void BtnSearch_Click(object sender, EventArgs e)
-    {
-        FillData();
-    }
     protected void DdlPurchaseUnit_SelectedIndexChanged(object sender, EventArgs e)
     {
-        LtrPurchaseUnit1.Text = "Per " + DdlPurchaseUnit.SelectedItem.Text;
-        LtrPurchaseUnit2.Text = DdlPurchaseUnit.SelectedItem.Text + "(s)";
-        LtrPurchaseUnit3.Text = DdlPurchaseUnit.SelectedItem.Text;
-        LtrName.Text = TxtName.Text;
+        LblPurchaseUnit1.Text = "Per " + DdlPurchaseUnit.SelectedItem.Text;
+        LblPurchaseUnit2.Text = DdlPurchaseUnit.SelectedItem.Text + "(s)";
+        LblPurchaseUnit3.Text = DdlPurchaseUnit.SelectedItem.Text;
+        LblName.Text = TxtName.Text;
     }
     public void FillData()
     {
@@ -131,9 +127,9 @@ public partial class Controls_Inventory : System.Web.UI.UserControl
         TxtBuyingPrice.Text = InventoryDetails.Inventory_BuyingPrice.ToString();
         TxtThreshold.Text = InventoryDetails.Inventory_Threshold.ToString();
         TxtConversionUnit.Text = InventoryDetails.Inventory_ConversionUnit.ToString();
-        LtrName.Text = InventoryDetails.Inventory_Name.ToString();
-        LtrPurchaseUnit1.Text = "Per " + InventoryDetails.Inventory_PurchaseUnit.ToString();
-        LtrPurchaseUnit2.Text = InventoryDetails.Inventory_PurchaseUnit.ToString() + "(s)";
-        LtrPurchaseUnit3.Text = InventoryDetails.Inventory_PurchaseUnit.ToString();
+        LblName.Text = InventoryDetails.Inventory_Name.ToString();
+        LblPurchaseUnit1.Text = "Per " + InventoryDetails.Inventory_PurchaseUnit.ToString();
+        LblPurchaseUnit2.Text = InventoryDetails.Inventory_PurchaseUnit.ToString() + "(s)";
+        LblPurchaseUnit3.Text = InventoryDetails.Inventory_PurchaseUnit.ToString();
     }
 }

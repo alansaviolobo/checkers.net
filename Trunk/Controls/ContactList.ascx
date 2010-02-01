@@ -2,12 +2,12 @@
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="Ajax" %>
 
 <script type="text/javascript" language="javascript">
-    function GetContactId(sender, eventArgs) {
-        CheckersWebService.GetContactId(sender._element.value, OnSuccess, OnError);
+    function GetContactDetails(sender, eventArgs) {
+        CheckersWebService.GetContactDetails(sender._element.value, OnSuccess, OnError);
     }
 
     function OnSuccess(result) {
-        document.getElementById('<%=HdnUserId.ClientID %>').value = result;
+        document.getElementById('<%=HdnUserId.ClientID %>').value = result['Id'];
     }
 
     function OnError(result) {
@@ -32,14 +32,14 @@
                 <asp:TextBox ID="TxtName" runat="server" />
                 <Ajax:AutoCompleteExtender ID="AutoCompSearch" runat="server" TargetControlID="TxtName"
                     ServiceMethod="GetContactList" CompletionInterval="100" CompletionSetCount="10"
-                    ServicePath="~/CheckersWebService.asmx" MinimumPrefixLength="1" OnClientItemSelected="GetContactId" />
+                    ServicePath="~/CheckersWebService.asmx" MinimumPrefixLength="1" OnClientItemSelected="GetContactDetails" />
                 <asp:Button ID="BtnSearch" runat="server" Text="Search" OnClick="BtnSearch_Click" />
             </td>
         </tr>
     </table>
     <br />
     <asp:DataGrid ID="DgUser" runat="server" AllowPaging="True" AllowSorting="True" AutoGenerateColumns="False"
-        OnDeleteCommand="DgUser_DeleteCommand" OnEditCommand="DgUser_EditCommand" PageSize="20">
+        OnDeleteCommand="DgUser_DeleteCommand" OnEditCommand="DgUser_EditCommand" PageSize="15">
         <PagerStyle Mode="NumericPages" />
         <Columns>
             <asp:BoundColumn DataField="Contact_Id" HeaderText="Id" Visible="False"></asp:BoundColumn>

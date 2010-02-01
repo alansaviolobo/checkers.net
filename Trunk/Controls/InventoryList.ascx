@@ -38,8 +38,11 @@
         </tr>
     </table>
     <br />
-    <asp:DataGrid ID="DgInventory" runat="server" AllowPaging="True" AllowSorting="True" AutoGenerateColumns="False"
-        OnDeleteCommand="DgInventory_DeleteCommand" OnEditCommand="DgInventory_EditCommand" PageSize="20">
+    <asp:DataGrid ID="DgInventory" runat="server" AllowPaging="True" 
+        AllowSorting="True" AutoGenerateColumns="False"
+        OnDeleteCommand="DgInventory_DeleteCommand" 
+        OnEditCommand="DgInventory_EditCommand" PageSize="15" 
+        onpageindexchanged="DgInventory_PageIndexChanged">
         <PagerStyle Mode="NumericPages" />
         <Columns>
             <asp:BoundColumn DataField="Inventory_Id" HeaderText="Id" Visible="False"></asp:BoundColumn>

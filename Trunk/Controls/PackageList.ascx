@@ -41,7 +41,8 @@
     <br />
     <asp:DataGrid ID="DgPackage" runat="server" AllowPaging="True" AllowSorting="True"
         AutoGenerateColumns="False" OnDeleteCommand="DgPackage_DeleteCommand" OnEditCommand="DgPackage_EditCommand"
-        PageSize="20">
+        PageSize="15" onpageindexchanged="DgPackage_PageIndexChanged" 
+        onitemcommand="DgPackage_ItemCommand">
         <PagerStyle Mode="NumericPages" />
         <Columns>
             <asp:BoundColumn DataField="Package_Id" HeaderText="Id" Visible="False"></asp:BoundColumn>
@@ -50,6 +51,7 @@
             <asp:BoundColumn DataField="Package_Comments" HeaderText="Comments"></asp:BoundColumn>
             <asp:ButtonColumn CommandName="Delete" Text="Del"></asp:ButtonColumn>
             <asp:ButtonColumn CommandName="Edit" Text="Edit"></asp:ButtonColumn>
+            <asp:ButtonColumn CommandName="Content" Text="Content"></asp:ButtonColumn>
         </Columns>
     </asp:DataGrid>
 </div>

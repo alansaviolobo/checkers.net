@@ -2,12 +2,15 @@
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="Ajax" %>
 
 <script type="text/javascript" language="javascript">
-    function GetInventoryId(sender, eventArgs) {
-        CheckersWebService.GetInventoryId(sender._element.value, OnSuccess, OnError);
+    function GetInventoryDetails(sender, eventArgs) {
+        CheckersWebService.GetInventoryDetails(sender._element.value, OnSuccess, OnError);
     }
 
     function OnSuccess(result) {
-        document.getElementById('<%=HdnInventoryId.ClientID %>').value = result;
+        document.getElementById('<%=HdnInventoryId.ClientID %>').value = result['Id'];
+        document.getElementById('<%=TxtExistingQuantity.ClientID %>').value = result['Quantity'] / result['ConversionUnit'];
+        document.getElementById('<%=LblPurchaseUnit2.ClientID %>').value = result['PurchaseUnit'] + "(s)";
+        document.getElementById('<%=LblPurchaseUnit2.ClientID %>').value = result['PurchaseUnit'] + "(s)";
     }
 
     function OnError(result) {
@@ -28,13 +31,12 @@
                 <asp:TextBox ID="TxtName" runat="server" />
                 <Ajax:AutoCompleteExtender ID="AutoCompSearch" runat="server" TargetControlID="TxtName"
                     ServiceMethod="GetInventoryList" CompletionInterval="100" CompletionSetCount="10"
-                    ServicePath="~/CheckersWebService.asmx" MinimumPrefixLength="1" OnClientItemSelected="GetInventoryId" />
+                    ServicePath="~/CheckersWebService.asmx" MinimumPrefixLength="1" OnClientItemSelected="GetInventoryDetails" />
                 <asp:RequiredFieldValidator ID="ReqVldName" runat="server" 
                     ControlToValidate="TxtName" Display="None" ErrorMessage="Please Enter A Name"></asp:RequiredFieldValidator>
                 <Ajax:ValidatorCalloutExtender ID="ReqVldNameExtender" runat="server" 
                     Enabled="True" TargetControlID="ReqVldName">
                 </Ajax:ValidatorCalloutExtender>
-                <asp:Button ID="BtnSearch" runat="server" Text="Search" OnClick="BtnSearch_Click" />
             </td>
         </tr>
         <tr>
@@ -44,7 +46,7 @@
             <td>
                 <asp:TextBox ID="TxtExistingQuantity" runat="server" ReadOnly="true" />
                 &nbsp;
-                <asp:Literal ID="LtrPurchaseUnit1" runat="server" />
+                <asp:Label ID="LblPurchaseUnit1" runat="server" />
             </td>
         </tr>
         <tr>
@@ -54,7 +56,7 @@
             <td>
                 <asp:TextBox ID="TxtPurchaseQuantity" runat="server" />
                 &nbsp;
-                <asp:Literal ID="LtrPurchaseUnit2" runat="server" />
+                <asp:Label ID="LblPurchaseUnit2" runat="server" />
             </td>
         </tr>
         <tr>

@@ -18,16 +18,13 @@ public partial class Controls_Contact : System.Web.UI.UserControl
             Action = Request.QueryString["Action"] != null ? Request.QueryString["Action"].ToString() : "Add";
             switch (Action)
             {
-                case "New": BtnSearchPersonalName.Visible = false; BtnSearchOrganizationName.Visible = false;
-                    AutoCompSearchPersonalName.Enabled = false; AutoCompSearchOrganizationName.Enabled = false;
+                case "New": AutoCompSearchPersonalName.Enabled = false; AutoCompSearchOrganizationName.Enabled = false;
                     BtnSubmit.Text = "Add";
                     break;
-                case "Edit": BtnSearchPersonalName.Visible = true; BtnSearchOrganizationName.Visible = true;
-                    AutoCompSearchPersonalName.Enabled = true; AutoCompSearchOrganizationName.Enabled = true;
+                case "Edit": AutoCompSearchPersonalName.Enabled = true; AutoCompSearchOrganizationName.Enabled = true;
                     BtnSubmit.Text = "Update";
                     break;
-                case "Delete": BtnSearchPersonalName.Visible = true; BtnSearchOrganizationName.Visible = true;
-                    AutoCompSearchPersonalName.Enabled = true; AutoCompSearchOrganizationName.Enabled = true;
+                case "Delete": AutoCompSearchPersonalName.Enabled = true; AutoCompSearchOrganizationName.Enabled = true;
                     BtnSubmit.Text = "Delete";
                     break;
             }
@@ -39,16 +36,6 @@ public partial class Controls_Contact : System.Web.UI.UserControl
             ((AjaxControlToolkit.Accordion)Page.Master.FindControl("AccMenu")).SelectedIndex = 3;
         }
     }
-    protected void BtnSearchPersonalName_Click(object sender, EventArgs e)
-    {
-        FillData();
-    }
-    protected void BtnSearchOrganizationName_Click(object sender, EventArgs e)
-    {
-        BtnSearchPersonalName.Visible = false;
-        AutoCompSearchPersonalName.Enabled = false;
-        Search();
-    }
     protected void BtnSubmit_Click(object sender, EventArgs e)
     {
         Checkers = new CheckersDataContext();
@@ -58,9 +45,9 @@ public partial class Controls_Contact : System.Web.UI.UserControl
         {
             if (Checkers.Contacts.Where(C => C.Contact_Name == TxtPersonalName.Text && C.Contact_OrganizationName == TxtOrganizationName.Text).Any().Equals(false))
             {
-                Status = Checkers.ContactNew(0, TxtPersonalName.Text, null, null, "Customer", TxtPersonalPhone.Text, TxtPersonalAddress.Text, TxtPersonalEmail.Text, TxtOrganizationName.Text, TxtOrganizationAddress.Text, TxtOrganizationPhone.Text);
+                Status = Checkers.ContactNew(0, TxtPersonalName.Text, null, null, "Customer", TxtPersonalPhone.Text, TxtPersonalAddress.Text, TxtPersonalEmail.Text, TxtOrganizationName.Text, TxtOrganizationAddress.Text, TxtOrganizationPhone.Text, DateTime.Parse(Application["SalesSession"].ToString()));
                 LtrMessage.Text = Status == 1 ? "Contact " + TxtPersonalName.Text + " Added." : "Contact With Phone Number " + TxtPersonalPhone.Text + " Already Exists.";
-                if (Status == 1) Status = Checkers.ActivityNew("Contact " + TxtPersonalName.Text + " Added", int.Parse(Session["UserId"].ToString()));
+                if (Status == 1) Status = Checkers.ActivityNew("Contact " + TxtPersonalName.Text + " Added", int.Parse(Application["UserId"].ToString()), DateTime.Parse(Application["SalesSession"].ToString()));
                 ClearForm();
             }
             else
@@ -74,7 +61,7 @@ public partial class Controls_Contact : System.Web.UI.UserControl
                 {
                     Status = Checkers.ContactEdit(int.Parse(HdnContactId.Value), TxtPersonalName.Text, null, "checkers", "Customer", TxtPersonalPhone.Text, TxtPersonalAddress.Text, TxtPersonalEmail.Text, TxtOrganizationName.Text, TxtOrganizationAddress.Text, TxtOrganizationPhone.Text);
                     LtrMessage.Text = Status == 1 ? "Contact " + TxtPersonalName.Text + " Updated." : "Contact With Phone Number " + TxtPersonalPhone.Text + " Already Exists.";
-                    if (Status == 1) Status = Checkers.ActivityNew("Contact " + TxtPersonalName.Text + " Updated", int.Parse(Session["UserId"].ToString()));
+                    if (Status == 1) Status = Checkers.ActivityNew("Contact " + TxtPersonalName.Text + " Updated", int.Parse(Application["UserId"].ToString()), DateTime.Parse(Application["SalesSession"].ToString()));
                 }
                 else
                     LtrMessage.Text = TxtPersonalName.Text + " For Organization " + TxtOrganizationName.Text + " Already Exists.";
@@ -107,7 +94,7 @@ public partial class Controls_Contact : System.Web.UI.UserControl
         {
             Status = Checkers.ContactDelete(int.Parse(HdnContactId.Value));
             LtrMessage.Text = Status == 1 ? "Contact " + TxtPersonalName.Text + " Of Organization " + TxtOrganizationName.Text + " Deleted." : "Contact With Phone Number " + TxtPersonalPhone.Text + " Already Exists.";
-            if (Status == 1) Status = Checkers.ActivityNew("Contact " + TxtPersonalName.Text + " Deleted", int.Parse(Session["UserId"].ToString()));
+            if (Status == 1) Status = Checkers.ActivityNew("Contact " + TxtPersonalName.Text + " Deleted", int.Parse(Application["UserId"].ToString()), DateTime.Parse(Application["SalesSession"].ToString()));
         }
         ClearForm();
     }
@@ -148,7 +135,6 @@ public partial class Controls_Contact : System.Web.UI.UserControl
     }
     public void FillData()
     {
-        BtnSearchOrganizationName.Visible = false;
         AutoCompSearchOrganizationName.Enabled = false;
         Search();
     }

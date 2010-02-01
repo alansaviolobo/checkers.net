@@ -23,7 +23,7 @@ public partial class Order : System.Web.UI.Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        if (Session["UserId"] == null)
+        if (Application["UserId"] == null)
         {
             Response.Redirect("~/Default.aspx");
         }
@@ -35,6 +35,8 @@ public partial class Order : System.Web.UI.Page
             {
                 DdlItem.Items.Clear();
                 DdlQuantity.Items.Clear();
+                DdlSteward.Items.Clear();
+                DdlOffer.Items.Clear();
 
                 var Item = from I in Checkers.Menus
                            where I.Menu_Status.Equals(1)
@@ -45,8 +47,21 @@ public partial class Order : System.Web.UI.Page
                 for (int Quantity = 1; Quantity < MaximumQuantity; Quantity++)
                     DdlQuantity.Items.Add(new ListItem(Quantity.ToString()));
 
+                var Steward = from S in Checkers.Contacts
+                              where S.Contact_Type == "Steward" && S.Contact_Status.Equals(1)
+                              select S;
 
-                if (Checkers.Contacts.Where(C => C.Contact_Id.Equals(int.Parse(Session["UserId"].ToString()))).Select(C => C.Contact_Type).Single().Equals("Administrator"))
+                foreach (var S in Steward)
+                    DdlSteward.Items.Add(new ListItem(S.Contact_Name, S.Contact_Id.ToString()));
+
+                var Offer = (from O in Checkers.Offers
+                             where O.Offer_Status == 1 && O.Offer_Type == "Key"
+                             select O).Distinct();
+
+                foreach (var O in Offer)
+                    DdlOffer.Items.Add(new ListItem(O.Offer_Name));
+
+                if (Checkers.Contacts.Where(C => C.Contact_Id.Equals(int.Parse(Application["UserId"].ToString()))).Select(C => C.Contact_Type).Single().Equals("Administrator"))
                     BtnAdministration.Visible = true;
             }
             FillTables();
@@ -60,13 +75,6 @@ public partial class Order : System.Web.UI.Page
         HdnTableId.Value = ImgBtnTable.ID;
         HdnTableSource.Value = TableSource();
 
-        //if (Checkers.Sources.Where(S => S.Source_Type == "Table" && S.Source_Number == int.Parse(HdnTableId.Value) && (S.Source_Status == 1 || S.Source_Status == 2)).Select(S => S).Any().Equals(true))
-        //    HdnTableSource.Value = (from S in Checkers.Sources
-        //                            where S.Source_Type == "Table" && S.Source_Number.Value == int.Parse(HdnTableId.Value) && (S.Source_Status == 1 || S.Source_Status == 2)
-        //                            select S.Source_Id).Single().ToString();
-        //else
-        //    HdnTableSource.Value = "";
-
         BillNumber();
         ClearForm();
 
@@ -77,20 +85,29 @@ public partial class Order : System.Web.UI.Page
         {
             BtnBill.Text = "Print Bill";
             TxtDiscount.ReadOnly = false;
-            TxtTax.ReadOnly = false;
+            TxtDiscountBar.ReadOnly = false;
+            TxtDiscountRestaurant.ReadOnly = false;
+            TxtNoOfPeople.ReadOnly = false;
+            DdlSteward.Enabled = true;
         }
         else if (ImgBtnTable.ToolTip == "Table Busy")
         {
             BtnBill.Text = "Print Bill";
             TxtDiscount.ReadOnly = false;
-            TxtTax.ReadOnly = false;
+            TxtDiscountBar.ReadOnly = false;
+            TxtDiscountRestaurant.ReadOnly = false;
+            TxtNoOfPeople.ReadOnly = false;
+            DdlSteward.Enabled = true;
         }
         else if (ImgBtnTable.ToolTip == "Table Billed")
         {
             BtnBill.Text = "RePrint Bill";
             TxtDiscount.ReadOnly = true;
-            TxtTax.ReadOnly = true;
+            TxtDiscountBar.ReadOnly = true;
+            TxtDiscountRestaurant.ReadOnly = true;
+            TxtNoOfPeople.ReadOnly = true;
             PnlButton.Visible = true;
+            DdlSteward.Enabled = false;
         }
 
         ShowOrders();
@@ -109,7 +126,7 @@ public partial class Order : System.Web.UI.Page
                 LtrMessage.Text = "Table " + HdnTableId.Value + " Already Billed. Please Close The Bill.";
             else
             {
-                Status = Checkers.SalesNew(0, int.Parse(DdlItem.SelectedItem.Value), decimal.Parse(DdlQuantity.SelectedItem.Text), int.Parse(HdnTableId.Value), "Table", 0);
+                Status = Checkers.SalesNew(0, int.Parse(DdlItem.SelectedItem.Value), decimal.Parse(DdlQuantity.SelectedItem.Text), int.Parse(HdnTableId.Value), "Table", 0, DateTime.Parse(Application["SalesSession"].ToString()));
                 LtrMessage.Text = Status == 1 ? "Item " + DdlItem.SelectedItem.Text + " Of Quantity " + DdlQuantity.SelectedItem.Text + " Ordered For Table No. " + HdnTableId.Value : "Error Occurred";
 
                 var MenuConverter = Checkers.Converters.Where(C => C.Converter_Menu == int.Parse(DdlItem.SelectedItem.Value) && C.Converter_Status == 1).Select(C => C);
@@ -128,11 +145,13 @@ public partial class Order : System.Web.UI.Page
 
                 var MenuType = Checkers.Menus.Where(M => M.Menu_Id == int.Parse(DdlItem.SelectedItem.Value)).Select(M => M.Menu_Category).Single();
 
-                Status = Checkers.TokenNew(MenuType.ToString() == "Bar" ? "BOT" : "KOT", int.Parse(DdlItem.SelectedItem.Value), decimal.Parse(DdlQuantity.SelectedItem.Text), int.Parse(TableSource().ToString()));
+                Status = Checkers.TokenNew(MenuType.ToString() == "Bar" || MenuType.ToString() == "Beverage" ? "BOT" : "KOT", int.Parse(DdlItem.SelectedItem.Value), decimal.Parse(DdlQuantity.SelectedItem.Text), int.Parse(TableSource().ToString()), DateTime.Parse(Application["SalesSession"].ToString()));
 
-                LblOt.Text = MenuType.ToString() == "Bar" ? "BOT" : "KOT";
+                LblOt.Text = MenuType.ToString() == "Bar" || MenuType.ToString() == "Beverage" ? "BOT" : "KOT";
 
-                Ot.InnerHtml = "<div style=\"width: 396px; font-size: 7px; font-type: Arial\"><br /><br /><strong>Table No: </strong>" + HdnTableId.Value + "<br /><br />";
+                Ot.InnerHtml = "<div style=\"width: 396px; font-size: 7px; font-type: Arial\"><br />";
+                Ot.InnerHtml += DateTime.Now.ToString();
+                Ot.InnerHtml += "<br /><br /><strong>Table No: </strong>" + HdnTableId.Value + "<br /><br />";
                 Ot.InnerHtml += "<hr>";
                 Ot.InnerHtml += "<strong>Item: </strong>" + DdlItem.SelectedItem.Text + "<br />";
                 Ot.InnerHtml += "<strong>Quantity: </strong>" + decimal.Parse(DdlQuantity.SelectedItem.Text) + "</div>";
@@ -140,6 +159,9 @@ public partial class Order : System.Web.UI.Page
 
                 ShowOrders();
                 OrderInformation();
+
+                DdlItem.SelectedIndex = 0;
+                DdlQuantity.SelectedIndex = 0;
             }
         }
         else
@@ -159,31 +181,83 @@ public partial class Order : System.Web.UI.Page
                 LtrMessage.Text = "Table " + HdnTableId.Value + " Already Billed. Please Close The Bill.";
             else
             {
-                Status = Checkers.SalesNew(0, int.Parse(DdlItem.SelectedItem.Value), decimal.Parse(DdlQuantity.SelectedItem.Text), int.Parse(HdnTableId.Value), "Table", 0);
-                LtrMessage.Text = Status == 1 ? "Item " + DdlItem.SelectedItem.Text + " Of Quantity " + DdlQuantity.SelectedItem.Text + " Ordered For Table No. " + HdnTableId.Value : "Error Occurred";
-
-                var MenuConverter = Checkers.Converters.Where(C => C.Converter_Menu == int.Parse(DdlItem.SelectedItem.Value) && C.Converter_Status == 1).Select(C => C);
-                foreach (var M in MenuConverter)
+                var OfferItems = Checkers.Offers.Where(O => O.Offer_Status == 1 && O.Offer_Name == DdlOffer.SelectedItem.Text).Select(O => O);
+                foreach (var O in OfferItems)
                 {
-                    decimal Quantity = M.Converter_InventoryQuantity.Value * decimal.Parse(DdlQuantity.SelectedItem.Text);
-                    Status = Checkers.InventorySubtract(M.Converter_Inventory, Quantity);
+                    Status = Checkers.SalesOffer(0, O.Offer_Menu, 1, int.Parse(HdnTableId.Value), "Table", O.Offer_Cost, 0, DateTime.Parse(Application["SalesSession"].ToString()));
+                    LtrMessage.Text = Status == 1 ? "Offer " + DdlOffer.Text + " Ordered Successfully." : "Error Occurred";
+
+                    var MenuConverter = Checkers.Converters.Where(C => C.Converter_Menu == O.Offer_Menu && C.Converter_Status == 1).Select(C => C);
+                    foreach (var M in MenuConverter)
+                    {
+                        Status = Checkers.InventorySubtract(M.Converter_Inventory, M.Converter_InventoryQuantity.Value);
+                    }
+                    var MenuCategory = Checkers.Menus.Where(M => M.Menu_Id == O.Offer_Menu).Select(M => M.Menu_Category).Single();
+
+                    string TokenTitle = MenuCategory.ToString() == "Bar" || MenuCategory.ToString() == "Beverage" ? "BOT" : "KOT";
+
+                    Status = Checkers.TokenNew(TokenTitle, O.Offer_Menu, O.Offer_Quantity, int.Parse(TableSource().ToString()), DateTime.Parse(Application["SalesSession"].ToString()));
+
                 }
+                //LblOt.Text = MenuCategory;
 
-                var MenuType = Checkers.Menus.Where(M => M.Menu_Id == int.Parse(DdlItem.SelectedItem.Value)).Select(M => M.Menu_Category).Single();
+                //Ot.InnerHtml = "<br /><br /><strong>Table No: </strong>" + HdnTableId.Value + "<br /><br />";
+                //Ot.InnerHtml += "<hr>";
+                //Ot.InnerHtml += "<strong>Item: </strong>" + DdlItem.SelectedItem.Text + "<br />";
+                //Ot.InnerHtml += "<strong>Quantity: </strong>" + decimal.Parse(DdlQuantity.SelectedItem.Text);
+                //ScriptManager.RegisterStartupScript(Page, Page.GetType(), "Print", "javascript:CallPrint('PrintOt');", true);
 
-                Status = Checkers.TokenNew(MenuType.ToString() == "Bar" ? "BOT" : "KOT", int.Parse(DdlItem.SelectedItem.Value), decimal.Parse(DdlQuantity.SelectedItem.Text), int.Parse(TableSource().ToString()));
+                ShowOrders();
+                OrderInformation();
 
-                LblOt.Text = MenuType.ToString() == "Bar" ? "BOT" : "KOT";
+                DdlItem.SelectedIndex = 0;
+                DdlQuantity.SelectedIndex = 0;
+            }
+        }
+        else
+            LtrMessage.Text = "Please Select An Table.";
 
-                Ot.InnerHtml = "<br /><br /><strong>Table No: </strong>" + HdnTableId.Value + "<br /><br />";
+        FillTables();
+    }
+
+    protected void BtnOrderOpenMenu_Click(object sender, EventArgs e)
+    {
+        if (HdnTableId.Value != "")
+        {
+            Checkers = new CheckersDataContext();
+            int Status, MenuId;
+
+            MenuId = Checkers.MenuNew(0, TxtOpenMenuName.Text, "Open Menu", DdlTokenSection.SelectedItem.Text, decimal.Parse(TxtOpenMenuCost.Text), DateTime.Parse(Application["SalesSession"].ToString()));
+
+            if (Checkers.Sources.Where(S => S.Source_Type == "Table" && S.Source_Number == int.Parse(HdnTableId.Value) && S.Source_Status == 2).Any().Equals(true))
+                LtrMessage.Text = "Table " + HdnTableId.Value + " Already Billed. Please Close The Bill.";
+            else
+            {
+                Status = Checkers.SalesNew(0, MenuId, decimal.Parse(TxtOpenMenuQuantity.Text), int.Parse(HdnTableId.Value), "Table", 0, DateTime.Parse(Application["SalesSession"].ToString()));
+                LtrMessage.Text = Status == 1 ? "Item " + TxtOpenMenuName.Text + " Of Quantity " + TxtOpenMenuQuantity.Text + " Ordered For Table No. " + HdnTableId.Value : "Error Occurred";
+
+                var MenuType = Checkers.Menus.Where(M => M.Menu_Id == MenuId).Select(M => M.Menu_Category).Single();
+
+                Status = Checkers.TokenNew(MenuType.ToString() == "Bar" || MenuType.ToString() == "Beverage" ? "BOT" : "KOT", MenuId, decimal.Parse(TxtOpenMenuQuantity.Text), int.Parse(TableSource().ToString()), DateTime.Parse(Application["SalesSession"].ToString()));
+
+                LblOt.Text = MenuType.ToString() == "Bar" || MenuType.ToString() == "Beverage" ? "BOT" : "KOT";
+
+                Ot.InnerHtml = "<div style=\"width: 396px; font-size: 7px; font-type: Arial\"><br />";
+                Ot.InnerHtml += DateTime.Now.ToString();
+                Ot.InnerHtml += "<br /><br /><strong>Table No: </strong>" + HdnTableId.Value + "<br /><br />";
                 Ot.InnerHtml += "<hr>";
-                Ot.InnerHtml += "<strong>Item: </strong>" + DdlItem.SelectedItem.Text + "<br />";
-                Ot.InnerHtml += "<strong>Quantity: </strong>" + decimal.Parse(DdlQuantity.SelectedItem.Text);
+                Ot.InnerHtml += "<strong>Item: </strong>" + TxtOpenMenuName.Text + "<br />";
+                Ot.InnerHtml += "<strong>Quantity: </strong>" + decimal.Parse(TxtOpenMenuQuantity.Text) + "</div>";
                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "Print", "javascript:CallPrint('PrintOt');", true);
 
                 ShowOrders();
                 OrderInformation();
+
+                DdlItem.SelectedIndex = 0;
+                DdlQuantity.SelectedIndex = 0;
             }
+
+            Status = Checkers.MenuDelete(MenuId);
         }
         else
             LtrMessage.Text = "Please Select An Table.";
@@ -198,7 +272,7 @@ public partial class Order : System.Web.UI.Page
         int SalesId = int.Parse(e.Item.Cells[0].Text); ;
         int Menu = (from S in Checkers.Sales where S.Sales_Id == SalesId select S.Sales_Menu.Value).Single();
 
-        Status = Checkers.SalesDelete(SalesId, Menu, decimal.Parse(e.Item.Cells[2].Text), int.Parse(HdnTableId.Value), "Table");
+        Status = Checkers.SalesDelete(SalesId, Menu, decimal.Parse(e.Item.Cells[2].Text), int.Parse(HdnTableId.Value), "Table", DateTime.Parse(Application["SalesSession"].ToString()));
         LtrMessage.Text = Status == 1 ? "Item " + e.Item.Cells[1].Text + " For Table No. " + HdnTableId.Value + " Deleted" : "Error Occurred";
 
         var MenuConverter = Checkers.Converters.Where(C => C.Converter_Menu == Menu && C.Converter_Status == 1).Select(C => C);
@@ -227,13 +301,11 @@ public partial class Order : System.Web.UI.Page
                 int Status;
                 decimal SubTotal = decimal.Parse(LblTotalCost.Text);
                 decimal Discount = (decimal.Parse(LblTotalCost.Text) * decimal.Parse(TxtDiscount.Text)) / 100;
-                decimal Total = (SubTotal - Discount);
-                decimal Tax = (Total * decimal.Parse(TxtTax.Text)) / 100;
-                Total = Math.Round(Total + Tax);
 
                 if (BtnBill.Text == "Print Bill")
                 {
-                    Status = Checkers.InvoiceNew(0, SubTotal, Discount, Tax, int.Parse(TableSource()), null);
+                    Status = Checkers.InvoiceNew(0, SubTotal, Discount, 0, 0, 0, 0, int.Parse(TableSource()), null, int.Parse(DdlSteward.SelectedItem.Value), int.Parse(TxtNoOfPeople.Text), DateTime.Parse(Application["SalesSession"].ToString()));
+                    Status = 1;
                     LtrMessage.Text = Status == 1 ? "Bill Printed For Table No. " + HdnTableId.Value + "." : "Error Occurred.";
                     BtnBill.Text = "RePrint Bill";
                 }
@@ -243,6 +315,7 @@ public partial class Order : System.Web.UI.Page
                 LtrDate.Text = DateTime.Now.ToShortDateString();
                 LtrTime.Text = DateTime.Now.ToShortTimeString();
                 LtrTableNo.Text = HdnTableId.Value;
+                LtrSteward.Text = DdlSteward.SelectedItem.Text;
 
                 var OrderList = from O in Checkers.Sales
                                 from M in Checkers.Menus
@@ -250,25 +323,46 @@ public partial class Order : System.Web.UI.Page
                                                          where S.Source_Number == int.Parse(HdnTableId.Value) && S.Source_Status == 2
                                                          select S.Source_Id).Single() && O.Sales_Status == 1
                                                          && O.Sales_Menu == M.Menu_Id
-                                select new { O.Sales_Id, M.Menu_Name, O.Sales_Quantity, O.Sales_Cost };
+                                select new { O.Sales_Id, M.Menu_Name, M.Menu_Category, O.Sales_Quantity, O.Sales_Cost };
 
                 BillNumber();
 
                 LtrBillNo.Text = HdnBillNumber.Value;
+
+                decimal AmountBar = 0;
+                decimal AmountRestaurant = 0;
 
                 foreach (var O in OrderList)
                 {
                     HtmlTableRow TblBillRow = new HtmlTableRow();
                     HtmlTableCell TblBillCellItem = new HtmlTableCell();
                     HtmlTableCell TblBillCellQnty = new HtmlTableCell();
+                    HtmlTableCell TblBillCellPerUnit = new HtmlTableCell();
                     HtmlTableCell TblBillCellCost = new HtmlTableCell();
                     TblBillCellItem.InnerText = O.Menu_Name;
                     TblBillCellQnty.InnerText = O.Sales_Quantity.ToString();
+                    TblBillCellPerUnit.InnerText = (O.Sales_Cost / O.Sales_Quantity).ToString();
                     TblBillCellCost.InnerText = O.Sales_Cost.ToString();
                     TblBillRow.Cells.Add(TblBillCellItem);
                     TblBillRow.Cells.Add(TblBillCellQnty);
+                    TblBillRow.Cells.Add(TblBillCellPerUnit);
                     TblBillRow.Cells.Add(TblBillCellCost);
                     TblBill.Rows.Add(TblBillRow);
+
+                    if (O.Menu_Category == "Restaurant") AmountRestaurant += O.Sales_Cost.Value;
+                    else AmountBar += O.Sales_Cost.Value;
+                }
+
+                decimal DiscountBar = (AmountBar * decimal.Parse(TxtDiscountBar.Text)) / 100;
+                decimal DiscountRestaurant = (AmountRestaurant * decimal.Parse(TxtDiscountRestaurant.Text)) / 100;
+                decimal TotalBar = AmountBar - DiscountBar;
+                decimal TotalRestaurant = AmountRestaurant - DiscountRestaurant;
+                SubTotal = TotalBar + TotalRestaurant;
+                decimal Total = Math.Round(SubTotal - Discount);
+
+                if (BtnBill.Text == "Print Bill")
+                {
+                    Status = Checkers.InvoiceEdit(int.Parse(HdnBillNumber.Value), AmountBar, AmountRestaurant, DiscountBar, DiscountRestaurant);
                 }
 
                 HtmlTableRow TblBillFooter = new HtmlTableRow();
@@ -285,9 +379,8 @@ public partial class Order : System.Web.UI.Page
 
                 TblBillFooterCell1.InnerHtml = "<div style=\"width: 50%; float: left; text-align: center\">Cashier</div><div style=\"width: 50%; float: left; text-align: center\">Customer</div>";
                 TblBillFooterCell1.VAlign = "bottom";
-                TblBillFooterCellKey.InnerHtml = "<strong>S.Total<br />Tax<br />Discount<br />Total</strong>";
+                TblBillFooterCellKey.InnerHtml = "<strong>S.Total<br />Discount(" + decimal.Parse(TxtDiscount.Text) + ")<br />Total</strong>";
                 TblBillFooterCellValue.InnerHtml = "Rs." + Math.Round(SubTotal, 2) + "<br />";
-                TblBillFooterCellValue.InnerHtml += "Rs." + Math.Round(Tax, 2) + "<br />";
                 TblBillFooterCellValue.InnerHtml += "Rs." + Math.Round(Discount, 2) + "<br />";
                 TblBillFooterCellValue.InnerHtml += "Rs." + Math.Round(Total, 2) + "/-";
 
@@ -367,26 +460,28 @@ public partial class Order : System.Web.UI.Page
 
     protected void BtnPrintOt_Click(object sender, EventArgs e)
     {
-        Checkers = new CheckersDataContext();
+        //Checkers = new CheckersDataContext();
 
-        if (DdlToken.Items.Count > 0)
-        {
-            var Token = Checkers.Tokens.Where(T => T.Token_Id == int.Parse(DdlToken.SelectedItem.Value) && T.Token_Status == 1).Select(T => T).Single();
+        //if (DdlToken.Items.Count > 0)
+        //{
+        //    var Token = Checkers.Tokens.Where(T => T.Token_Id == int.Parse(DdlToken.SelectedItem.Value) && T.Token_Status == 1).Select(T => T).Single();
 
-            var MenuType = Checkers.Menus.Where(M => M.Menu_Id == Token.Token_Menu).Select(M => M.Menu_Category);
+        //    var MenuType = Checkers.Menus.Where(M => M.Menu_Id == Token.Token_Menu).Select(M => M.Menu_Category);
 
-            LblOt.Text = MenuType.ToString() == "Bar" ? "BOT" : "KOT";
+        //    LblOt.Text = MenuType.ToString() == "Bar" ? "BOT" : "KOT";
 
-            Ot.InnerHtml = "<br /><br /><strong>Table No: </strong>" + HdnTableId.Value + "<br /><br />";
-            Ot.InnerHtml += "<hr>";
-            Ot.InnerHtml += "<strong>Item: </strong>" + Checkers.Menus.Where(M => M.Menu_Id == Token.Token_Menu).Select(M => M.Menu_Name).Single() + "<br />";
-            Ot.InnerHtml += "<strong>Quantity: </strong>" + Token.Token_Quantity.ToString();
-            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "Print", "javascript:CallPrint('PrintOt');", true);
-        }
-        else
-        {
-            LtrMessage.Text = "No Items For Table No. " + HdnTableId.Value + ".";
-        }
+        //    Ot.InnerHtml = "<div style=\"width: 396px; font-size: 7px; font-type: Arial\"><br />";
+        //    Ot.InnerHtml += DateTime.Now.ToString();
+        //    Ot.InnerHtml += "<br /><br /><strong>Table No: </strong>" + HdnTableId.Value + "<br /><br />";
+        //    Ot.InnerHtml += "<hr>";
+        //    Ot.InnerHtml += "<strong>Item: </strong>" + Checkers.Menus.Where(M => M.Menu_Id == Token.Token_Menu).Select(M => M.Menu_Name).Single() + "<br />";
+        //    Ot.InnerHtml += "<strong>Quantity: </strong>" + Token.Token_Quantity.ToString();
+        //    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "Print", "javascript:CallPrint('PrintOt');", true);
+        //}
+        //else
+        //{
+        //    LtrMessage.Text = "No Items For Table No. " + HdnTableId.Value + ".";
+        //}
     }
 
     protected void BtnZeroBilling_Click(object sender, EventArgs e)
@@ -428,6 +523,28 @@ public partial class Order : System.Web.UI.Page
         BtnCreditOk.Visible = true;
     }
 
+    protected void DgToken_DeleteCommand(object source, DataGridCommandEventArgs e)
+    {
+        LtrMessage.Text = "Please Enter A Reason For Token Cancelation.";
+        BtnTokenCancel.Visible = true;
+        TxtTokenCancel.Visible = true;
+        Session["TokenId"] = e.Item.Cells[0].Text;
+    }
+
+    protected void BtnTokenCancel_Click(object sender, EventArgs e)
+    {
+        Checkers = new CheckersDataContext();
+        int Status;
+
+        Status = Checkers.TokenDelete(int.Parse(Session["TokenId"].ToString()), TxtTokenCancel.Text);
+        LtrMessage.Text = Status == 1 ? "Token " + Session["TokenId"].ToString() + " Canceled" : "Error Occurred.";
+        Session.Clear();
+        TxtTokenCancel.Visible = false;
+        BtnTokenCancel.Visible = false;
+
+        FillOt();
+    }
+
     #endregion
 
     #region Custom Functions
@@ -445,7 +562,8 @@ public partial class Order : System.Web.UI.Page
     public void FillOt()
     {
         Checkers = new CheckersDataContext();
-        DdlToken.Items.Clear();
+        //DdlToken.Items.Clear();
+        DgToken.DataSource = null;
         int TableSource1 = 0;
 
         if (Checkers.Sources.Where(S => S.Source_Type == "Table" && S.Source_Number == int.Parse(HdnTableId.Value) && (S.Source_Status == 1 || S.Source_Status == 2)).Select(S => S).Any().Equals(true))
@@ -457,18 +575,25 @@ public partial class Order : System.Web.UI.Page
             if (Checkers.Tokens.Where(T => T.Token_Status == 1 && T.Token_Source == int.Parse(TableSource())).Select(T => T).Any().Equals(true))
             {
                 var Token = from T in Checkers.Tokens
-                            where T.Token_Status == 1 && T.Token_Source == int.Parse(TableSource())
+                            from M in Checkers.Menus
+                            where T.Token_Status == 1 && T.Token_Source == int.Parse(TableSource()) && T.Token_Menu == M.Menu_Id
                             orderby T.Token_Id descending
-                            select T;
+                            select new { T.Token_Id, T.Token_Quantity, T.Token_Type, M.Menu_Name };
 
-                foreach (var T in Token)
-                    DdlToken.Items.Add(new ListItem((Checkers.Menus.Where(M => M.Menu_Id == T.Token_Menu).Select(M => M.Menu_Name).Single()) + " (" + T.Token_Quantity.ToString() + " nos.)", T.Token_Id.ToString()));
+                DgToken.DataSource = Token;
+
+                //foreach (var T in Token)
+                //    DdlToken.Items.Add(new ListItem((Checkers.Menus.Where(M => M.Menu_Id == T.Token_Menu).Select(M => M.Menu_Name).Single()) + " (" + T.Token_Quantity.ToString() + " nos.)", T.Token_Id.ToString()));
             }
             else
-                DdlToken.Items.Clear();
+                //DdlToken.Items.Clear();
+                DgToken.DataSource = null;
         }
         else
-            DdlToken.Items.Clear();
+            //DdlToken.Items.Clear();
+            DgToken.DataSource = null;
+
+        DgToken.DataBind();
 
     }
 
@@ -582,7 +707,11 @@ public partial class Order : System.Web.UI.Page
         {
             var BillNumber = Checkers.Invoices.Where(I => I.Invoice_Id == int.Parse(HdnBillNumber.Value)).Select(I => I).Single();
             TxtDiscount.Text = BillNumber.Invoice_Discount.ToString();
-            TxtTax.Text = BillNumber.Invoice_Tax.ToString();
+            TxtDiscountBar.Text = BillNumber.Invoice_DiscountBar.ToString();
+            TxtDiscountRestaurant.Text = BillNumber.Invoice_DiscountRestaurant.ToString();
+            TxtNoOfPeople.Text = BillNumber.Invoice_NoOfPeople.ToString();
+            DdlSteward.ClearSelection();
+            DdlSteward.Items.FindByValue(BillNumber.Invoice_Steward.ToString());
         }
     }
 
@@ -610,9 +739,14 @@ public partial class Order : System.Web.UI.Page
         LblRestaurantItems.Text = "";
         LblTotalCost.Text = "";
         TxtDiscount.Text = "0.0";
-        TxtTax.Text = "0.0";
+        TxtDiscountBar.Text = "0.0";
+        TxtDiscountRestaurant.Text = "0.0";
+        TxtNoOfPeople.Text = "0";
         TxtReason.Text = "";
         TxtClient.Text = "";
+        TxtOpenMenuCost.Text = "0.0";
+        TxtOpenMenuQuantity.Text = "0.0";
+        TxtOpenMenuName.Text = "";
         PnlButton.Visible = false;
         DgOrderItems.DataSource = null;
         DgOrderItems.DataBind();

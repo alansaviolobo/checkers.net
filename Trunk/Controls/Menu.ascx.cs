@@ -24,9 +24,9 @@ public partial class Controls_Menu : System.Web.UI.UserControl
 
             switch (Action)
             {
-                case "New": BtnSearch.Visible = false; AutoCompSearch.Enabled = false; BtnSubmit.Text = "Add"; break;
-                case "Edit": BtnSearch.Visible = true; AutoCompSearch.Enabled = true; BtnSubmit.Text = "Update"; break;
-                case "Delete": BtnSearch.Visible = true; AutoCompSearch.Enabled = true; BtnSubmit.Text = "Delete"; break;
+                case "New": AutoCompSearch.Enabled = false; BtnSubmit.Text = "Add"; break;
+                case "Edit": AutoCompSearch.Enabled = true; BtnSubmit.Text = "Update"; break;
+                case "Delete": AutoCompSearch.Enabled = true; BtnSubmit.Text = "Delete"; break;
             }
             ((AjaxControlToolkit.Accordion)Page.Master.FindControl("AccMenu")).SelectedIndex = 0;
         }
@@ -38,9 +38,9 @@ public partial class Controls_Menu : System.Web.UI.UserControl
 
         if (Action == "New")
         {
-            Status = Checkers.MenuNew(0, TxtName.Text, DdlCategory.SelectedItem.Text, decimal.Parse(TxtPrice.Text));
-            LtrMessage.Text = Status == 1 ? "Menu Item " + TxtName.Text + " Added." : "Item Name " + TxtName.Text + " Already Exists.";
-            if (Status == 1) Status = Checkers.ActivityNew("Menu Item " + TxtName.Text + " Added", int.Parse(Session["UserId"].ToString()));
+            Status = Checkers.MenuNew(0, TxtName.Text, DdlCategory.SelectedItem.Text, DdlTokenSection.SelectedItem.Text, decimal.Parse(TxtPrice.Text), DateTime.Parse(Application["SalesSession"].ToString()));
+            LtrMessage.Text = Status == 0 ? "Item Name " + TxtName.Text + " Already Exists." : "Menu Item " + TxtName.Text + " Added.";
+            if (Status == 1) Status = Checkers.ActivityNew("Menu Item " + TxtName.Text + " Added", int.Parse(Application["UserId"].ToString()), DateTime.Parse(Application["SalesSession"].ToString()));
 
             ClearForm();
         }
@@ -48,9 +48,9 @@ public partial class Controls_Menu : System.Web.UI.UserControl
         {
             if (HdnMenuId.Value != "")
             {
-                Status = Checkers.MenuEdit(int.Parse(HdnMenuId.Value), TxtName.Text, DdlCategory.SelectedItem.Text, decimal.Parse(TxtPrice.Text));
+                Status = Checkers.MenuEdit(int.Parse(HdnMenuId.Value), TxtName.Text, DdlCategory.SelectedItem.Text, DdlTokenSection.SelectedItem.Text, decimal.Parse(TxtPrice.Text));
                 LtrMessage.Text = Status == 1 ? "Menu Item " + TxtName.Text + " Updated." : "Item Name " + TxtName.Text + " Already Exists.";
-                if (Status == 1) Status = Checkers.ActivityNew("Menu Item " + TxtName.Text + " Updated", int.Parse(Session["UserId"].ToString()));
+                if (Status == 1) Status = Checkers.ActivityNew("Menu Item " + TxtName.Text + " Updated", int.Parse(Application["UserId"].ToString()), DateTime.Parse(Application["SalesSession"].ToString()));
             }
             else
                 LtrMessage.Text = "Please Select An Item.";
@@ -71,6 +71,9 @@ public partial class Controls_Menu : System.Web.UI.UserControl
                 ClearForm();
             }
         }
+
+        DdlCategory.SelectedIndex = 0;
+        DdlTokenSection.SelectedIndex = 0;
     }
     protected void BtnYes_Click(object sender, EventArgs e)
     {
@@ -80,7 +83,7 @@ public partial class Controls_Menu : System.Web.UI.UserControl
         {
             Status = Checkers.MenuDelete(int.Parse(HdnMenuId.Value));
             LtrMessage.Text = Status == 1 ? "Menu Item " + TxtName.Text + " Deleted." : "Error Occurred";
-            if (Status == 1) Status = Checkers.ActivityNew("Menu Item " + TxtName.Text + " Deleted", int.Parse(Session["UserId"].ToString()));
+            if (Status == 1) Status = Checkers.ActivityNew("Menu Item " + TxtName.Text + " Deleted", int.Parse(Application["UserId"].ToString()), DateTime.Parse(Application["SalesSession"].ToString()));
         }
         ClearForm();
     }
@@ -105,10 +108,6 @@ public partial class Controls_Menu : System.Web.UI.UserControl
         LtrBarItems.Text = Checkers.SelectItemByType("Bar").ToString();
         LtrRestaurantItems.Text = Checkers.SelectItemByType("Restaurant").ToString();
         LtrMenuItems.Text = (int.Parse(LtrRestaurantItems.Text) + int.Parse(LtrBarItems.Text)).ToString();
-    }
-    protected void BtnSearch_Click(object sender, EventArgs e)
-    {
-        FillData();
     }
     public void FillData()
     {

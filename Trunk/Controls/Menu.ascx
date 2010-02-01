@@ -2,12 +2,16 @@
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="Ajax" %>
 
 <script type="text/javascript" language="javascript">
-    function GetMenuId(sender, eventArgs) {
-        CheckersWebService.GetMenuId(sender._element.value, OnSuccess, OnError);
+    function GetMenuDetails(sender, eventArgs) {
+        CheckersWebService.GetMenuDetails(sender._element.value, OnSuccess, OnError);
     }
 
     function OnSuccess(result) {
-        document.getElementById('<%=HdnMenuId.ClientID %>').value = result;
+        document.getElementById('<%=HdnMenuId.ClientID %>').value = result['Id'];
+        document.getElementById('<%=TxtName.ClientID %>').value = result['Name'];
+        document.getElementById('<%=DdlCategory.ClientID %>').value = result['Category'];
+        document.getElementById('<%=DdlTokenSection.ClientID %>').value = result['TokenSection'];
+        document.getElementById('<%=TxtPrice.ClientID %>').value = result['SellingPrice'];
     }
 
     function OnError(result) {
@@ -32,14 +36,13 @@
                 <asp:TextBox ID="TxtName" runat="server" />
                 <Ajax:AutoCompleteExtender ID="AutoCompSearch" runat="server" TargetControlID="TxtName"
                     ServiceMethod="GetMenuList" CompletionInterval="100" CompletionSetCount="10"
-                    ServicePath="~/CheckersWebService.asmx" MinimumPrefixLength="1" OnClientItemSelected="GetMenuId"
+                    ServicePath="~/CheckersWebService.asmx" MinimumPrefixLength="1" OnClientItemSelected="GetMenuDetails"
                     Enabled="false" />
                 <asp:RequiredFieldValidator ID="ReqVldName" runat="server" 
                     ControlToValidate="TxtName" Display="None" ErrorMessage="Please Enter The Name"></asp:RequiredFieldValidator>
                 <Ajax:ValidatorCalloutExtender ID="ReqVldNameExtender" runat="server" 
                     Enabled="True" TargetControlID="ReqVldName">
                 </Ajax:ValidatorCalloutExtender>
-                <asp:Button ID="BtnSearch" runat="server" Text="Search" Visible="False" OnClick="BtnSearch_Click" />
             </td>
         </tr>
         <tr>
@@ -48,8 +51,21 @@
             </td>
             <td>
                 <asp:DropDownList ID="DdlCategory" runat="server">
-                    <asp:ListItem>Restaurant</asp:ListItem>
-                    <asp:ListItem>Bar</asp:ListItem>
+                    <asp:ListItem Value="Bar">Bar</asp:ListItem>
+                    <asp:ListItem Value="Beverage">Beverage</asp:ListItem>
+                    <asp:ListItem Value="Restaurant">Restaurant</asp:ListItem>
+                </asp:DropDownList>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Token Section</td>
+            <td>
+                <asp:DropDownList ID="DdlTokenSection" runat="server">
+                    <asp:ListItem Value="Bar">Bar</asp:ListItem>
+                    <asp:ListItem Value="Barbeque">Barbeque</asp:ListItem>
+                    <asp:ListItem Value="Tandoor">Tandoor</asp:ListItem>
+                    <asp:ListItem Value="Restaurant">Restaurant</asp:ListItem>
                 </asp:DropDownList>
             </td>
         </tr>

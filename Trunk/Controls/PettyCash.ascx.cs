@@ -19,11 +19,14 @@ public partial class Controls_PettyCash : System.Web.UI.UserControl
 
         foreach (var R in RecievedBy)
         {
-            if (R.Contact_Id == int.Parse(Session["UserId"].ToString()))
+            if (R.Contact_Id == int.Parse(Application["UserId"].ToString()))
                 LtrReceivedBy.Text = R.Contact_Name;
 
             DdlGivenBy.Items.Add(new ListItem(R.Contact_Name, R.Contact_Id.ToString()));
         }
+
+        FillData();
+
         ((AjaxControlToolkit.Accordion)Page.Master.FindControl("AccMenu")).SelectedIndex = 5;
     }
     protected void BtnAdd_Click(object sender, EventArgs e)
@@ -31,10 +34,19 @@ public partial class Controls_PettyCash : System.Web.UI.UserControl
         Checkers = new CheckersDataContext();
         int Status;
 
-        Status = Checkers.PettyCashNew(decimal.Parse(TxtAmount.Text), int.Parse(DdlGivenBy.SelectedItem.Value), int.Parse(Session["UserId"].ToString()));
+        Status = Checkers.PettyCashNew(decimal.Parse(TxtAmount.Text), int.Parse(DdlGivenBy.SelectedItem.Value), int.Parse(Application["UserId"].ToString()), DateTime.Parse(Application["SalesSession"].ToString()));
 
         var CashBalance = (from C in Checkers.PettyCashes select C.PettyCash_Balance).ToList().Last();
         LtrMessage.Text = Status == 1 ? "Amount " + TxtAmount.Text + " Added. Total Balance " + CashBalance.ToString() : "Error Occurred.";
-        if (Status == 1) Status = Checkers.ActivityNew("PettyCash Of Amount " + TxtAmount.Text + " Added", int.Parse(Session["UserId"].ToString()));
+        if (Status == 1) Status = Checkers.ActivityNew("PettyCash Of Amount " + TxtAmount.Text + " Added", int.Parse(Application["UserId"].ToString()), DateTime.Parse(Application["SalesSession"].ToString()));
+        FillData();
+    }
+
+    public void FillData()
+    {
+        if (Checkers.PettyCashes.Any() == true)
+            LtrAvailableAmount.Text = (from C in Checkers.PettyCashes select C.PettyCash_Balance).ToList().Last().Value.ToString();
+        else
+            LtrAvailableAmount.Text = "0";
     }
 }

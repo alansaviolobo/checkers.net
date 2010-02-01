@@ -11,6 +11,17 @@ public partial class _Default : System.Web.UI.Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
+        Checkers = new CheckersDataContext();
+        if ((Checkers.Miscellaneous.Where(M => M.Miscellaneous_Key == "SalesSession").Select(M => M.Miscellaneous_Value).Single()).ToString().Equals("0"))
+        {
+            RdoLstSalesType.Items.FindByText("Continue").Enabled = false;
+            RdoLstSalesType.Items.FindByText("New").Selected = true;
+        }
+        else
+        {
+            RdoLstSalesType.Items.FindByText("Continue").Selected = true;
+            RdoLstSalesType.Items.FindByText("New").Enabled = false;
+        }
     }
     protected void BtnLogin_Click(object sender, EventArgs e)
     {
@@ -24,10 +35,19 @@ public partial class _Default : System.Web.UI.Page
 
             if (User == true)
             {
-                Session["UserId"] = Checkers.Contacts.Where(U => U.Contact_UserName == TxtUserName.Text).Select(U => U.Contact_Id).Single();
-                Session.Timeout = 60;
+                if (RdoLstSalesType.SelectedItem.Text == "Continue")
+                    Application["SalesSession"] = Checkers.Miscellaneous.Where(M => M.Miscellaneous_Key == "SalesSession").Select(M => M.Miscellaneous_Value).Single();
+                else
+                {
+                    Checkers.MiscellaneousEdit("SalesSession", DateTime.Now.ToString());
+                    Application["SalesSession"] = DateTime.Now.ToString();
+                }
 
-                Server.Transfer("~/Order.aspx");
+                int UserId = Checkers.Contacts.Where(U => U.Contact_UserName == TxtUserName.Text).Select(U => U.Contact_Id).Single();
+                Checkers.MiscellaneousEdit("UserLogged", UserId.ToString());
+                Application["UserId"] = UserId;
+
+                Server.Transfer("~/Operation.aspx");
             }
             else
                 LtrMessage.Text = "Please Check Username And Password";

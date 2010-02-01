@@ -12,20 +12,17 @@ public partial class Controls_InventoryList : System.Web.UI.UserControl
     protected void Page_Load(object sender, EventArgs e)
     {
         Checkers = new CheckersDataContext();
-        if (!Page.IsPostBack)
+        var Inventory = Checkers.Inventories.Where(I => I.Inventory_Status == 1).Select(I => I).OrderBy(I => I.Inventory_Name);
+        if (Inventory.Count() > 0)
         {
-            var Inventory = Checkers.Inventories.Where(I => I.Inventory_Status == 1).Select(I => I);
-            if (Inventory.Count() > 0)
-            {
-                DgInventory.Visible = true;
-                DgInventory.DataSource = Inventory;
-                DgInventory.DataBind();
-            }
-            else
-            {
-                DgInventory.Visible = false;
-                LtrMessage.Text = "No menu items found.";
-            }
+            DgInventory.Visible = true;
+            DgInventory.DataSource = Inventory;
+            DgInventory.DataBind();
+        }
+        else
+        {
+            DgInventory.Visible = false;
+            LtrMessage.Text = "No menu items found.";
         }
         ((AjaxControlToolkit.Accordion)Page.Master.FindControl("AccMenu")).SelectedIndex = 2;
     }
@@ -57,6 +54,7 @@ public partial class Controls_InventoryList : System.Web.UI.UserControl
         {
             DgInventory.Visible = true;
             DgInventory.DataSource = Inventory;
+            DgInventory.CurrentPageIndex = 0;
             DgInventory.DataBind();
         }
         else
@@ -83,5 +81,10 @@ public partial class Controls_InventoryList : System.Web.UI.UserControl
         LtrMessage.Text = "Are you sure, you want to delete item " + e.Item.Cells[1].Text + " ?";
         BtnYes.Visible = true;
         BtnNo.Visible = true;
+    }
+    protected void DgInventory_PageIndexChanged(object source, DataGridPageChangedEventArgs e)
+    {
+        DgInventory.CurrentPageIndex = e.NewPageIndex;
+        DgInventory.DataBind();
     }
 }

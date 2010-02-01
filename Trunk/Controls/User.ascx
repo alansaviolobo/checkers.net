@@ -2,12 +2,18 @@
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="Ajax" %>
 
 <script type="text/javascript" language="javascript">
-    function GetContactId(sender, eventArgs) {
-        CheckersWebService.GetContactId(sender._element.value, OnSuccess, OnError);
+    function GetContactDetails(sender, eventArgs) {
+        CheckersWebService.GetContactDetails(sender._element.value, OnSuccess, OnError);
     }
 
     function OnSuccess(result) {
-        document.getElementById('<%=HdnUserId.ClientID %>').value = result;
+        document.getElementById('<%=HdnUserId.ClientID %>').value = result['Id'];
+        document.getElementById('<%=TxtName.ClientID %>').value = result['Name'];
+        document.getElementById('<%=TxtUserName.ClientID %>').value = result['UserName'];
+        document.getElementById('<%=DdlType.ClientID %>').value = result['Type'];
+        document.getElementById('<%=TxtPhone.ClientID %>').value = result['Phone'];
+        document.getElementById('<%=TxtAddress.ClientID %>').value = result['Address'];
+        document.getElementById('<%=TxtEmail.ClientID %>').value = result['Email'];        
     }
 
     function OnError(result) {
@@ -31,13 +37,12 @@
             <asp:TextBox ID="TxtName" runat="server" />
             <Ajax:AutoCompleteExtender ID="AutoCompSearch" runat="server" TargetControlID="TxtName"
                 ServiceMethod="GetUserList" CompletionInterval="100" CompletionSetCount="10"
-                ServicePath="~/CheckersWebService.asmx" MinimumPrefixLength="1" OnClientItemSelected="GetContactId" />
+                ServicePath="~/CheckersWebService.asmx" MinimumPrefixLength="1" OnClientItemSelected="GetContactDetails" />
             <asp:RequiredFieldValidator ID="ReqVldName" runat="server" ErrorMessage="Please Enter Name."
                 ControlToValidate="TxtName" Display="None" />
             <Ajax:ValidatorCalloutExtender ID="ReqVldNameExtender" runat="server" Enabled="True"
                 TargetControlID="ReqVldName">
             </Ajax:ValidatorCalloutExtender>
-            <asp:Button Text="Search" runat="server" ID="BtnSearch" Visible="False" OnClick="BtnSearch_Click" />
         </td>
     </tr>
     <tr>
@@ -59,9 +64,9 @@
         </td>
         <td>
             <asp:DropDownList ID="DdlType" runat="server">
-                <asp:ListItem>Administrator</asp:ListItem>
-                <asp:ListItem>Waiter</asp:ListItem>
-                <asp:ListItem>Manager</asp:ListItem>
+                <asp:ListItem Value="Administrator">Administrator</asp:ListItem>
+                <asp:ListItem Value="Manager">Manager</asp:ListItem>
+                <asp:ListItem Value="Steward">Steward</asp:ListItem>
             </asp:DropDownList>
         </td>
     </tr>

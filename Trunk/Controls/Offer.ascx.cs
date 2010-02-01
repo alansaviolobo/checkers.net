@@ -19,7 +19,8 @@ public partial class Controls_Offer : System.Web.UI.UserControl
         Action = Request.QueryString["Action"] != null ? Request.QueryString["Action"].ToString() : "Add";
         if (Request.QueryString["Name"] != null)
         {
-            HdnOfferName.Value = Request.QueryString["Id"].ToString();
+            TxtName.Text = Request.QueryString["Name"].ToString();
+            HdnOfferName.Value = Request.QueryString["Name"].ToString();
             FillData();
         }
 
@@ -35,6 +36,12 @@ public partial class Controls_Offer : System.Web.UI.UserControl
     protected void BtnYes_Click(object sender, EventArgs e)
     {
         Checkers = new CheckersDataContext();
+        int Status = Checkers.OfferDelete(HdnOfferName.Value);
+
+        LtrMessage.Text = Status == 1 ? "Offer Successfully Deleted" : "Error Occurred.";
+        BtnYes.Visible = false;
+        BtnNo.Visible = false;
+        ClearForm();
     }
 
     protected void BtnNo_Click(object sender, EventArgs e)
@@ -47,6 +54,7 @@ public partial class Controls_Offer : System.Web.UI.UserControl
     protected void BtnSearch_Click(object sender, EventArgs e)
     {
         Checkers = new CheckersDataContext();
+        HdnOfferName.Value = TxtName.Text;
         FillData();
     }
 
@@ -68,7 +76,7 @@ public partial class Controls_Offer : System.Web.UI.UserControl
             if (HdnOfferName.Value != "")
             {
                 Status = Checkers.OfferEdit(HdnOfferName.Value, TxtName.Text);
-                if (Status == 1) Status = Checkers.ActivityNew("Offer " + TxtName.Text + " Updated", int.Parse(Session["UserId"].ToString()));
+                if (Status == 1) Status = Checkers.ActivityNew("Offer " + TxtName.Text + " Updated", int.Parse(Application["UserId"].ToString()), DateTime.Parse(Application["SalesSession"].ToString()));
             }
             else
                 LtrMessage.Text = "Please Select An Offer.";
@@ -86,7 +94,6 @@ public partial class Controls_Offer : System.Web.UI.UserControl
             else
             {
                 LtrMessage.Text = "Please Select An Offer.";
-                ClearForm();
             }
         }
     }
@@ -98,14 +105,14 @@ public partial class Controls_Offer : System.Web.UI.UserControl
 
         if (TxtName.Text != "")
         {
-            if (Checkers.Offers.Where(O => O.Offer_Name == TxtName.Text && O.Offer_Status.Equals(1)).Any().Equals(true))
-                LtrMessage.Text = "Offer name already exists.";
-            else
-            {
-                Status = Checkers.OfferNew(TxtName.Text, int.Parse(DdlMenuRequiredName.SelectedItem.Value), int.Parse(DdlMenuRequiredQuantity.SelectedItem.Text), 0, "Key");
-                LtrMessage.Text = Status == 1 ? "Item " + DdlMenuRequiredName.Text + " Inserted." : "Error occurred.";
-                FillData();
-            }
+            //if (Checkers.Offers.Where(O => O.Offer_Name == TxtName.Text && O.Offer_Status.Equals(1)).Any().Equals(true))
+            //    LtrMessage.Text = "Offer name already exists.";
+            //else
+            //{
+            Status = Checkers.OfferNew(TxtName.Text, int.Parse(DdlMenuRequiredName.SelectedItem.Value), int.Parse(DdlMenuRequiredQuantity.SelectedItem.Text), 0, "Key", DateTime.Parse(Application["SalesSession"].ToString()));
+            LtrMessage.Text = Status == 1 ? "Item " + DdlMenuRequiredName.Text + " Inserted." : "Error occurred.";
+            FillData();
+            //}
         }
         else
             LtrMessage.Text = "Please enter a offer name.";
@@ -118,14 +125,14 @@ public partial class Controls_Offer : System.Web.UI.UserControl
 
         if (TxtName.Text != "")
         {
-            if (Checkers.Offers.Where(O => O.Offer_Name == TxtName.Text && O.Offer_Status.Equals(1)).Any().Equals(true))
-                LtrMessage.Text = "Offer name already exists.";
-            else
-            {
-                Status = Checkers.OfferNew(TxtName.Text, int.Parse(DdlMenuRequiredName.SelectedItem.Value), int.Parse(DdlMenuRequiredQuantity.SelectedItem.Text), int.Parse(DdlMenuOfferDiscount.SelectedItem.Text), "Value");
-                LtrMessage.Text = Status == 1 ? "Item " + DdlMenuRequiredName.Text + " Inserted." : "Error occurred.";
-                FillData();
-            }
+            //if (Checkers.Offers.Where(O => O.Offer_Name == TxtName.Text && O.Offer_Status.Equals(1)).Any().Equals(true))
+            //    LtrMessage.Text = "Offer name already exists.";
+            //else
+            //{
+            Status = Checkers.OfferNew(TxtName.Text, int.Parse(DdlMenuOfferName.SelectedItem.Value), int.Parse(DdlMenuOfferQuantity.SelectedItem.Text), int.Parse(DdlMenuOfferDiscount.SelectedItem.Text), "Value", DateTime.Parse(Application["SalesSession"].ToString()));
+            LtrMessage.Text = Status == 1 ? "Item " + DdlMenuRequiredName.Text + " Inserted." : "Error occurred.";
+            FillData();
+            //}
         }
         else
             LtrMessage.Text = "Please enter a offer name.";
@@ -160,6 +167,11 @@ public partial class Controls_Offer : System.Web.UI.UserControl
         {
             DdlMenuOfferDiscount.Items.Add(new ListItem(Discount.ToString()));
         }
+
+        DgMenuOffer.DataSource = null;
+        DgMenuRequired.DataSource = null;
+        DgMenuRequired.DataBind();
+        DgMenuOffer.DataBind();
     }
 
     public void FillData()
@@ -168,15 +180,28 @@ public partial class Controls_Offer : System.Web.UI.UserControl
 
         if (TxtName.Text != "")
         {
-            var Key = Checkers.Offers.Where(O => O.Offer_Status == 1 && O.Offer_Type == "Key" && O.Offer_Name == TxtName.Text).Select(O => O);
-            DgMenuRequired.DataSource = Enumerable.Count(Key) > 0 ? Key : null;            
+            var Key = from C in Checkers.Offers
+                      from M in Checkers.Menus
+                      where C.Offer_Status == 1 && C.Offer_Type == "Key" && C.Offer_Name == TxtName.Text && C.Offer_Menu == M.Menu_Id
+                      select new { C.Offer_Id, C.Offer_Cost, C.Offer_Name, C.Offer_Quantity, C.Offer_Type, M.Menu_Name };
+            DgMenuRequired.DataSource = Enumerable.Count(Key) > 0 ? Key : null;
             DgMenuRequired.DataBind();
 
-            var Value = Checkers.Offers.Where(O => O.Offer_Status == 1 && O.Offer_Type == "Value" &&  O.Offer_Name== TxtName.Text).Select(O => O);
-            DgMenuOffer.DataSource = Enumerable.Count(Value) > 0 ? Key : null;
+            var Value = from C in Checkers.Offers
+                        from M in Checkers.Menus
+                        where C.Offer_Status == 1 && C.Offer_Type == "Value" && C.Offer_Name == TxtName.Text && C.Offer_Menu == M.Menu_Id
+                        select new { C.Offer_Id, C.Offer_Cost, C.Offer_Name, C.Offer_Quantity, C.Offer_Type, M.Menu_Name };
+            DgMenuOffer.DataSource = Enumerable.Count(Value) > 0 ? Value : null;
             DgMenuOffer.DataBind();
         }
         else
             LtrMessage.Text = "No offer selected / entered.";
+    }
+    protected void DgMenu_DeleteCommand(object source, DataGridCommandEventArgs e)
+    {
+        Checkers = new CheckersDataContext();
+
+        int Status = Checkers.OfferItemDelete(int.Parse(e.Item.Cells[0].Text));
+        FillData();
     }
 }

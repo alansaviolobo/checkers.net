@@ -2,12 +2,19 @@
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="Ajax" %>
 
 <script type="text/javascript" language="javascript">
-    function GetInventoryId(sender, eventArgs) {
-        CheckersWebService.GetInventoryId(sender._element.value, OnSuccess, OnError);
+    function GetInventoryDetails(sender, eventArgs) {
+        CheckersWebService.GetInventoryDetails(sender._element.value, OnSuccess, OnError);
     }
 
     function OnSuccess(result) {
-        document.getElementById('<%=HdnInventoryId.ClientID %>').value = result;
+        document.getElementById('<%=DdlPurchaseUnit.ClientID %>').value = result['PurchaseUnit'];
+        document.getElementById('<%=TxtBuyingPrice.ClientID %>').value = result['BuyingPrice'];
+        document.getElementById('<%=TxtThreshold.ClientID %>').value = result['Threshold'];
+        document.getElementById('<%=TxtConversionUnit.ClientID %>').value = result['ConversionUnit'];
+        document.getElementById('<%=LblPurchaseUnit1.ClientID %>').value = result['PurchaseUnit'];
+        document.getElementById('<%=LblPurchaseUnit2.ClientID %>').value = result['PurchaseUnit'];
+        document.getElementById('<%=LblPurchaseUnit3.ClientID %>').value = result['PurchaseUnit'];
+        document.getElementById('<%=LblName.ClientID %>').value = result['Name'];
     }
 
     function OnError(result) {
@@ -32,14 +39,13 @@
                 <asp:TextBox ID="TxtName" runat="server" />
                 <Ajax:AutoCompleteExtender ID="AutoCompSearch" runat="server" TargetControlID="TxtName"
                     ServiceMethod="GetInventoryList" CompletionInterval="100" CompletionSetCount="10"
-                    ServicePath="~/CheckersWebService.asmx" MinimumPrefixLength="1" OnClientItemSelected="GetInventoryId"
+                    ServicePath="~/CheckersWebService.asmx" MinimumPrefixLength="1" OnClientItemSelected="GetInventoryDetails"
                     Enabled="false" />
-                <asp:RequiredFieldValidator ID="ReqVldName" runat="server" 
-                    ControlToValidate="TxtName" Display="None" ErrorMessage="Please Enter A Name"></asp:RequiredFieldValidator>
-                <Ajax:ValidatorCalloutExtender ID="ReqVldNameExtender" runat="server" 
-                    Enabled="True" TargetControlID="ReqVldName">
+                <asp:RequiredFieldValidator ID="ReqVldName" runat="server" ControlToValidate="TxtName"
+                    Display="None" ErrorMessage="Please Enter A Name"></asp:RequiredFieldValidator>
+                <Ajax:ValidatorCalloutExtender ID="ReqVldNameExtender" runat="server" Enabled="True"
+                    TargetControlID="ReqVldName">
                 </Ajax:ValidatorCalloutExtender>
-                <asp:Button ID="BtnSearch" runat="server" Text="Search" Visible="False" OnClick="BtnSearch_Click" />
             </td>
         </tr>
         <tr>
@@ -48,9 +54,9 @@
             </td>
             <td>
                 <asp:DropDownList ID="DdlPurchaseUnit" runat="server" AutoPostBack="True" OnSelectedIndexChanged="DdlPurchaseUnit_SelectedIndexChanged">
-                    <asp:ListItem>Kg</asp:ListItem>
-                    <asp:ListItem>Bottle</asp:ListItem>
-                    <asp:ListItem>Unit</asp:ListItem>
+                    <asp:ListItem Value="Kg">Kg</asp:ListItem>
+                    <asp:ListItem Value="Bottle">Bottle</asp:ListItem>
+                    <asp:ListItem Value="Unit">Unit</asp:ListItem>
                 </asp:DropDownList>
             </td>
         </tr>
@@ -61,7 +67,7 @@
             <td>
                 <asp:TextBox ID="TxtBuyingPrice" runat="server" Width="80px" />
                 &nbsp;
-                <asp:Literal ID="LtrPurchaseUnit1" runat="server" />
+                <asp:Label ID="LblPurchaseUnit1" runat="server" />
             </td>
         </tr>
         <tr>
@@ -71,33 +77,30 @@
             <td>
                 <asp:TextBox ID="TxtThreshold" runat="server" Width="80px" />
                 &nbsp;
-                <asp:Literal ID="LtrPurchaseUnit2" runat="server" />
+                <asp:Label ID="LblPurchaseUnit2" runat="server" />
             </td>
         </tr>
         <tr>
             <td colspan="2" style="text-align: center">
                 <b>1</b>
-                <asp:Literal ID="LtrPurchaseUnit3" runat="server"></asp:Literal>
+                <asp:Label ID="LblPurchaseUnit3" runat="server" />
                 &nbsp;<b>Of</b>&nbsp;
-                <asp:Literal ID="LtrName" runat="server"></asp:Literal>
+                <asp:Label ID="LblName" runat="server" />
                 &nbsp;<b>Corresponds To</b>
             </td>
         </tr>
         <tr>
             <td>
-               
             </td>
             <td>
                 <asp:TextBox ID="TxtConversionUnit" runat="server" Width="80px" Height="22px" />
-                <asp:RegularExpressionValidator ID="RegVldConversionUnit" runat="server" 
-                    ControlToValidate="TxtConversionUnit" Display="None" ValidationExpression="^\d{1,10}(\.\d{0,2})?$" 
-                    ErrorMessage="Please Enter A Valid Amount"></asp:RegularExpressionValidator>
-                <Ajax:ValidatorCalloutExtender ID="RegVldConversionUnitExtender" runat="server" 
-                    Enabled="True" TargetControlID="RegVldConversionUnit">
+                <asp:RegularExpressionValidator ID="RegVldConversionUnit" runat="server" ControlToValidate="TxtConversionUnit"
+                    Display="None" ValidationExpression="^\d{1,10}(\.\d{0,2})?$" ErrorMessage="Please Enter A Valid Amount"></asp:RegularExpressionValidator>
+                <Ajax:ValidatorCalloutExtender ID="RegVldConversionUnitExtender" runat="server" Enabled="True"
+                    TargetControlID="RegVldConversionUnit">
                 </Ajax:ValidatorCalloutExtender>
-                &nbsp;
-                Units
-                </td>
+                &nbsp; Units
+            </td>
         </tr>
         <tr>
             <td colspan="2" style="text-align: center">

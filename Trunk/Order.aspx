@@ -29,17 +29,27 @@
                     WinPrint.print();
                     WinPrint.close();
                 }
-                function GetClientId(sender, eventArgs) {
-                    CheckersWebService.GetClientId(sender._element.value, OnSuccess, OnError);
+                function GetClientDetails(sender, eventArgs) {
+                    CheckersWebService.GetClientDetails(sender._element.value, OnSuccess, OnError);
                 }
 
                 function OnSuccess(result) {
-                    document.getElementById('<%=HdnClientId.ClientID %>').value = result;
+                    document.getElementById('<%=HdnClientId.ClientID %>').value = result['Id'];
                 }
 
                 function OnError(result) {
                     alert(result);
                 }
+
+                function ResetDiscount() {
+                    document.getElementById('<%=TxtDiscount.ClientID %>').value = 0.0;
+                }
+
+                function ResetDiscountOther() {
+                    document.getElementById('<%=TxtDiscountBar.ClientID %>').value = 0.0;
+                    document.getElementById('<%=TxtDiscountRestaurant.ClientID %>').value = 0.0;
+                }
+
             </script>
 
             <div id="Information">
@@ -81,7 +91,7 @@
                                             <asp:Button ID="BtnOrderItem" runat="server" Text="Order" OnClick="BtnOrderItem_Click" />
                                         </td>
                                     </tr>
-                                    <%--<tr>
+                                    <tr>
                                         <td colspan="2" valign="baseline">
                                             Offer
                                             <asp:DropDownList ID="DdlOffer" runat="server" />
@@ -89,15 +99,15 @@
                                         <td>
                                             <asp:Button ID="BtnOrderOffer" runat="server" Text="Order" OnClick="BtnOrderOffer_Click" />
                                         </td>
-                                    </tr>--%>
+                                    </tr>
                                 </table>
                                 <br />
-                                <div id="DataContainer">
+                                <div class="DataContainer">
                                     <asp:DataGrid ID="DgOrderItems" runat="server" AutoGenerateColumns="False" Width="290px"
-                                        OnDeleteCommand="DgOrderItems_DeleteCommand">
+                                        OnDeleteCommand="DgOrderItems_DeleteCommand" >
                                         <Columns>
                                             <asp:BoundColumn DataField="Sales_Id" HeaderText="Id" Visible="False"></asp:BoundColumn>
-                                            <asp:BoundColumn DataField="Menu_Name" HeaderText="Menu"></asp:BoundColumn>
+                                            <asp:ButtonColumn CommandName="View" DataTextField="Menu_Name"></asp:ButtonColumn>
                                             <asp:BoundColumn DataField="Sales_Quantity" HeaderText="Quantity"></asp:BoundColumn>
                                             <asp:BoundColumn DataField="Sales_Cost" HeaderText="Cost"></asp:BoundColumn>
                                             <asp:ButtonColumn CommandName="Delete" Text="X"></asp:ButtonColumn>
@@ -106,9 +116,6 @@
                                 </div>
                                 <br />
                                 <br />
-                                <asp:DropDownList ID="DdlToken" runat="server" Width="235px" />
-                                <asp:Button ID="BtnPrintOt" runat="server" Text="Print OT" CssClass="CenterAlign"
-                                    OnClick="BtnPrintOt_Click" />
                             </ContentTemplate>
                         </Ajax:TabPanel>
                         <Ajax:TabPanel runat="server" ID="TabBill">
@@ -121,6 +128,27 @@
                                 <br />
                                 <br />
                                 <table>
+                                    <tr>
+                                        <td>
+                                            <strong>Steward:</strong>
+                                        </td>
+                                        <td>
+                                            <asp:DropDownList ID="DdlSteward" runat="server" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <strong>No. Of People:</strong>
+                                        </td>
+                                        <td>
+                                            <asp:TextBox ID="TxtNoOfPeople" runat="server" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            &nbsp;
+                                        </td>
+                                    </tr>
                                     <tr>
                                         <td>
                                             <strong>Total Items:</strong>
@@ -158,20 +186,28 @@
                                             <asp:Label ID="LblTotalCost" runat="server" />
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td>
-                                            <strong>Tax (%):</strong>
-                                        </td>
-                                        <td>
-                                            <asp:TextBox ID="TxtTax" runat="server" Text="0" />
-                                        </td>
-                                    </tr>
-                                    <tr>
+                                    <tr onclick="ResetDiscountOther();">
                                         <td>
                                             <strong>Discount (%):</strong>
                                         </td>
                                         <td>
                                             <asp:TextBox ID="TxtDiscount" runat="server" Text="0" />
+                                        </td>
+                                    </tr>
+                                    <tr onclick="ResetDiscount();">
+                                        <td>
+                                            <strong>Disc-Bar (%):</strong>
+                                        </td>
+                                        <td>
+                                            <asp:TextBox ID="TxtDiscountBar" runat="server" Text="0" />
+                                        </td>
+                                    </tr>
+                                    <tr onclick="ResetDiscount();">
+                                        <td>
+                                            <strong>Disc-Rest. (%):</strong>
+                                        </td>
+                                        <td>
+                                            <asp:TextBox ID="TxtDiscountRestaurant" runat="server" Text="0" />
                                         </td>
                                     </tr>
                                     <tr>
@@ -201,7 +237,7 @@
                                                 <asp:TextBox ID="TxtClient" runat="server" Visible="False" />
                                                 <Ajax:AutoCompleteExtender ID="AutoCompClient" runat="server" TargetControlID="TxtClient"
                                                     ServiceMethod="GetClientList" CompletionInterval="100" ServicePath="~/CheckersWebService.asmx"
-                                                    MinimumPrefixLength="1" OnClientItemSelected="GetClientId" DelimiterCharacters=""
+                                                    MinimumPrefixLength="1" OnClientItemSelected="GetClientDetails" DelimiterCharacters=""
                                                     Enabled="True" />
                                                 <asp:Button ID="BtnCreditOk" runat="server" Text="Ok" OnClick="BtnCreditOk_Click"
                                                     Visible="False" />
@@ -217,6 +253,81 @@
                                 </table>
                             </ContentTemplate>
                         </Ajax:TabPanel>
+                        <Ajax:TabPanel runat="server" ID="TabOpenMenu">
+                            <HeaderTemplate>
+                                Open Menu
+                            </HeaderTemplate>
+                            <ContentTemplate>
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <strong>Name:</strong>
+                                        </td>
+                                        <td>
+                                            <asp:TextBox ID="TxtOpenMenuName" runat="server"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <strong>Cost:</strong>
+                                        </td>
+                                        <td>
+                                            <asp:TextBox ID="TxtOpenMenuCost" runat="server" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <strong>Token Section:</strong>
+                                        </td>
+                                        <td>
+                                            <asp:DropDownList ID="DdlTokenSection" runat="server">
+                                                <asp:ListItem Value="Bar">Bar</asp:ListItem>
+                                                <asp:ListItem Value="Barbeque">Barbeque</asp:ListItem>
+                                                <asp:ListItem Value="Tandoor">Tandoor</asp:ListItem>
+                                                <asp:ListItem Value="Restaurant">Restaurant</asp:ListItem>
+                                            </asp:DropDownList>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <strong>Quantity:</strong>
+                                        </td>
+                                        <td>
+                                            <asp:TextBox ID="TxtOpenMenuQuantity" runat="server" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <asp:Button ID="BtnOrderOpenMenu" runat="server" Text="Order" CssClass="CenterAlign"
+                                                OnClick="BtnOrderOpenMenu_Click" />
+                                        </td>
+                                    </tr>
+                                </table>
+                            </ContentTemplate>
+                        </Ajax:TabPanel>
+                        <Ajax:TabPanel runat="server" ID="TabToken">
+                            <HeaderTemplate>
+                                Token
+                            </HeaderTemplate>
+                            <ContentTemplate>
+                                <div class="DataContainer">
+                                    <asp:DataGrid ID="DgToken" runat="server" AutoGenerateColumns="False" OnDeleteCommand="DgToken_DeleteCommand"
+                                        Width="290px">
+                                        <Columns>
+                                            <asp:BoundColumn DataField="Token_Id" HeaderText="Id" Visible="False"></asp:BoundColumn>
+                                            <asp:BoundColumn DataField="Token_Type" HeaderText="Type"></asp:BoundColumn>
+                                            <asp:BoundColumn DataField="Menu_Name" HeaderText="Name"></asp:BoundColumn>
+                                            <asp:BoundColumn DataField="Token_Quantity" HeaderText="Quantity"></asp:BoundColumn>
+                                            <asp:ButtonColumn CommandName="Delete" Text="X"></asp:ButtonColumn>
+                                        </Columns>
+                                    </asp:DataGrid>
+                                </div>
+                                <br />
+                                <asp:TextBox ID="TxtTokenCancel" runat="server" Height="85px" Visible="False" /><br />
+                                <asp:Button ID="BtnTokenCancel" runat="server" Text="Cancel Token" Visible="False"
+                                    OnClick="BtnTokenCancel_Click" />
+                            </ContentTemplate>
+                        </Ajax:TabPanel>
                     </Ajax:TabContainer>
                 </div>
             </div>
@@ -225,10 +336,10 @@
             <asp:HiddenField ID="HdnTableSource" runat="server" />
             <asp:HiddenField ID="HdnClientId" runat="server" />
             <div id="PrintBill">
-            <br />
-            <br />
-            <br />
-            <br />
+                <br />
+                <br />
+                <br />
+                <br />
                 <div class="FullWidth">
                     <div class="Division3">
                         TIN: 30241108428</div>
@@ -265,20 +376,24 @@
                     </div>
                     <div class="Division4">
                         <b>Steward</b><br />
+                        <asp:Literal ID="LtrSteward" runat="server" />
                     </div>
                 </div>
                 <br />
                 <br />
                 <br />
                 <br />
-                <table id="TblBill" runat="server" class="FullWidth" style="margin-left:auto; margin-right: auto;">
+                <table id="TblBill" runat="server" class="FullWidth" style="margin-left: auto; margin-right: auto;">
                     <thead>
                         <tr>
-                            <td style="width: 60%">
+                            <td style="width: 50%">
                                 <strong>Item</strong>
                             </td>
                             <td>
                                 <strong>Qnty</strong>
+                            </td>
+                            <td>
+                                <strong>Per Unit</strong>
                             </td>
                             <td>
                                 <strong>Cost</strong>
@@ -288,10 +403,16 @@
                 </table>
                 <br />
                 <br />
+                <div class="FullWidth" style="text-align: center">
+                    Prices inclusive of all the taxes.
+                </div>
+                <br />
+                <br />
             </div>
             <div id="PrintOt">
-            <br />
-            <br /><br />
+                <br />
+                <br />
+                <br />
                 <asp:Label ID="LblOt" runat="server" CssClass="OtTitle" />
                 <span id="Ot" runat="server" />
             </div>

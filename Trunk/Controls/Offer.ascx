@@ -22,7 +22,7 @@
     </tr>
 </table>
 <div style="float: left; width: auto; margin-top: 15px; border: 1px dotted black;
-    padding: 7px;" runat="server" id="PnlRequirement">
+    padding: 4px;" runat="server" id="PnlRequirement">
     <strong>Menu Items Required - </strong>
     <table cellpadding="5" cellspacing="5">
         <tr>
@@ -45,18 +45,19 @@
             </td>
         </tr>
     </table>
-    <asp:DataGrid ID="DgMenuRequired" runat="server" AutoGenerateColumns="False">
+    <asp:DataGrid ID="DgMenuRequired" runat="server" AutoGenerateColumns="False" 
+        ondeletecommand="DgMenu_DeleteCommand">
         <Columns>
             <asp:BoundColumn DataField="Offer_Id" HeaderText="Id" Visible="False"></asp:BoundColumn>
-            <asp:BoundColumn DataField="Offer_Menu" HeaderText="Name"></asp:BoundColumn>
+            <asp:BoundColumn DataField="Menu_Name" HeaderText="Name"></asp:BoundColumn>
             <asp:BoundColumn DataField="Offer_Quantity" HeaderText="Quantity"></asp:BoundColumn>
             <asp:BoundColumn DataField="Offer_Cost" HeaderText="Cost"></asp:BoundColumn>
             <asp:ButtonColumn CommandName="Delete" Text="X"></asp:ButtonColumn>
         </Columns>
     </asp:DataGrid>
 </div>
-<div style="float: left; margin-left: 50px; margin-top: 15px; border: 1px dotted black;
-    padding: 7px;" runat="server" id="PnlOffer">
+<div style="float: left; margin-left: 20px; margin-top: 15px; border: 1px dotted black;
+    padding: 4px;" runat="server" id="PnlOffer">
     <strong>Menu Items Offer - </strong>
     <table cellpadding="5" cellspacing="5">
         <tr>
@@ -85,10 +86,10 @@
             </td>
         </tr>
     </table>
-    <asp:DataGrid ID="DgMenuOffer" runat="server" AutoGenerateColumns="False">
+    <asp:DataGrid ID="DgMenuOffer" runat="server" AutoGenerateColumns="False" ondeletecommand="DgMenu_DeleteCommand">
         <Columns>
             <asp:BoundColumn DataField="Offer_Id" HeaderText="Id" Visible="False"></asp:BoundColumn>
-            <asp:BoundColumn DataField="Offer_Menu" HeaderText="Name"></asp:BoundColumn>
+            <asp:BoundColumn DataField="Menu_Name" HeaderText="Name"></asp:BoundColumn>
             <asp:BoundColumn DataField="Offer_Quantity" HeaderText="Quantity"></asp:BoundColumn>
             <asp:BoundColumn DataField="Offer_Cost" HeaderText="Cost"></asp:BoundColumn>
             <asp:ButtonColumn CommandName="Delete" Text="X"></asp:ButtonColumn>

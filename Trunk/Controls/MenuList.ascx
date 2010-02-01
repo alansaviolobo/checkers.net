@@ -39,7 +39,8 @@
     </table>
     <br />
     <asp:DataGrid ID="DgMenu" runat="server" AllowPaging="True" AllowSorting="True" AutoGenerateColumns="False"
-        OnDeleteCommand="DgMenu_DeleteCommand" OnEditCommand="DgMenu_EditCommand" PageSize="20">
+        OnDeleteCommand="DgMenu_DeleteCommand" OnEditCommand="DgMenu_EditCommand" PageSize="15"
+        OnPageIndexChanged="DgMenu_PageIndexChanged">
         <PagerStyle Mode="NumericPages" />
         <Columns>
             <asp:BoundColumn DataField="Menu_Id" HeaderText="Id" Visible="False"></asp:BoundColumn>

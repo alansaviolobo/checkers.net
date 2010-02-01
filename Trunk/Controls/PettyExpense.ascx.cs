@@ -19,9 +19,12 @@ public partial class Controls_PettyExpense : System.Web.UI.UserControl
 
         foreach (var R in RecievedBy)
         {
-            if (R.Contact_Id == int.Parse(Session["UserId"].ToString()))
+            if (R.Contact_Id == int.Parse(Application["UserId"].ToString()))
                 LtrReceivedBy.Text = R.Contact_Name;
         }
+
+        FillData();
+
         ((AjaxControlToolkit.Accordion)Page.Master.FindControl("AccMenu")).SelectedIndex = 5;
     }
     protected void BtnAdd_Click(object sender, EventArgs e)
@@ -37,16 +40,26 @@ public partial class Controls_PettyExpense : System.Web.UI.UserControl
                 LtrMessage.Text = "No Enough Balance Exists. ";
             else
             {
-                Status = Checkers.PettyExpenseNew(decimal.Parse(TxtAmount.Text), TxtMerchandise.Text, decimal.Parse(TxtQuantity.Text), int.Parse(Session["UserId"].ToString()));
+                Status = Checkers.PettyExpenseNew(decimal.Parse(TxtAmount.Text), TxtNarration.Text, decimal.Parse(TxtQuantity.Text), int.Parse(Application["UserId"].ToString()), DateTime.Parse(Application["SalesSession"].ToString()));
                 LtrMessage.Text = Status == 1 ? "Expense Amount " + TxtAmount.Text + " Added. " : "Error Occurred.";
-                if (Status == 1) Status = Checkers.ActivityNew("PettyExpense Of Amount " + TxtAmount.Text + " Added For Merchandise " + TxtMerchandise.Text + " Of Quantity " + TxtQuantity.Text, int.Parse(Session["UserId"].ToString()));
+                if (Status == 1) Status = Checkers.ActivityNew("PettyExpense Of Amount " + TxtAmount.Text + " Added For Narration " + TxtNarration.Text + " Of Quantity " + TxtQuantity.Text, int.Parse(Application["UserId"].ToString()), DateTime.Parse(Application["SalesSession"].ToString()));
             }
 
             CashBalance = (from C in Checkers.PettyCashes select C.PettyCash_Balance).ToList().Last();
 
             LtrMessage.Text += "Total Balance " + CashBalance.ToString();
+
+            FillData();
         }
         else
             LtrMessage.Text = "No Cash Exists.";
+    }
+
+    public void FillData()
+    {
+        if (Checkers.PettyCashes.Any() == true)
+            LtrAvailableAmount.Text = (from C in Checkers.PettyCashes select C.PettyCash_Balance).ToList().Last().Value.ToString();
+        else
+            LtrAvailableAmount.Text = "0";
     }
 }

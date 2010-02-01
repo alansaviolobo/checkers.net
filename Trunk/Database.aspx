@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Common.master" AutoEventWireup="true"
-    CodeFile="Database.aspx.cs" Inherits="Database" %>
+    CodeFile="Database.aspx.cs" Inherits="Database" EnableViewState="false" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 </asp:Content>

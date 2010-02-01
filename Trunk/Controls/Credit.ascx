@@ -89,12 +89,13 @@
                 <asp:Literal ID="LtrBillsNumber" runat="server" />
                 <br />
                 <br />
-                <asp:DataGrid ID="DgBills" runat="server" AutoGenerateColumns="False">
+                <asp:DataGrid ID="DgBills" runat="server" AutoGenerateColumns="False" 
+                    onitemcommand="DgBills_ItemCommand" >
                     <Columns>
                         <asp:BoundColumn DataField="Invoice_Id" HeaderText="No."></asp:BoundColumn>
                         <asp:BoundColumn DataField="Invoice_Amount" HeaderText="Amount"></asp:BoundColumn>
-                        <asp:BoundColumn DataField="Invoice_Tax" HeaderText="Tax"></asp:BoundColumn>
                         <asp:BoundColumn DataField="Invoice_Discount" HeaderText="Discount"></asp:BoundColumn>
+                        <asp:ButtonColumn CommandName="View" Text="View"></asp:ButtonColumn>
                     </Columns>
                 </asp:DataGrid>
             </td>
@@ -103,11 +104,14 @@
                 <asp:Literal ID="LtrReceiptsNumber" runat="server" />
                 <br />
                 <br />
-                <asp:DataGrid ID="DgReceipts" runat="server" AutoGenerateColumns="False" OnDeleteCommand="DgOrderItems_DeleteCommand">
+                <asp:DataGrid ID="DgReceipts" runat="server" AutoGenerateColumns="False" 
+                    OnDeleteCommand="DgOrderItems_DeleteCommand" 
+                    onitemcommand="DgReceipts_ItemCommand" >
                     <Columns>
                         <asp:BoundColumn DataField="Receipt_Id" HeaderText="No."></asp:BoundColumn>
                         <asp:BoundColumn DataField="Receipt_Amount" HeaderText="Amount"></asp:BoundColumn>
                         <asp:BoundColumn DataField="Receipt_PaymentMode" HeaderText="Payment Mode"></asp:BoundColumn>
+                        <asp:ButtonColumn CommandName="View" Text="View"></asp:ButtonColumn>
                         <asp:ButtonColumn CommandName="Delete" Text="X"></asp:ButtonColumn>
                     </Columns>
                 </asp:DataGrid>
@@ -116,7 +120,7 @@
     </table>
     <div id="PrintReceipt" style="display: none; width: 396px">
         <br />
-        <br />
+        <br />        
         <div id="BillLogo" style="margin-left: auto; margin-right: auto; text-align: center; width: 396px">
             <img src="Assets/Image/QuatroSmall.png" alt="" /><br />
             <br />

@@ -24,9 +24,9 @@ public partial class Controls_Package : System.Web.UI.UserControl
 
             switch (Action)
             {
-                case "New": BtnSearch.Visible = false; AutoCompSearch.Enabled = false; BtnSubmit.Text = "Add"; break;
-                case "Edit": BtnSearch.Visible = true; AutoCompSearch.Enabled = true; BtnSubmit.Text = "Update"; break;
-                case "Delete": BtnSearch.Visible = true; AutoCompSearch.Enabled = true; BtnSubmit.Text = "Delete"; break;
+                case "New": AutoCompSearch.Enabled = false; BtnSubmit.Text = "Add"; break;
+                case "Edit": AutoCompSearch.Enabled = true; BtnSubmit.Text = "Update"; break;
+                case "Delete": AutoCompSearch.Enabled = true; BtnSubmit.Text = "Delete"; break;
             }
             ((AjaxControlToolkit.Accordion)Page.Master.FindControl("AccMenu")).SelectedIndex = 7;
         }
@@ -38,9 +38,9 @@ public partial class Controls_Package : System.Web.UI.UserControl
 
         if (Action == "New")
         {
-            Status = Checkers.PackageNew(TxtName.Text, DdlType.SelectedItem.Text, TxtComments.Text);
+            Status = Checkers.PackageNew(TxtName.Text, DdlType.SelectedItem.Text, TxtComments.Text, DateTime.Parse(Application["SalesSession"].ToString()));
             LtrMessage.Text = Status == 1 ? "Package " + TxtName.Text + " Added." : "Package Name " + TxtName.Text + " Already Exists.";
-            if (Status == 1) Status = Checkers.ActivityNew("Package " + TxtName.Text + " Added", int.Parse(Session["UserId"].ToString()));
+            if (Status == 1) Status = Checkers.ActivityNew("Package " + TxtName.Text + " Added", int.Parse(Application["UserId"].ToString()), DateTime.Parse(Application["SalesSession"].ToString()));
 
             ClearForm();
         }
@@ -50,7 +50,7 @@ public partial class Controls_Package : System.Web.UI.UserControl
             {
                 Status = Checkers.PackageEdit(int.Parse(HdnPackageId.Value), TxtName.Text, DdlType.SelectedItem.Text, TxtComments.Text);
                 LtrMessage.Text = Status == 1 ? "Package " + TxtName.Text + " Updated." : "Package Name " + TxtName.Text + " Already Exists.";
-                if (Status == 1) Status = Checkers.ActivityNew("Package " + TxtName.Text + " Updated", int.Parse(Session["UserId"].ToString()));
+                if (Status == 1) Status = Checkers.ActivityNew("Package " + TxtName.Text + " Updated", int.Parse(Application["UserId"].ToString()), DateTime.Parse(Application["SalesSession"].ToString()));
             }
             else
                 LtrMessage.Text = "Please Select An Item.";
@@ -80,7 +80,7 @@ public partial class Controls_Package : System.Web.UI.UserControl
         {
             Status = Checkers.PackageDelete(int.Parse(HdnPackageId.Value));
             LtrMessage.Text = Status == 1 ? "Package Name " + TxtName.Text + " Deleted." : "Error Occurred";
-            if (Status == 1) Status = Checkers.ActivityNew("Package " + TxtName.Text + " Deleted", int.Parse(Session["UserId"].ToString()));
+            if (Status == 1) Status = Checkers.ActivityNew("Package " + TxtName.Text + " Deleted", int.Parse(Application["UserId"].ToString()), DateTime.Parse(Application["SalesSession"].ToString()));
         }
         ClearForm();
     }
@@ -97,13 +97,6 @@ public partial class Controls_Package : System.Web.UI.UserControl
         TxtComments.Text = "";
         BtnNo.Visible = false;
         BtnYes.Visible = false;
-        DdlType.Items.Clear();
-        DdlType.Items.Add(new ListItem("Birthday"));
-        DdlType.Items.Add(new ListItem("Anniversary"));
-    }
-    protected void BtnSearch_Click(object sender, EventArgs e)
-    {
-        FillData();
     }
 
     public void FillData()

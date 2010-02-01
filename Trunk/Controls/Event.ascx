@@ -2,12 +2,17 @@
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="Ajax" %>
 
 <script type="text/javascript" language="javascript">
-    function GetEventId(sender, eventArgs) {
-        CheckersWebService.GetEventId(sender._element.value, OnSuccess, OnError);
+    function GetEventDetails(sender, eventArgs) {
+        CheckersWebService.GetEventDetails(sender._element.value, OnSuccess, OnError);
     }
 
     function OnSuccess(result) {
-        document.getElementById('<%=HdnEventId.ClientID %>').value = result;
+        document.getElementById('<%=HdnEventId.ClientID %>').value = result['Id'];
+        document.getElementById('<%=TxtName.ClientID %>').value = result['Name'];
+        document.getElementById('<%=DdlOrganizer.ClientID %>').value = result['Organizer'];
+        document.getElementById('<%=TxtVenue.ClientID %>').value = result['Venue'];
+        document.getElementById('<%=TxtFromDate.ClientID %>').value = result['FromDate'];
+        document.getElementById('<%=TxtToDate.ClientID %>').value = result['ToDate'];
     }
 
     function OnError(result) {
@@ -29,12 +34,11 @@
                 Name
             </td>
             <td>
-                <asp:TextBox ID="TxtName" runat="server" />
+                <asp:TextBox ID="TxtName" runat="server" Width="215px" />
                 <Ajax:AutoCompleteExtender ID="AutoCompSearch" runat="server" TargetControlID="TxtName"
                     ServiceMethod="GetEventList" CompletionInterval="100" CompletionSetCount="10"
-                    ServicePath="~/CheckersWebService.asmx" MinimumPrefixLength="1" OnClientItemSelected="GetEventId"
+                    ServicePath="~/CheckersWebService.asmx" MinimumPrefixLength="1" OnClientItemSelected="GetEventDetails"
                     Enabled="false" />
-                <asp:Button ID="BtnSearch" runat="server" Text="Search" Visible="False" OnClick="BtnSearch_Click" />
             </td>
         </tr>
         <tr>
@@ -59,9 +63,8 @@
             </td>
             <td>
                 <asp:TextBox ID="TxtFromDate" runat="server" />
-                <Ajax:CalendarExtender ID="TxtFromDateCalendarExtender" runat="server" 
-                    Enabled="True" Format="d/M/yyyy" TargetControlID="TxtFromDate" 
-                    TodaysDateFormat="">
+                <Ajax:CalendarExtender ID="TxtFromDateCalendarExtender" runat="server" Enabled="True"
+                    Format="d/M/yyyy" TargetControlID="TxtFromDate" TodaysDateFormat="">
                 </Ajax:CalendarExtender>
             </td>
         </tr>
@@ -71,16 +74,15 @@
             </td>
             <td>
                 <asp:TextBox ID="TxtToDate" runat="server" />
-                <Ajax:CalendarExtender ID="TxtToDateCalendarExtender" runat="server" 
-                    Enabled="True" Format="d/M/yyyy" TargetControlID="TxtToDate" 
-                    TodaysDateFormat="">
+                <Ajax:CalendarExtender ID="TxtToDateCalendarExtender" runat="server" Enabled="True"
+                    Format="d/M/yyyy" TargetControlID="TxtToDate" TodaysDateFormat="">
                 </Ajax:CalendarExtender>
             </td>
         </tr>
         <tr>
             <td colspan="2" style="text-align: center">
                 <asp:Button ID="BtnSubmit" runat="server" OnClick="BtnSubmit_Click" />
-            </td>
+                </td>
         </tr>
     </table>
 </div>

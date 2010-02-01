@@ -7,6 +7,14 @@
 <table cellpadding="5" cellspacing="5">
     <tr>
         <td>
+            Available Amount (Rs.)
+        </td>
+        <td>
+            <asp:Literal ID="LtrAvailableAmount" runat="server" />
+        </td>
+    </tr>
+    <tr>
+        <td>
             Amount
         </td>
         <td>
@@ -25,10 +33,10 @@
     </tr>
     <tr>
         <td>
-            Merchandise
+            Narration
         </td>
         <td>
-            <asp:TextBox ID="TxtMerchandise" runat="server" TextMode="MultiLine" />
+            <asp:TextBox ID="TxtNarration" runat="server" TextMode="MultiLine" />
         </td>
     </tr>
     <tr>

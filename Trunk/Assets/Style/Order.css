@@ -58,7 +58,7 @@ table
 {
 	text-align: right;
 }
-#DataContainer
+.DataContainer
 {
 	height: 300px;
 	width: 310px;

@@ -22,15 +22,15 @@ public partial class Controls_Converter : System.Web.UI.UserControl
     protected void BtnEnter_Click(object sender, EventArgs e)
     {
         Checkers = new CheckersDataContext();
-        ClearForm();
         if (HdnInventoryId.Value != "")
         {
-            var Status = Checkers.ConverterNew(int.Parse(HdnMenuId.Value), int.Parse(HdnInventoryId.Value), decimal.Parse(TxtInventoryQuantity.Text));
+            var Status = Checkers.ConverterNew(int.Parse(HdnMenuId.Value), int.Parse(HdnInventoryId.Value), decimal.Parse(TxtInventoryQuantity.Text), DateTime.Parse(Application["SalesSession"].ToString()));
             LtrMenuName.Text = TxtMenuName.Text;
             GridFill();
         }
         else
             LtrMessage.Text = "Please Select An Inventory Item.";
+        ClearForm();
     }
     protected void BtnYes_Click(object sender, EventArgs e)
     {
@@ -44,7 +44,7 @@ public partial class Controls_Converter : System.Web.UI.UserControl
         foreach (var M in MenuConverterList)
             Status = Checkers.ConverterDelete(M.Converter_Id);
         LtrMessage.Text = Status == 1 ? "Menu Item " + TxtMenuName.Text + " Deleted." : "Error Occurred";
-        if (Status == 1) Status = Checkers.ActivityNew("Menu Item " + TxtMenuName.Text + " Deleted From Conversion", int.Parse(Session["UserId"].ToString()));
+        if (Status == 1) Status = Checkers.ActivityNew("Menu Item " + TxtMenuName.Text + " Deleted From Conversion", int.Parse(Application["UserId"].ToString()), DateTime.Parse(Application["SalesSession"].ToString()));
         ClearForm();
     }
     protected void BtnNo_Click(object sender, EventArgs e)
@@ -86,7 +86,7 @@ public partial class Controls_Converter : System.Web.UI.UserControl
         int Status = 0;
 
         Status = Checkers.ConverterDelete(int.Parse(e.Item.Cells[0].Text));
-        if (Status == 1) Status = Checkers.ActivityNew("Inventory Item " + e.Item.Cells[1].Text + " Deleted From Conversion Table Of Menu " + TxtMenuName.Text, int.Parse(Session["UserId"].ToString()));
+        if (Status == 1) Status = Checkers.ActivityNew("Inventory Item " + e.Item.Cells[1].Text + " Deleted From Conversion Table Of Menu " + TxtMenuName.Text, int.Parse(Application["UserId"].ToString()), DateTime.Parse(Application["SalesSession"].ToString()));
         GridFill();
     }
     protected void BtnDelete_Click(object sender, EventArgs e)

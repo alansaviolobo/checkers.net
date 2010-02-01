@@ -63,6 +63,7 @@ public partial class Controls_UserList : System.Web.UI.UserControl
         {
             DgUser.Visible = true;
             DgUser.DataSource = User;
+            DgUser.CurrentPageIndex = 0;
             DgUser.DataBind();
         }
         else

@@ -12,20 +12,17 @@ public partial class Controls_MenuList : System.Web.UI.UserControl
     protected void Page_Load(object sender, EventArgs e)
     {
         Checkers = new CheckersDataContext();
-        if (!Page.IsPostBack)
+        var Menu = Checkers.Menus.Where(M => M.Menu_Status == 1).Select(M => M).OrderBy(M => M.Menu_Name);
+        if (Menu.Count() > 0)
         {
-            var Menu = Checkers.Menus.Where(M => M.Menu_Status == 1).Select(M => M);
-            if (Menu.Count() > 0)
-            {
-                DgMenu.Visible = true;
-                DgMenu.DataSource = Menu;
-                DgMenu.DataBind();
-            }
-            else
-            {
-                DgMenu.Visible = false;
-                LtrMessage.Text = "No menu items found.";
-            }
+            DgMenu.Visible = true;
+            DgMenu.DataSource = Menu;
+            DgMenu.DataBind();
+        }
+        else
+        {
+            DgMenu.Visible = false;
+            LtrMessage.Text = "No menu items found.";
         }
         ((AjaxControlToolkit.Accordion)Page.Master.FindControl("AccMenu")).SelectedIndex = 0;
     }
@@ -41,6 +38,7 @@ public partial class Controls_MenuList : System.Web.UI.UserControl
         {
             DgMenu.Visible = true;
             DgMenu.DataSource = Menu;
+            DgMenu.CurrentPageIndex = 0;
             DgMenu.DataBind();
         }
         else
@@ -83,5 +81,10 @@ public partial class Controls_MenuList : System.Web.UI.UserControl
     {
         Checkers = new CheckersDataContext();
         Response.Redirect("Operation.aspx?Section=Menu&Action=Edit&Id=" + e.Item.Cells[0].Text);
+    }
+    protected void DgMenu_PageIndexChanged(object source, DataGridPageChangedEventArgs e)
+    {
+        DgMenu.CurrentPageIndex = e.NewPageIndex;
+        DgMenu.DataBind();
     }
 }
