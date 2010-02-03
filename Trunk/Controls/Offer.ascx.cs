@@ -65,15 +65,9 @@ public partial class Controls_Offer : System.Web.UI.UserControl
 
         if (Action == "New")
         {
-            if (HdnOfferName.Value != "")
-            {
-                LtrMessage.Text = "Offer " + TxtName.Text + " Inserted.";
-                TxtName.ReadOnly = true;
-                PnlOffer.Visible = true; PnlRequirement.Visible = true;
-            }
-            else
-                LtrMessage.Text = "Please select an offer.";
-            ClearForm();
+            TxtName.ReadOnly = true;
+            PnlOffer.Visible = true; PnlRequirement.Visible = true;
+            LtrMessage.Text = "Please enter items.";
         }
         else if (Action == "Edit")
         {

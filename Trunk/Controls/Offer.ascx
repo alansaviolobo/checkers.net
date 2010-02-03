@@ -14,6 +14,11 @@
         </td>
         <td>
             <asp:TextBox ID="TxtName" runat="server" />
+            <asp:RequiredFieldValidator ID="ReqName" runat="server" 
+                ControlToValidate="TxtName" Display="None" ErrorMessage="Please Enter A Name"></asp:RequiredFieldValidator>
+            <Ajax:ValidatorCalloutExtender ID="ReqNameExtender" runat="server" 
+                Enabled="True" TargetControlID="ReqName">
+            </Ajax:ValidatorCalloutExtender>
             <Ajax:AutoCompleteExtender ID="AutoCompSearch" runat="server" TargetControlID="TxtName"
                 ServiceMethod="GetOfferList" CompletionInterval="100" CompletionSetCount="10"
                 ServicePath="~/CheckersWebService.asmx" MinimumPrefixLength="1" Enabled="false" />
