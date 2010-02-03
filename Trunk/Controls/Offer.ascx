@@ -22,7 +22,7 @@
     </tr>
 </table>
 <div style="float: left; width: auto; margin-top: 15px; border: 1px dotted black;
-    padding: 4px;" runat="server" id="PnlRequirement">
+    padding: 4px;" runat="server" id="PnlRequirement" visible="false">
     <strong>Menu Items Required - </strong>
     <table cellpadding="5" cellspacing="5">
         <tr>
@@ -57,7 +57,7 @@
     </asp:DataGrid>
 </div>
 <div style="float: left; margin-left: 20px; margin-top: 15px; border: 1px dotted black;
-    padding: 4px;" runat="server" id="PnlOffer">
+    padding: 4px;" runat="server" id="PnlOffer" visible="false">
     <strong>Menu Items Offer - </strong>
     <table cellpadding="5" cellspacing="5">
         <tr>

@@ -59,7 +59,7 @@
                 <div id="List" class="Border" runat="server">
                 </div>
                 <div id="Operation" class="Border">
-                    <Ajax:TabContainer ID="TabOrder" runat="server" ActiveTabIndex="0">
+                    <Ajax:TabContainer ID="TabOrder" runat="server" ActiveTabIndex="0" Height="464px">
                         <Ajax:TabPanel runat="server" ID="TabItem">
                             <HeaderTemplate>
                                 Items
@@ -75,17 +75,17 @@
                                             Items
                                         </td>
                                         <td>
-                                            Quantity
+                                            Qnty
                                         </td>
                                         <td>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
-                                            <asp:DropDownList ID="DdlItem" runat="server" />
+                                            <asp:DropDownList ID="DdlItem" runat="server" Width="100%" />
                                         </td>
                                         <td>
-                                            <asp:DropDownList ID="DdlQuantity" runat="server" />
+                                            <asp:DropDownList ID="DdlQuantity" runat="server" Width="100%" />
                                         </td>
                                         <td>
                                             <asp:Button ID="BtnOrderItem" runat="server" Text="Order" OnClick="BtnOrderItem_Click" />
@@ -94,28 +94,26 @@
                                     <tr>
                                         <td colspan="2" valign="baseline">
                                             Offer
-                                            <asp:DropDownList ID="DdlOffer" runat="server" />
+                                            <asp:DropDownList ID="DdlOffer" runat="server" Width="100%" />
                                         </td>
-                                        <td>
+                                        <td valign="bottom">
                                             <asp:Button ID="BtnOrderOffer" runat="server" Text="Order" OnClick="BtnOrderOffer_Click" />
                                         </td>
                                     </tr>
                                 </table>
                                 <br />
                                 <div class="DataContainer">
-                                    <asp:DataGrid ID="DgOrderItems" runat="server" AutoGenerateColumns="False" Width="290px"
-                                        OnDeleteCommand="DgOrderItems_DeleteCommand" >
+                                    <asp:DataGrid ID="DgOrderItems" runat="server" AutoGenerateColumns="False" Width="420px"
+                                        OnDeleteCommand="DgOrderItems_DeleteCommand">
                                         <Columns>
-                                            <asp:BoundColumn DataField="Sales_Id" HeaderText="Id" Visible="False"></asp:BoundColumn>
+                                            <asp:BoundColumn DataField="Sales_Id" Visible="false"></asp:BoundColumn>
                                             <asp:ButtonColumn CommandName="View" DataTextField="Menu_Name"></asp:ButtonColumn>
-                                            <asp:BoundColumn DataField="Sales_Quantity" HeaderText="Quantity"></asp:BoundColumn>
+                                            <asp:BoundColumn DataField="Sales_Quantity" HeaderText="Qnty"></asp:BoundColumn>
                                             <asp:BoundColumn DataField="Sales_Cost" HeaderText="Cost"></asp:BoundColumn>
                                             <asp:ButtonColumn CommandName="Delete" Text="X"></asp:ButtonColumn>
                                         </Columns>
                                     </asp:DataGrid>
                                 </div>
-                                <br />
-                                <br />
                             </ContentTemplate>
                         </Ajax:TabPanel>
                         <Ajax:TabPanel runat="server" ID="TabBill">
@@ -264,7 +262,7 @@
                                             <strong>Name:</strong>
                                         </td>
                                         <td>
-                                            <asp:TextBox ID="TxtOpenMenuName" runat="server"/>
+                                            <asp:TextBox ID="TxtOpenMenuName" runat="server" />
                                         </td>
                                     </tr>
                                     <tr>
@@ -310,22 +308,51 @@
                                 Token
                             </HeaderTemplate>
                             <ContentTemplate>
-                                <div class="DataContainer">
+                                <div class="DataContainer" style="height: 320px">
                                     <asp:DataGrid ID="DgToken" runat="server" AutoGenerateColumns="False" OnDeleteCommand="DgToken_DeleteCommand"
-                                        Width="290px">
+                                        Width="414px">
                                         <Columns>
+                                            <asp:TemplateColumn>
+                                                <ItemTemplate>
+                                                    <asp:CheckBox ID="ChkBox" runat="server" />
+                                                </ItemTemplate>
+                                            </asp:TemplateColumn>
                                             <asp:BoundColumn DataField="Token_Id" HeaderText="Id" Visible="False"></asp:BoundColumn>
                                             <asp:BoundColumn DataField="Token_Type" HeaderText="Type"></asp:BoundColumn>
                                             <asp:BoundColumn DataField="Menu_Name" HeaderText="Name"></asp:BoundColumn>
-                                            <asp:BoundColumn DataField="Token_Quantity" HeaderText="Quantity"></asp:BoundColumn>
+                                            <asp:BoundColumn DataField="Token_Quantity" HeaderText="Qnty"></asp:BoundColumn>
                                             <asp:ButtonColumn CommandName="Delete" Text="X"></asp:ButtonColumn>
                                         </Columns>
                                     </asp:DataGrid>
                                 </div>
                                 <br />
-                                <asp:TextBox ID="TxtTokenCancel" runat="server" Height="85px" Visible="False" /><br />
-                                <asp:Button ID="BtnTokenCancel" runat="server" Text="Cancel Token" Visible="False"
-                                    OnClick="BtnTokenCancel_Click" />
+                                <br />
+                                Comments :
+                                <br />
+                                <asp:TextBox ID="TxtComments" runat="server" TextMode="MultiLine" Width="425px" />
+                                <br />
+                                <br />
+                                <asp:Button ID="BtnCheckAll" runat="server" Text="Check All" OnClick="CheckAll_Click" />
+                                <asp:Button ID="BtnUnCheckAll" runat="server" Text="UnCheck All" OnClick="UnCheckAll_Click" />
+                                <asp:Button ID="BtnPrintSelectedToken" runat="server" Text="Print Selected" OnClick="BtnPrintSelectedToken_Click" />
+                                <asp:Button ID="BtnDeleteSelectedToken" runat="server" Text="Delete Selected" OnClick="BtnDeleteSelectedToken_Click" />
+                                <br />
+                                <br />
+                                <asp:Literal ID="LtrTokenCancel" runat="server" Text="Reason :" Visible="false" />
+                                <asp:TextBox ID="TxtTokenCancel" runat="server" Width="230px" Visible="False" />
+                                <asp:Button ID="BtnTokenCancel" runat="server" Text="Cancel" Visible="False" OnClick="BtnTokenCancel_Click" />
+                                <asp:Button ID="BtnTokenReset" runat="server" Text="Reset" Visible="False" OnClick="BtnTokenReset_Click" />
+                            </ContentTemplate>
+                        </Ajax:TabPanel>
+                        <Ajax:TabPanel runat="server" ID="TabTableOperation">
+                            <HeaderTemplate>
+                                Table
+                            </HeaderTemplate>
+                            <ContentTemplate>
+                                Transfer To Table No.
+                                <asp:DropDownList ID="DdlTransfer" runat="server" />
+                                &nbsp;
+                                <asp:Button ID="BtnTransfer" runat="server" Text="Transfer" OnClick="BtnTransfer_Click" />
                             </ContentTemplate>
                         </Ajax:TabPanel>
                     </Ajax:TabContainer>
@@ -410,10 +437,6 @@
                 <br />
             </div>
             <div id="PrintOt">
-                <br />
-                <br />
-                <br />
-                <asp:Label ID="LblOt" runat="server" CssClass="OtTitle" />
                 <span id="Ot" runat="server" />
             </div>
         </ContentTemplate>

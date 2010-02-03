@@ -676,6 +676,13 @@ public partial class CheckersDataContext : System.Data.Linq.DataContext
 		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id, reason);
 		return ((int)(result.ReturnValue));
 	}
+	
+	[Function(Name="dbo.TransferTable")]
+	public int TransferTable([Parameter(Name="OldTableNumber", DbType="Int")] System.Nullable<int> oldTableNumber, [Parameter(Name="NewTableNumber", DbType="Int")] System.Nullable<int> newTableNumber)
+	{
+		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), oldTableNumber, newTableNumber);
+		return ((int)(result.ReturnValue));
+	}
 }
 
 [Table(Name="dbo.Activity")]

@@ -8,6 +8,7 @@ using System.Drawing;
 using System.Data;
 using System.Windows.Forms;
 using System.Web.UI.HtmlControls;
+using System.Text;
 
 public partial class Order : System.Web.UI.Page
 {
@@ -143,23 +144,23 @@ public partial class Order : System.Web.UI.Page
                         LtrMessage.Text = "Please Check The Inventory Levels.";
                 }
 
-                var MenuType = Checkers.Menus.Where(M => M.Menu_Id == int.Parse(DdlItem.SelectedItem.Value)).Select(M => M.Menu_Category).Single();
+                var MenuToken = Checkers.Menus.Where(M => M.Menu_Id == int.Parse(DdlItem.SelectedItem.Value)).Select(M => M.Menu_TokenSection).Single();
 
-                Status = Checkers.TokenNew(MenuType.ToString() == "Bar" || MenuType.ToString() == "Beverage" ? "BOT" : "KOT", int.Parse(DdlItem.SelectedItem.Value), decimal.Parse(DdlQuantity.SelectedItem.Text), int.Parse(TableSource().ToString()), DateTime.Parse(Application["SalesSession"].ToString()));
+                Status = Checkers.TokenNew(MenuToken.ToString() + " Token", int.Parse(DdlItem.SelectedItem.Value), decimal.Parse(DdlQuantity.SelectedItem.Text), int.Parse(TableSource().ToString()), DateTime.Parse(Application["SalesSession"].ToString()));
 
-                LblOt.Text = MenuType.ToString() == "Bar" || MenuType.ToString() == "Beverage" ? "BOT" : "KOT";
+                //LblOt.Text = MenuToken.ToString() + " Token";
 
-                Ot.InnerHtml = "<div style=\"width: 396px; font-size: 7px; font-type: Arial\"><br />";
-                Ot.InnerHtml += DateTime.Now.ToString();
-                Ot.InnerHtml += "<br /><br /><strong>Table No: </strong>" + HdnTableId.Value + "<br /><br />";
-                Ot.InnerHtml += "<hr>";
-                Ot.InnerHtml += "<strong>Item: </strong>" + DdlItem.SelectedItem.Text + "<br />";
-                Ot.InnerHtml += "<strong>Quantity: </strong>" + decimal.Parse(DdlQuantity.SelectedItem.Text) + "</div>";
-                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "Print", "javascript:CallPrint('PrintOt');", true);
+                //Ot.InnerHtml = "<div style=\"width: 396px; font-size: 7px; font-type: Arial\"><br />";
+                //Ot.InnerHtml += DateTime.Now.ToString();
+                //Ot.InnerHtml += "<br /><br /><strong>Table No: </strong>" + HdnTableId.Value + "<br /><br />";
+                //Ot.InnerHtml += "<hr>";
+                //Ot.InnerHtml += "<strong>Item: </strong>" + DdlItem.SelectedItem.Text + "<br />";
+                //Ot.InnerHtml += "<strong>Quantity: </strong>" + decimal.Parse(DdlQuantity.SelectedItem.Text) + "</div>";
+                //ScriptManager.RegisterStartupScript(Page, Page.GetType(), "Print", "javascript:CallPrint('PrintOt');", true);
 
                 ShowOrders();
                 OrderInformation();
-
+                
                 DdlItem.SelectedIndex = 0;
                 DdlQuantity.SelectedIndex = 0;
             }
@@ -192,9 +193,9 @@ public partial class Order : System.Web.UI.Page
                     {
                         Status = Checkers.InventorySubtract(M.Converter_Inventory, M.Converter_InventoryQuantity.Value);
                     }
-                    var MenuCategory = Checkers.Menus.Where(M => M.Menu_Id == O.Offer_Menu).Select(M => M.Menu_Category).Single();
+                    var MenuToken = Checkers.Menus.Where(M => M.Menu_Id == O.Offer_Menu).Select(M => M.Menu_TokenSection).Single();
 
-                    string TokenTitle = MenuCategory.ToString() == "Bar" || MenuCategory.ToString() == "Beverage" ? "BOT" : "KOT";
+                    string TokenTitle = MenuToken.ToString() + " Token";
 
                     Status = Checkers.TokenNew(TokenTitle, O.Offer_Menu, O.Offer_Quantity, int.Parse(TableSource().ToString()), DateTime.Parse(Application["SalesSession"].ToString()));
 
@@ -236,19 +237,19 @@ public partial class Order : System.Web.UI.Page
                 Status = Checkers.SalesNew(0, MenuId, decimal.Parse(TxtOpenMenuQuantity.Text), int.Parse(HdnTableId.Value), "Table", 0, DateTime.Parse(Application["SalesSession"].ToString()));
                 LtrMessage.Text = Status == 1 ? "Item " + TxtOpenMenuName.Text + " Of Quantity " + TxtOpenMenuQuantity.Text + " Ordered For Table No. " + HdnTableId.Value : "Error Occurred";
 
-                var MenuType = Checkers.Menus.Where(M => M.Menu_Id == MenuId).Select(M => M.Menu_Category).Single();
+                var MenuToken = Checkers.Menus.Where(M => M.Menu_Id == MenuId).Select(M => M.Menu_TokenSection).Single();
 
-                Status = Checkers.TokenNew(MenuType.ToString() == "Bar" || MenuType.ToString() == "Beverage" ? "BOT" : "KOT", MenuId, decimal.Parse(TxtOpenMenuQuantity.Text), int.Parse(TableSource().ToString()), DateTime.Parse(Application["SalesSession"].ToString()));
+                Status = Checkers.TokenNew(MenuToken + " Token", MenuId, decimal.Parse(TxtOpenMenuQuantity.Text), int.Parse(TableSource().ToString()), DateTime.Parse(Application["SalesSession"].ToString()));
 
-                LblOt.Text = MenuType.ToString() == "Bar" || MenuType.ToString() == "Beverage" ? "BOT" : "KOT";
+                //LblOt.Text = MenuToken + " Token";
 
-                Ot.InnerHtml = "<div style=\"width: 396px; font-size: 7px; font-type: Arial\"><br />";
-                Ot.InnerHtml += DateTime.Now.ToString();
-                Ot.InnerHtml += "<br /><br /><strong>Table No: </strong>" + HdnTableId.Value + "<br /><br />";
-                Ot.InnerHtml += "<hr>";
-                Ot.InnerHtml += "<strong>Item: </strong>" + TxtOpenMenuName.Text + "<br />";
-                Ot.InnerHtml += "<strong>Quantity: </strong>" + decimal.Parse(TxtOpenMenuQuantity.Text) + "</div>";
-                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "Print", "javascript:CallPrint('PrintOt');", true);
+                //Ot.InnerHtml = "<div style=\"width: 396px; font-size: 7px; font-type: Arial\"><br />";
+                //Ot.InnerHtml += DateTime.Now.ToString();
+                //Ot.InnerHtml += "<br /><br /><strong>Table No: </strong>" + HdnTableId.Value + "<br /><br />";
+                //Ot.InnerHtml += "<hr>";
+                //Ot.InnerHtml += "<strong>Item: </strong>" + TxtOpenMenuName.Text + "<br />";
+                //Ot.InnerHtml += "<strong>Quantity: </strong>" + decimal.Parse(TxtOpenMenuQuantity.Text) + "</div>";
+                //ScriptManager.RegisterStartupScript(Page, Page.GetType(), "Print", "javascript:CallPrint('PrintOt');", true);
 
                 ShowOrders();
                 OrderInformation();
@@ -305,9 +306,8 @@ public partial class Order : System.Web.UI.Page
                 if (BtnBill.Text == "Print Bill")
                 {
                     Status = Checkers.InvoiceNew(0, SubTotal, Discount, 0, 0, 0, 0, int.Parse(TableSource()), null, int.Parse(DdlSteward.SelectedItem.Value), int.Parse(TxtNoOfPeople.Text), DateTime.Parse(Application["SalesSession"].ToString()));
-                    Status = 1;
+                    //Status = 1;
                     LtrMessage.Text = Status == 1 ? "Bill Printed For Table No. " + HdnTableId.Value + "." : "Error Occurred.";
-                    BtnBill.Text = "RePrint Bill";
                 }
                 else
                     LtrMessage.Text = "Bill Re Printed For Table No. " + HdnTableId.Value;
@@ -363,6 +363,7 @@ public partial class Order : System.Web.UI.Page
                 if (BtnBill.Text == "Print Bill")
                 {
                     Status = Checkers.InvoiceEdit(int.Parse(HdnBillNumber.Value), AmountBar, AmountRestaurant, DiscountBar, DiscountRestaurant);
+                    BtnBill.Text = "RePrint Bill";
                 }
 
                 HtmlTableRow TblBillFooter = new HtmlTableRow();
@@ -525,24 +526,173 @@ public partial class Order : System.Web.UI.Page
 
     protected void DgToken_DeleteCommand(object source, DataGridCommandEventArgs e)
     {
-        LtrMessage.Text = "Please Enter A Reason For Token Cancelation.";
+        LtrMessage.Text = "Please Enter A Reason For Token Cancellation.";
+        LtrTokenCancel.Visible = true;
         BtnTokenCancel.Visible = true;
         TxtTokenCancel.Visible = true;
-        Session["TokenId"] = e.Item.Cells[0].Text;
+        BtnTokenReset.Visible = true;
+        Context.Items["TokenId"] = e.Item.Cells[1].Text;
     }
 
     protected void BtnTokenCancel_Click(object sender, EventArgs e)
     {
         Checkers = new CheckersDataContext();
-        int Status;
+        int Status = 0;
+        int i;
 
-        Status = Checkers.TokenDelete(int.Parse(Session["TokenId"].ToString()), TxtTokenCancel.Text);
-        LtrMessage.Text = Status == 1 ? "Token " + Session["TokenId"].ToString() + " Canceled" : "Error Occurred.";
-        Session.Clear();
+        if (Context.Items["TokenId"] != null)
+        {
+            Status = Checkers.TokenDelete(int.Parse(Context.Items["TokenId"].ToString()), TxtTokenCancel.Text);
+            LtrMessage.Text = Status == 1 ? "Token " + Context.Items["TokenId"].ToString() + " Canceled" : "Error Occurred.";
+            Session.Clear();
+        }
+        else
+        {
+            for (i = 0; i < DgToken.Items.Count; i++)
+            {
+                if (((System.Web.UI.WebControls.CheckBox)DgToken.Items[i].Cells[0].FindControl("ChkBox")).Checked == true)
+                {
+                    Status = Checkers.TokenDelete(int.Parse(DgToken.Items[i].Cells[1].Text), TxtTokenCancel.Text);
+                }
+            }
+            LtrMessage.Text = Status == 1 ? "Tokens Canceled" : "Error Occurred.";
+        }
+        LtrTokenCancel.Visible = false;
         TxtTokenCancel.Visible = false;
         BtnTokenCancel.Visible = false;
-
+        BtnTokenReset.Visible = false;
         FillOt();
+    }
+
+    protected void BtnTokenReset_Click(object sender, EventArgs e)
+    {
+        LtrTokenCancel.Visible = false;
+        TxtTokenCancel.Visible = false;
+        BtnTokenCancel.Visible = false;
+        BtnTokenReset.Visible = false;
+        Context.Items.Clear();
+    }
+
+    protected void BtnTransfer_Click(object sender, EventArgs e)
+    {
+        Checkers = new CheckersDataContext();
+        int Status = Checkers.TransferTable(int.Parse(LtrBillTableNumber.Text), int.Parse(DdlTransfer.SelectedItem.Text));
+        LtrMessage.Text = Status == 1 ? "Table No. " + LtrBillTableNumber.Text + " Transfered To Table No. " + DdlTransfer.SelectedItem.Text : "Error Occurred.";
+
+        FillTables();
+    }
+
+    protected void BtnPrintSelectedToken_Click(object sender, EventArgs e)
+    {
+        StringBuilder Bar = new StringBuilder();
+        StringBuilder Barbeque = new StringBuilder();
+        StringBuilder Tandoor = new StringBuilder();
+        StringBuilder Restaurant = new StringBuilder();
+        StringBuilder PrintData = new StringBuilder();
+
+        for (int i = 0; i < DgToken.Items.Count; i++)
+        {
+            if (((System.Web.UI.WebControls.CheckBox)DgToken.Items[i].Cells[0].FindControl("ChkBox")).Checked == true)
+            {
+                switch (DgToken.Items[i].Cells[2].Text)
+                {
+                    case "Barbeque Token":
+                        Barbeque.Append(DgToken.Items[i].Cells[3].Text + "&nbsp;&nbsp;(" + DgToken.Items[i].Cells[4].Text + ")<br />");
+                        break;
+                    case "Bar Token":
+                        Bar.Append(DgToken.Items[i].Cells[3].Text + "&nbsp;&nbsp;(" + DgToken.Items[i].Cells[4].Text + ")<br />");
+                        break;
+                    case "Restaurant Token":
+                        Restaurant.Append(DgToken.Items[i].Cells[3].Text + "&nbsp;&nbsp;(" + DgToken.Items[i].Cells[4].Text + ")<br />");
+                        break;
+                    case "Tandoor Token":
+                        Tandoor.Append(DgToken.Items[i].Cells[3].Text + "&nbsp;&nbsp;(" + DgToken.Items[i].Cells[4].Text + ")<br />");
+                        break;
+                }
+                ((System.Web.UI.WebControls.CheckBox)DgToken.Items[i].Cells[0].FindControl("ChkBox")).Checked = false;
+            }
+        }
+
+        if (Barbeque.Length > 0)
+        {
+            PrintData.Append("<br /><br /><br /><br /><div class=\"OtTitle\">Barbeque Token</div>");
+            PrintData.Append("<div style=\"width: 396px; font-size: 9px; font-type: Arial\"><br />");
+            PrintData.Append(DateTime.Now.ToString());
+            PrintData.Append("<br /><br /><strong>Table No: </strong>" + HdnTableId.Value + "<br /><br />");
+            PrintData.Append("<hr>");
+            PrintData.Append(Barbeque);
+            if (TxtComments.Text != "") Ot.InnerHtml += "<strong>Comments: </strong><b />" + TxtComments.Text;
+            PrintData.Append("</div>");
+            Ot.InnerHtml = PrintData.ToString();
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "Print", "javascript:CallPrint('PrintOt');", true);
+        }
+
+        if (Bar.Length > 0)
+        {
+            PrintData.Append("<br /><br /><br /><br /><div class=\"OtTitle\">Bar Token</div>");
+            PrintData.Append("<div style=\"width: 396px; font-size: 9px; font-type: Arial\"><br />");
+            PrintData.Append(DateTime.Now.ToString());
+            PrintData.Append("<br /><br /><strong>Table No: </strong>" + HdnTableId.Value + "<br /><br />");
+            PrintData.Append("<hr>");
+            PrintData.Append(Bar);
+            if (TxtComments.Text != "") Ot.InnerHtml += "<strong>Comments: </strong><b />" + TxtComments.Text;
+            PrintData.Append("</div>");
+            Ot.InnerHtml = PrintData.ToString();
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "Print", "javascript:CallPrint('PrintOt');", true);
+        }
+
+        if (Tandoor.Length > 0)
+        {
+            PrintData.Append("<br /><br /><br /><br /><div class=\"OtTitle\">Tandoor Token</div>");
+            PrintData.Append("<div style=\"width: 396px; font-size: 9px; font-type: Arial\"><br />");
+            PrintData.Append(DateTime.Now.ToString());
+            PrintData.Append("<br /><br /><strong>Table No: </strong>" + HdnTableId.Value + "<br /><br />");
+            PrintData.Append("<hr>");
+            PrintData.Append(Tandoor);
+            if (TxtComments.Text != "") Ot.InnerHtml += "<strong>Comments: </strong><b />" + TxtComments.Text;
+            PrintData.Append("</div>");
+            Ot.InnerHtml = PrintData.ToString();
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "Print", "javascript:CallPrint('PrintOt');", true);
+        }
+
+        if (Restaurant.Length > 0)
+        {
+            PrintData.Append("<br /><br /><br /><br /><div class=\"OtTitle\">Restaurant Token</div>");
+            PrintData.Append("<div style=\"width: 396px; font-size: 9px; font-type: Arial\"><br />");
+            PrintData.Append(DateTime.Now.ToString());
+            PrintData.Append("<br /><br /><strong>Table No: </strong>" + HdnTableId.Value + "<br /><br />");
+            PrintData.Append("<hr>");
+            PrintData.Append(Restaurant);
+            if (TxtComments.Text != "") Ot.InnerHtml += "<strong>Comments: </strong><b />" + TxtComments.Text;
+            PrintData.Append("</div>");
+            Ot.InnerHtml = PrintData.ToString();
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "Print", "javascript:CallPrint('PrintOt');", true);
+        }
+    }
+
+    protected void BtnDeleteSelectedToken_Click(object sender, EventArgs e)
+    {
+        LtrMessage.Text = "Please Enter A Reason For Token Cancellation.";
+        LtrTokenCancel.Visible = true;
+        BtnTokenCancel.Visible = true;
+        TxtTokenCancel.Visible = true;
+        BtnTokenReset.Visible = true;
+    }
+
+    protected void CheckAll_Click(object sender, EventArgs e)
+    {
+        for (int i = 0; i < DgToken.Items.Count; i++)
+        {
+            ((System.Web.UI.WebControls.CheckBox)DgToken.Items[i].Cells[0].FindControl("ChkBox")).Checked = true;
+        }
+    }
+
+    protected void UnCheckAll_Click(object sender, EventArgs e)
+    {
+        for (int i = 0; i < DgToken.Items.Count; i++)
+        {
+            ((System.Web.UI.WebControls.CheckBox)DgToken.Items[i].Cells[0].FindControl("ChkBox")).Checked = false;
+        }
     }
 
     #endregion
@@ -562,7 +712,6 @@ public partial class Order : System.Web.UI.Page
     public void FillOt()
     {
         Checkers = new CheckersDataContext();
-        //DdlToken.Items.Clear();
         DgToken.DataSource = null;
         int TableSource1 = 0;
 
@@ -581,20 +730,14 @@ public partial class Order : System.Web.UI.Page
                             select new { T.Token_Id, T.Token_Quantity, T.Token_Type, M.Menu_Name };
 
                 DgToken.DataSource = Token;
-
-                //foreach (var T in Token)
-                //    DdlToken.Items.Add(new ListItem((Checkers.Menus.Where(M => M.Menu_Id == T.Token_Menu).Select(M => M.Menu_Name).Single()) + " (" + T.Token_Quantity.ToString() + " nos.)", T.Token_Id.ToString()));
             }
             else
-                //DdlToken.Items.Clear();
                 DgToken.DataSource = null;
         }
         else
-            //DdlToken.Items.Clear();
             DgToken.DataSource = null;
 
         DgToken.DataBind();
-
     }
 
     public void BillNumber()
@@ -616,6 +759,7 @@ public partial class Order : System.Web.UI.Page
 
     public void FillTables()
     {
+        DdlTransfer.Items.Clear();
         List.Controls.Clear();
         ImageButton[] ImgBtnList = new ImageButton[NumberOfTables];
         int Number = 1;
@@ -642,6 +786,7 @@ public partial class Order : System.Web.UI.Page
                 {
                     ImgBtnTable.ImageUrl = "~/Assets/Image/TableOrange.png";
                     ImgBtnTable.ToolTip = "Table Busy";
+                    DdlTransfer.Items.Remove("");
                 }
                 else if (TableStatus == 2)
                 {
@@ -653,6 +798,7 @@ public partial class Order : System.Web.UI.Page
             {
                 ImgBtnTable.ImageUrl = "~/Assets/Image/TableGreen.png";
                 ImgBtnTable.ToolTip = "Table Empty";
+                DdlTransfer.Items.Add(new ListItem(Number.ToString()));
             }
             ImgBtnList[Table] = ImgBtnTable;
             ImgBtnList[Table].Click += new ImageClickEventHandler(BtnTable_Click);
@@ -747,6 +893,8 @@ public partial class Order : System.Web.UI.Page
         TxtOpenMenuCost.Text = "0.0";
         TxtOpenMenuQuantity.Text = "0.0";
         TxtOpenMenuName.Text = "";
+        TxtTokenCancel.Text = "";
+        TxtComments.Text = "";
         PnlButton.Visible = false;
         DgOrderItems.DataSource = null;
         DgOrderItems.DataBind();

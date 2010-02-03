@@ -38,8 +38,8 @@ public partial class SalesStop : System.Web.UI.Page
         LtrCreditCard.Text = CreditCard.ToString();
         LtrTotalSales.Text = Total.ToString();
 
-        Checkers.MiscellaneousEdit("UserId", "0");
-        Checkers.MiscellaneousEdit("SalesSesion", "0");
+        Checkers.MiscellaneousEdit("UserLogged", "0");
+        Checkers.MiscellaneousEdit("SalesSession", "0");
     }
     protected void BtnOk_Click(object sender, EventArgs e)
     {

@@ -620,4 +620,9 @@
     <Parameter Name="Reason" Parameter="reason" Type="System.String" DbType="VarChar(200)" />
     <Return Type="System.Int32" />
   </Function>
+  <Function Name="dbo.TransferTable" Method="TransferTable">
+    <Parameter Name="OldTableNumber" Parameter="oldTableNumber" Type="System.Int32" DbType="Int" />
+    <Parameter Name="NewTableNumber" Parameter="newTableNumber" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
 </Database>

@@ -27,8 +27,8 @@ public partial class Controls_Offer : System.Web.UI.UserControl
         switch (Action)
         {
             case "New": BtnSearch.Visible = false; AutoCompSearch.Enabled = false; BtnSubmit.Text = "Add"; break;
-            case "Edit": BtnSearch.Visible = true; AutoCompSearch.Enabled = true; BtnSubmit.Text = "Update"; break;
-            case "Delete": BtnSearch.Visible = true; AutoCompSearch.Enabled = true; BtnSubmit.Text = "Delete"; break;
+            case "Edit": PnlOffer.Visible = true; PnlRequirement.Visible = true; BtnSearch.Visible = true; AutoCompSearch.Enabled = true; BtnSubmit.Text = "Update"; break;
+            case "Delete": PnlOffer.Visible = true; PnlRequirement.Visible = true; BtnSearch.Visible = true; AutoCompSearch.Enabled = true; BtnSubmit.Text = "Delete"; break;
         }
         ((AjaxControlToolkit.Accordion)Page.Master.FindControl("AccMenu")).SelectedIndex = 1;
     }
@@ -66,7 +66,11 @@ public partial class Controls_Offer : System.Web.UI.UserControl
         if (Action == "New")
         {
             if (HdnOfferName.Value != "")
+            {
                 LtrMessage.Text = "Offer " + TxtName.Text + " Inserted.";
+                TxtName.ReadOnly = true;
+                PnlOffer.Visible = true; PnlRequirement.Visible = true;
+            }
             else
                 LtrMessage.Text = "Please select an offer.";
             ClearForm();

@@ -21,7 +21,7 @@ public partial class Common : System.Web.UI.MasterPage
             if (!Page.IsPostBack)
                 LtrUserLoggedIn.Text = Checkers.Contacts.Where(C => C.Contact_Id == int.Parse(Application["UserId"].ToString())).Select(C => C.Contact_Name).Single();
         }
-        //BtnStopSales.Visible = Checkers.Sources.Where(S => S.Source_Type == "Table" && S.Source_Status == 1).Select(S => S).Any() == true ? false : true;
+        BtnStopSales.Visible = Checkers.Sources.Where(S => S.Source_Type == "Table" && S.Source_Status == 1).Select(S => S).Any() == true ? false : true;
     }
     protected void BtnLogout_Click(object sender, EventArgs e)
     {
