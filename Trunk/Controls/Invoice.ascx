@@ -1,5 +1,7 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="Invoice.ascx.cs" Inherits="Controls_Invoice" %>
 
+<%@ Register assembly="AjaxControlToolkit" namespace="AjaxControlToolkit" tagprefix="cc1" %>
+
 <script type="text/javascript">
     function CallPrint(strid) {
         var strOldOne = document.getElementById(strid);
@@ -23,7 +25,13 @@
             Bill Number
         </td>
         <td>
-            <asp:TextBox ID="TxtBillNumber" runat="server" />&nbsp;&nbsp;
+            <asp:TextBox ID="TxtBillNumber" runat="server" />
+            <asp:RequiredFieldValidator ID="ReqVldNumber" runat="server" Display="None" 
+                ErrorMessage="Please Enter A Bill Number"></asp:RequiredFieldValidator>
+            <cc1:ValidatorCalloutExtender ID="ReqVldNumberExtender" runat="server" 
+                Enabled="True" TargetControlID="ReqVldNumber">
+            </cc1:ValidatorCalloutExtender>
+            &nbsp;&nbsp;
             <asp:Button ID="BtnSearch" runat="server" Text="Search" OnClick="BtnSearch_Click" />
         </td>
         <td>

@@ -17,6 +17,7 @@ public partial class Controls_Invoice : System.Web.UI.UserControl
             TxtBillNumber.Text = Request.QueryString["Id"].ToString();
             FillData();
         }
+        ((AjaxControlToolkit.Accordion)Page.Master.FindControl("AccMenu")).SelectedIndex = 8;
     }
     protected void BtnSearch_Click(object sender, EventArgs e)
     {

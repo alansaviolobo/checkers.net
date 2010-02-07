@@ -28,6 +28,7 @@ public partial class Controls_Credit : System.Web.UI.UserControl
             LtrTotalOutstanding.Text = "0";
         ((AjaxControlToolkit.Accordion)Page.Master.FindControl("AccMenu")).SelectedIndex = 3;
     }
+
     protected void BtnSelect_Click(object sender, EventArgs e)
     {
         if (DdlClientName.Items.Count > 0)
@@ -38,6 +39,7 @@ public partial class Controls_Credit : System.Web.UI.UserControl
         else
             LtrMessage.Text = "No Credit Clients Exists.";
     }
+
     protected void BtnPayAmount_Click(object sender, EventArgs e)
     {
         Checkers = new CheckersDataContext();
@@ -142,6 +144,7 @@ public partial class Controls_Credit : System.Web.UI.UserControl
         }
         FillData();
     }
+
     protected void BtnYes_Click(object sender, EventArgs e)
     {
         Checkers = new CheckersDataContext();
@@ -157,6 +160,7 @@ public partial class Controls_Credit : System.Web.UI.UserControl
 
         FillData();
     }
+
     protected void BtnNo_Click(object sender, EventArgs e)
     {
         LtrMessage.Text = "Action Cancelled By The User.";
@@ -173,6 +177,7 @@ public partial class Controls_Credit : System.Web.UI.UserControl
         LtrReceiptsNumber.Text = "(Total : 0)";
         LtrTotalOutstanding.Text = "0";
     }
+
     protected void DgBills_ItemCommand(object source, DataGridCommandEventArgs e)
     {
         if (e.CommandName == "View")
@@ -181,6 +186,6 @@ public partial class Controls_Credit : System.Web.UI.UserControl
     protected void DgReceipts_ItemCommand(object source, DataGridCommandEventArgs e)
     {
         if (e.CommandName == "View")
-            Response.Redirect("Receipt.aspx?Id=" + e.Item.Cells[0].Text);
+            Response.Redirect("Operation.aspx?Section=Receipt&Id=" + e.Item.Cells[0].Text);
     }
 }

@@ -43,8 +43,15 @@
         OnDeleteCommand="DgEvent_DeleteCommand" 
         OnEditCommand="DgEvent_EditCommand" PageSize="15"
         OnPageIndexChanged="DgEvent_PageIndexChanged" 
-        onitemcommand="DgEvent_ItemCommand">
-        <PagerStyle Mode="NumericPages" />
+        onitemcommand="DgEvent_ItemCommand" BackColor="White" 
+        BorderColor="#E7E7FF" BorderStyle="None" BorderWidth="1px" CellPadding="3" 
+        GridLines="Horizontal">
+        <FooterStyle BackColor="#B5C7DE" ForeColor="#4A3C8C" />
+        <SelectedItemStyle BackColor="#738A9C" Font-Bold="True" ForeColor="#F7F7F7" />
+        <PagerStyle Mode="NumericPages" BackColor="#E7E7FF" ForeColor="#4A3C8C" 
+            HorizontalAlign="Right" />
+        <AlternatingItemStyle BackColor="#F7F7F7" />
+        <ItemStyle BackColor="#E7E7FF" ForeColor="#4A3C8C" />
         <Columns>
             <asp:BoundColumn DataField="Event_Id" HeaderText="Id" Visible="False"></asp:BoundColumn>
             <asp:BoundColumn DataField="Event_Name" HeaderText="Name"></asp:BoundColumn>
@@ -59,6 +66,7 @@
             <asp:ButtonColumn CommandName="Package" Text="Package"></asp:ButtonColumn>
             <asp:ButtonColumn CommandName="Details" Text="Details"></asp:ButtonColumn>
         </Columns>
+        <HeaderStyle BackColor="#4A3C8C" Font-Bold="True" ForeColor="#F7F7F7" />
     </asp:DataGrid>
 </div>
 <asp:HiddenField ID="HdnEventId" runat="server" />

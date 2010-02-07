@@ -263,20 +263,24 @@ public partial class Report : System.Web.UI.Page
         ReportHeader("Sales Category - " + DdlCategory.SelectedItem.Text);
         ReportColumns("Sales Category - " + DdlCategory.SelectedItem.Text, ",Name, Quantity, Invoice No., Date");
 
-        var Sale = Checkers.ExecuteQuery<Sale>("select * from sales, menu where sales_menu = menu_id and menu_category='" + DdlCategory.SelectedItem.Text + "' and sales_status = 1 and (convert(char(10), sales_timestamp, 103) between '" + FromDate + "' and '" + ToDate + "')");
+        var SaleList = Checkers.ExecuteQuery<Sale>("select * from sales where sales_status = 0 and (convert(char(10), sales_timestamp, 103) between '" + FromDate + "' and '" + ToDate + "')");
+        var MenuList = Checkers.Menus.Where(M => M.Menu_Category == DdlCategory.SelectedItem.Text && M.Menu_Status == 1).Select(M => M);
 
-        foreach (var S in Sale)
+        foreach (var S in SaleList)
         {
-            StringBuilder StrData = new StringBuilder();
-            AddComma("", StrData);
-            var Menu = Checkers.Menus.Where(M => M.Menu_Id == S.Sales_Menu).Select(M => M.Menu_Name).Single();
-            AddComma(Menu.ToString(), StrData);
-            AddComma(S.Sales_Quantity.ToString(), StrData);
-            var Invoice = Checkers.Invoices.Where(I => I.Invoice_Source == S.Sales_Source && I.Invoice_Status == 0).Select(I => I.Invoice_Id).Single();
-            AddComma(Invoice.ToString(), StrData);
-            AddComma(S.Sales_TimeStamp.ToString(), StrData);
-            HttpContext.Current.Response.Write(StrData.ToString());
-            HttpContext.Current.Response.Write(Environment.NewLine);
+            if (Checkers.Menus.Where(M => M.Menu_Status == 1 && M.Menu_Id == S.Sales_Menu.Value && M.Menu_Category == DdlCategory.SelectedItem.Text).Select(M => M).Any())
+            {
+                var MenuItem = Checkers.Menus.Where(M => M.Menu_Status == 1 && M.Menu_Id == S.Sales_Menu.Value && M.Menu_Category == DdlCategory.SelectedItem.Text).Select(M => M).Single();
+                StringBuilder StrData = new StringBuilder();
+                AddComma("", StrData);
+                AddComma(MenuItem.Menu_Name.ToString(), StrData);
+                AddComma(S.Sales_Quantity.ToString(), StrData);
+                var Invoice = Checkers.Invoices.Where(I => I.Invoice_Source == S.Sales_Source && I.Invoice_Status == 0).Select(I => I.Invoice_Id).SingleOrDefault();
+                AddComma(Invoice.ToString(), StrData);
+                AddComma(S.Sales_TimeStamp.ToString(), StrData);
+                HttpContext.Current.Response.Write(StrData.ToString());
+                HttpContext.Current.Response.Write(Environment.NewLine);
+            }
         }
 
         HttpContext.Current.Response.End();

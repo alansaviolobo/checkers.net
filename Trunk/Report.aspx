@@ -76,7 +76,7 @@
                     <asp:Button ID="BtnSalesCategory" runat="server" Text="Sales" OnClick="BtnSalesCategory_Click" />
                 </ContentTemplate>
             </Ajax:TabPanel>
-            <Ajax:TabPanel runat="server" HeaderText="Category" ID="TabPaymentMode">
+            <Ajax:TabPanel runat="server" HeaderText="Payment Mode" ID="TabPaymentMode">
                 <ContentTemplate>
                     <asp:Button ID="BtnCreditCard" runat="server" Text="Credit Card" 
                         OnClick="BtnCreditCard_Click" />&nbsp;&nbsp;

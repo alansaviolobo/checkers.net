@@ -12,7 +12,7 @@ public partial class SalesStop : System.Web.UI.Page
     protected void Page_Load(object sender, EventArgs e)
     {
         Checkers = new CheckersDataContext();
-        decimal BarTotal = 0, RestaurantTotal = 0, CreditCard = 0, Credit = 0, Cash = 0, Cheque = 0, Total=0;
+        decimal BarTotal = 0, RestaurantTotal = 0, CreditCard = 0, Credit = 0, Cash = 0, Cheque = 0, Total = 0;
 
         var InvoiceList = Checkers.ExecuteQuery<Invoice>("select * from invoice where invoice_status != 2 and convert(char(10), invoice_timestamp, 105) = '" + Application["SalesSession"].ToString().Substring(0, 10) + "'");
 
@@ -37,13 +37,21 @@ public partial class SalesStop : System.Web.UI.Page
         LtrCredit.Text = Credit.ToString();
         LtrCreditCard.Text = CreditCard.ToString();
         LtrTotalSales.Text = Total.ToString();
+    }
+
+    protected void BtnConfirmStop_Click(object sender, EventArgs e)
+    {
+        Checkers = new CheckersDataContext();
 
         Checkers.MiscellaneousEdit("UserLogged", "0");
         Checkers.MiscellaneousEdit("SalesSession", "0");
-    }
-    protected void BtnOk_Click(object sender, EventArgs e)
-    {
+
         Application.Clear();
         Server.Transfer("~/Default.aspx");
+    }
+
+    protected void BtnBack_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("~/Operation.aspx");
     }
 }

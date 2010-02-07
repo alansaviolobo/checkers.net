@@ -142,7 +142,8 @@
                         <Content>
                             <a href="Database.aspx">Database</a><br />
                             <a href="Report.aspx">Report</a><br />
-                            <a href="Operation.aspx?Section=Invoice">Invoice</a>
+                            <a href="Operation.aspx?Section=Invoice">Invoice</a><br />
+                            <a href="Operation.aspx?Section=Receipt">Receipt</a>
                         </Content>
                     </Ajax:AccordionPane>
                 </Panes>

@@ -99,7 +99,16 @@
 </div>
 <div style="float: left; width: auto; margin-left: 7%;">
     <p>
-        <asp:DataGrid ID="DgContent" runat="server" AutoGenerateColumns="False" OnDeleteCommand="DgContent_DeleteCommand">
+        <asp:DataGrid ID="DgContent" runat="server" AutoGenerateColumns="False" 
+            OnDeleteCommand="DgContent_DeleteCommand" BackColor="White" 
+            BorderColor="#E7E7FF" BorderStyle="None" BorderWidth="1px" CellPadding="3" 
+            GridLines="Horizontal">
+            <FooterStyle BackColor="#B5C7DE" ForeColor="#4A3C8C" />
+            <SelectedItemStyle BackColor="#738A9C" Font-Bold="True" ForeColor="#F7F7F7" />
+            <PagerStyle BackColor="#E7E7FF" ForeColor="#4A3C8C" HorizontalAlign="Right" 
+                Mode="NumericPages" />
+            <AlternatingItemStyle BackColor="#F7F7F7" />
+            <ItemStyle BackColor="#E7E7FF" ForeColor="#4A3C8C" />
             <Columns>
                 <asp:BoundColumn DataField="Package_Id" Visible="false"></asp:BoundColumn>
                 <asp:BoundColumn DataField="Package_Name" HeaderText="Name"></asp:BoundColumn>
@@ -107,6 +116,7 @@
                 <asp:BoundColumn DataField="Package_Cost" HeaderText="Cost"></asp:BoundColumn>
                 <asp:ButtonColumn CommandName="Delete" Text="X"></asp:ButtonColumn>
             </Columns>
+            <HeaderStyle BackColor="#4A3C8C" Font-Bold="True" ForeColor="#F7F7F7" />
         </asp:DataGrid></p>
 </div>
 <asp:HiddenField ID="HdnPackageId" runat="server" />

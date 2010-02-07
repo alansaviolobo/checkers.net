@@ -78,7 +78,8 @@
         </div>
     </div>
     <div style="margin-right: auto; margin-left: auto; width: 680px; text-align:center; padding: 10px; clear:both">
-        <asp:LinkButton ID="BtnOk" Text="Ok" runat="server" onclick="BtnOk_Click" />
+        <asp:LinkButton ID="BtnOk" Text="Confirm Stop" runat="server" onclick="BtnConfirmStop_Click" />&nbsp;&nbsp;
+        <asp:LinkButton ID="BtnBack" Text="Back" runat="server" OnClick="BtnBack_Click" />
     </div>
     </form>
 </body>

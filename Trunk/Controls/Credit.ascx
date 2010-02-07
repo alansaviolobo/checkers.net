@@ -90,13 +90,22 @@
                 <br />
                 <br />
                 <asp:DataGrid ID="DgBills" runat="server" AutoGenerateColumns="False" 
-                    onitemcommand="DgBills_ItemCommand" >
+                    onitemcommand="DgBills_ItemCommand" BackColor="White" 
+                    BorderColor="#E7E7FF" BorderStyle="None" BorderWidth="1px" CellPadding="3" 
+                    GridLines="Horizontal" >
+                    <FooterStyle BackColor="#B5C7DE" ForeColor="#4A3C8C" />
+                    <SelectedItemStyle BackColor="#738A9C" Font-Bold="True" ForeColor="#F7F7F7" />
+                    <PagerStyle BackColor="#E7E7FF" ForeColor="#4A3C8C" HorizontalAlign="Right" 
+                        Mode="NumericPages" />
+                    <AlternatingItemStyle BackColor="#F7F7F7" />
+                    <ItemStyle BackColor="#E7E7FF" ForeColor="#4A3C8C" />
                     <Columns>
                         <asp:BoundColumn DataField="Invoice_Id" HeaderText="No."></asp:BoundColumn>
                         <asp:BoundColumn DataField="Invoice_Amount" HeaderText="Amount"></asp:BoundColumn>
                         <asp:BoundColumn DataField="Invoice_Discount" HeaderText="Discount"></asp:BoundColumn>
                         <asp:ButtonColumn CommandName="View" Text="View"></asp:ButtonColumn>
                     </Columns>
+                    <HeaderStyle BackColor="#4A3C8C" Font-Bold="True" ForeColor="#F7F7F7" />
                 </asp:DataGrid>
             </td>
             <td valign="top">
@@ -106,7 +115,15 @@
                 <br />
                 <asp:DataGrid ID="DgReceipts" runat="server" AutoGenerateColumns="False" 
                     OnDeleteCommand="DgOrderItems_DeleteCommand" 
-                    onitemcommand="DgReceipts_ItemCommand" >
+                    onitemcommand="DgReceipts_ItemCommand" BackColor="White" 
+                    BorderColor="#E7E7FF" BorderStyle="None" BorderWidth="1px" CellPadding="3" 
+                    GridLines="Horizontal" >
+                    <FooterStyle BackColor="#B5C7DE" ForeColor="#4A3C8C" />
+                    <SelectedItemStyle BackColor="#738A9C" Font-Bold="True" ForeColor="#F7F7F7" />
+                    <PagerStyle BackColor="#E7E7FF" ForeColor="#4A3C8C" HorizontalAlign="Right" 
+                        Mode="NumericPages" />
+                    <AlternatingItemStyle BackColor="#F7F7F7" />
+                    <ItemStyle BackColor="#E7E7FF" ForeColor="#4A3C8C" />
                     <Columns>
                         <asp:BoundColumn DataField="Receipt_Id" HeaderText="No."></asp:BoundColumn>
                         <asp:BoundColumn DataField="Receipt_Amount" HeaderText="Amount"></asp:BoundColumn>
@@ -114,6 +131,7 @@
                         <asp:ButtonColumn CommandName="View" Text="View"></asp:ButtonColumn>
                         <asp:ButtonColumn CommandName="Delete" Text="X"></asp:ButtonColumn>
                     </Columns>
+                    <HeaderStyle BackColor="#4A3C8C" Font-Bold="True" ForeColor="#F7F7F7" />
                 </asp:DataGrid>
             </td>
         </tr>

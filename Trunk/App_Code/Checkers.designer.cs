@@ -285,10 +285,10 @@ public partial class CheckersDataContext : System.Data.Linq.DataContext
 		return ((int)(result.ReturnValue));
 	}
 	
-	[Function(Name="dbo.TokenNew")]
-	public int TokenNew([Parameter(Name="Type", DbType="VarChar(50)")] string type, [Parameter(Name="Menu", DbType="Int")] System.Nullable<int> menu, [Parameter(Name="Quantity", DbType="Decimal")] System.Nullable<decimal> quantity, [Parameter(Name="Source", DbType="Int")] System.Nullable<int> source, [Parameter(Name="TimeStamp", DbType="DateTime")] System.Nullable<System.DateTime> timeStamp)
+	[Function(Name="dbo.TransferTable")]
+	public int TransferTable([Parameter(Name="OldTableNumber", DbType="Int")] System.Nullable<int> oldTableNumber, [Parameter(Name="NewTableNumber", DbType="Int")] System.Nullable<int> newTableNumber)
 	{
-		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), type, menu, quantity, source, timeStamp);
+		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), oldTableNumber, newTableNumber);
 		return ((int)(result.ReturnValue));
 	}
 	
@@ -670,6 +670,13 @@ public partial class CheckersDataContext : System.Data.Linq.DataContext
 		return ((int)(result.ReturnValue));
 	}
 	
+	[Function(Name="dbo.TokenClearPrintStatus")]
+	public int TokenClearPrintStatus([Parameter(Name="Id", DbType="Int")] System.Nullable<int> id)
+	{
+		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id);
+		return ((int)(result.ReturnValue));
+	}
+	
 	[Function(Name="dbo.TokenDelete")]
 	public int TokenDelete([Parameter(Name="Id", DbType="Int")] System.Nullable<int> id, [Parameter(Name="Reason", DbType="VarChar(200)")] string reason)
 	{
@@ -677,10 +684,10 @@ public partial class CheckersDataContext : System.Data.Linq.DataContext
 		return ((int)(result.ReturnValue));
 	}
 	
-	[Function(Name="dbo.TransferTable")]
-	public int TransferTable([Parameter(Name="OldTableNumber", DbType="Int")] System.Nullable<int> oldTableNumber, [Parameter(Name="NewTableNumber", DbType="Int")] System.Nullable<int> newTableNumber)
+	[Function(Name="dbo.TokenNew")]
+	public int TokenNew([Parameter(Name="Type", DbType="VarChar(50)")] string type, [Parameter(Name="Menu", DbType="Int")] System.Nullable<int> menu, [Parameter(Name="Quantity", DbType="Decimal")] System.Nullable<decimal> quantity, [Parameter(Name="Source", DbType="Int")] System.Nullable<int> source, [Parameter(Name="TimeStamp", DbType="DateTime")] System.Nullable<System.DateTime> timeStamp)
 	{
-		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), oldTableNumber, newTableNumber);
+		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), type, menu, quantity, source, timeStamp);
 		return ((int)(result.ReturnValue));
 	}
 }
@@ -839,6 +846,8 @@ public partial class Token : INotifyPropertyChanging, INotifyPropertyChanged
 	
 	private string _Token_Reason;
 	
+	private System.Nullable<bool> _Token_PrintStatus;
+	
 	private System.Nullable<System.DateTime> _Token_TimeStamp;
 	
     #region Extensibility Method Definitions
@@ -859,6 +868,8 @@ public partial class Token : INotifyPropertyChanging, INotifyPropertyChanged
     partial void OnToken_StatusChanged();
     partial void OnToken_ReasonChanging(string value);
     partial void OnToken_ReasonChanged();
+    partial void OnToken_PrintStatusChanging(System.Nullable<bool> value);
+    partial void OnToken_PrintStatusChanged();
     partial void OnToken_TimeStampChanging(System.Nullable<System.DateTime> value);
     partial void OnToken_TimeStampChanged();
     #endregion
@@ -1004,6 +1015,26 @@ public partial class Token : INotifyPropertyChanging, INotifyPropertyChanged
 				this._Token_Reason = value;
 				this.SendPropertyChanged("Token_Reason");
 				this.OnToken_ReasonChanged();
+			}
+		}
+	}
+	
+	[Column(Storage="_Token_PrintStatus", DbType="Bit")]
+	public System.Nullable<bool> Token_PrintStatus
+	{
+		get
+		{
+			return this._Token_PrintStatus;
+		}
+		set
+		{
+			if ((this._Token_PrintStatus != value))
+			{
+				this.OnToken_PrintStatusChanging(value);
+				this.SendPropertyChanging();
+				this._Token_PrintStatus = value;
+				this.SendPropertyChanged("Token_PrintStatus");
+				this.OnToken_PrintStatusChanged();
 			}
 		}
 	}

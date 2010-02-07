@@ -23,7 +23,13 @@
             Receipt Number
         </td>
         <td>
-            <asp:TextBox ID="TxtReceiptNumber" runat="server" />&nbsp;&nbsp;
+            <asp:TextBox ID="TxtReceiptNumber" runat="server" />
+            <asp:RequiredFieldValidator ID="ReqVldNumber" runat="server" Display="None" 
+                ErrorMessage="Please Enter A Receipt Number"></asp:RequiredFieldValidator>
+            <Ajax:ValidatorCalloutExtender ID="ReqVldNumberExtender" runat="server" 
+                Enabled="True" TargetControlID="ReqVldNumber">
+            </Ajax:ValidatorCalloutExtender>
+            &nbsp;&nbsp;
             <asp:Button ID="BtnSearch" runat="server" Text="Search" OnClick="BtnSearch_Click" />
         </td>
         <td>
@@ -34,8 +40,7 @@
 <div id="PrintReceipt" style="width: 396px">
     <br />
     <br />
-    <div id="BillLogo" style="margin-left: auto; margin-right: auto; text-align: center;
-        width: 396px">
+    <div id="BillLogo" style="margin-left: auto; margin-right: auto; text-align: center; width: 396px">
         <img src="Assets/Image/QuatroSmall.png" alt="" /><br />
         <br />
         Along NH-17 Verna By-Pass Road, Manjo Verna, Goa, 403722<br />

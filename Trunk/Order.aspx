@@ -104,16 +104,28 @@
                                 <br />
                                 <div class="DataContainer">
                                     <asp:DataGrid ID="DgOrderItems" runat="server" AutoGenerateColumns="False" Width="420px"
-                                        OnDeleteCommand="DgOrderItems_DeleteCommand">
+                                        OnDeleteCommand="DgOrderItems_DeleteCommand" BackColor="White" 
+                                        BorderColor="#E7E7FF" BorderStyle="None" BorderWidth="1px" CellPadding="3" 
+                                        GridLines="Horizontal">
+                                        <FooterStyle BackColor="#B5C7DE" ForeColor="#4A3C8C" />
+                                        <SelectedItemStyle BackColor="#738A9C" Font-Bold="True" ForeColor="#F7F7F7" />
+                                        <PagerStyle BackColor="#E7E7FF" ForeColor="#4A3C8C" HorizontalAlign="Right" 
+                                            Mode="NumericPages" />
+                                        <AlternatingItemStyle BackColor="#F7F7F7" />
+                                        <ItemStyle BackColor="#E7E7FF" ForeColor="#4A3C8C" />
                                         <Columns>
-                                            <asp:BoundColumn DataField="Sales_Id" Visible="false"></asp:BoundColumn>
-                                            <asp:ButtonColumn CommandName="View" DataTextField="Menu_Name"></asp:ButtonColumn>
+                                            <asp:BoundColumn DataField="Sales_Id" Visible="False"></asp:BoundColumn>
+                                            <asp:BoundColumn DataField="Menu_Name" HeaderText="Menu"></asp:BoundColumn>
                                             <asp:BoundColumn DataField="Sales_Quantity" HeaderText="Qnty"></asp:BoundColumn>
                                             <asp:BoundColumn DataField="Sales_Cost" HeaderText="Cost"></asp:BoundColumn>
                                             <asp:ButtonColumn CommandName="Delete" Text="X"></asp:ButtonColumn>
                                         </Columns>
+                                        <HeaderStyle BackColor="#4A3C8C" Font-Bold="True" ForeColor="#F7F7F7" />
                                     </asp:DataGrid>
                                 </div>
+                                <br />
+                                <br />
+                                <asp:Button ID="BtnPrintToken" runat="server" Text="Print Token" OnClick="BtnPrintSelectedToken_Click" />
                             </ContentTemplate>
                         </Ajax:TabPanel>
                         <Ajax:TabPanel runat="server" ID="TabBill">
@@ -210,7 +222,7 @@
                                     </tr>
                                     <tr>
                                         <td colspan="2">
-                                            <asp:Button ID="BtnBill" runat="server" Text="Bill" CssClass="CenterAlign" OnClick="BtnBill_Click" />
+                                            <asp:Button ID="BtnBill" runat="server" Text="Print Bill" CssClass="CenterAlign" OnClick="BtnBill_Click" />
                                         </td>
                                     </tr>
                                     <tr>
@@ -310,7 +322,14 @@
                             <ContentTemplate>
                                 <div class="DataContainer" style="height: 320px">
                                     <asp:DataGrid ID="DgToken" runat="server" AutoGenerateColumns="False" OnDeleteCommand="DgToken_DeleteCommand"
-                                        Width="414px">
+                                        Width="414px" BackColor="White" BorderColor="#E7E7FF" BorderStyle="None" 
+                                        BorderWidth="1px" CellPadding="3" GridLines="Horizontal">
+                                        <FooterStyle BackColor="#B5C7DE" ForeColor="#4A3C8C" />
+                                        <SelectedItemStyle BackColor="#738A9C" Font-Bold="True" ForeColor="#F7F7F7" />
+                                        <PagerStyle BackColor="#E7E7FF" ForeColor="#4A3C8C" HorizontalAlign="Right" 
+                                            Mode="NumericPages" />
+                                        <AlternatingItemStyle BackColor="#F7F7F7" />
+                                        <ItemStyle BackColor="#E7E7FF" ForeColor="#4A3C8C" />
                                         <Columns>
                                             <asp:TemplateColumn>
                                                 <ItemTemplate>
@@ -323,6 +342,7 @@
                                             <asp:BoundColumn DataField="Token_Quantity" HeaderText="Qnty"></asp:BoundColumn>
                                             <asp:ButtonColumn CommandName="Delete" Text="X"></asp:ButtonColumn>
                                         </Columns>
+                                        <HeaderStyle BackColor="#4A3C8C" Font-Bold="True" ForeColor="#F7F7F7" />
                                     </asp:DataGrid>
                                 </div>
                                 <br />
@@ -338,7 +358,8 @@
                                 <asp:Button ID="BtnDeleteSelectedToken" runat="server" Text="Delete Selected" OnClick="BtnDeleteSelectedToken_Click" />
                                 <br />
                                 <br />
-                                <asp:Literal ID="LtrTokenCancel" runat="server" Text="Reason :" Visible="false" />
+                                <asp:Literal ID="LtrTokenCancel" runat="server" Text="Reason :" 
+                                    Visible="False" />
                                 <asp:TextBox ID="TxtTokenCancel" runat="server" Width="230px" Visible="False" />
                                 <asp:Button ID="BtnTokenCancel" runat="server" Text="Cancel" Visible="False" OnClick="BtnTokenCancel_Click" />
                                 <asp:Button ID="BtnTokenReset" runat="server" Text="Reset" Visible="False" OnClick="BtnTokenReset_Click" />
@@ -435,9 +456,6 @@
                 </div>
                 <br />
                 <br />
-            </div>
-            <div id="PrintOt">
-                <span id="Ot" runat="server" />
             </div>
         </ContentTemplate>
     </asp:UpdatePanel>

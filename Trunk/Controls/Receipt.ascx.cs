@@ -16,6 +16,7 @@ public partial class Controls_Receipt : System.Web.UI.UserControl
             TxtReceiptNumber.Text = Request.QueryString["Id"].ToString();
             FillData();
         }
+        ((AjaxControlToolkit.Accordion)Page.Master.FindControl("AccMenu")).SelectedIndex = 8;
     }
     protected void BtnSearch_Click(object sender, EventArgs e)
     {

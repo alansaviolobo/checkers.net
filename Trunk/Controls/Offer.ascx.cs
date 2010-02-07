@@ -15,22 +15,25 @@ public partial class Controls_Offer : System.Web.UI.UserControl
     protected void Page_Load(object sender, EventArgs e)
     {
         Checkers = new CheckersDataContext();
-        ClearForm();
-        Action = Request.QueryString["Action"] != null ? Request.QueryString["Action"].ToString() : "Add";
-        if (Request.QueryString["Name"] != null)
+        if (!Page.IsPostBack)
         {
-            TxtName.Text = Request.QueryString["Name"].ToString();
-            HdnOfferName.Value = Request.QueryString["Name"].ToString();
-            FillData();
-        }
+            ClearForm();
+            Action = Request.QueryString["Action"] != null ? Request.QueryString["Action"].ToString() : "Add";
+            if (Request.QueryString["Name"] != null)
+            {
+                TxtName.Text = Request.QueryString["Name"].ToString();
+                HdnOfferName.Value = Request.QueryString["Name"].ToString();
+                FillData();
+            }
 
-        switch (Action)
-        {
-            case "New": BtnSearch.Visible = false; AutoCompSearch.Enabled = false; BtnSubmit.Text = "Add"; break;
-            case "Edit": PnlOffer.Visible = true; PnlRequirement.Visible = true; BtnSearch.Visible = true; AutoCompSearch.Enabled = true; BtnSubmit.Text = "Update"; break;
-            case "Delete": PnlOffer.Visible = true; PnlRequirement.Visible = true; BtnSearch.Visible = true; AutoCompSearch.Enabled = true; BtnSubmit.Text = "Delete"; break;
+            switch (Action)
+            {
+                case "New": BtnSearch.Visible = false; AutoCompSearch.Enabled = false; BtnSubmit.Text = "Add"; break;
+                case "Edit": PnlOffer.Visible = true; PnlRequirement.Visible = true; BtnSearch.Visible = true; AutoCompSearch.Enabled = true; BtnSubmit.Text = "Update"; break;
+                case "Delete": PnlOffer.Visible = true; PnlRequirement.Visible = true; BtnSearch.Visible = true; AutoCompSearch.Enabled = true; BtnSubmit.Text = "Delete"; break;
+            }
+            ((AjaxControlToolkit.Accordion)Page.Master.FindControl("AccMenu")).SelectedIndex = 1;
         }
-        ((AjaxControlToolkit.Accordion)Page.Master.FindControl("AccMenu")).SelectedIndex = 1;
     }
 
     protected void BtnYes_Click(object sender, EventArgs e)
@@ -38,10 +41,10 @@ public partial class Controls_Offer : System.Web.UI.UserControl
         Checkers = new CheckersDataContext();
         int Status = Checkers.OfferDelete(HdnOfferName.Value);
 
-        LtrMessage.Text = Status == 1 ? "Offer Successfully Deleted" : "Error Occurred.";
         BtnYes.Visible = false;
         BtnNo.Visible = false;
         ClearForm();
+        LtrMessage.Text = Status == 1 ? "Offer Successfully Deleted" : "Error Occurred.";
     }
 
     protected void BtnNo_Click(object sender, EventArgs e)
@@ -65,21 +68,27 @@ public partial class Controls_Offer : System.Web.UI.UserControl
 
         if (Action == "New")
         {
+            HdnOfferName.Value = TxtName.Text;
             TxtName.ReadOnly = true;
             PnlOffer.Visible = true; PnlRequirement.Visible = true;
             LtrMessage.Text = "Please enter items.";
+            BtnSubmit.Visible = false;
         }
         else if (Action == "Edit")
         {
             if (HdnOfferName.Value != "")
             {
                 Status = Checkers.OfferEdit(HdnOfferName.Value, TxtName.Text);
-                if (Status == 1) Status = Checkers.ActivityNew("Offer " + TxtName.Text + " Updated", int.Parse(Application["UserId"].ToString()), DateTime.Parse(Application["SalesSession"].ToString()));
+                if (Status == 1)
+                {
+                    Status = Checkers.ActivityNew("Offer " + TxtName.Text + " Updated", int.Parse(Application["UserId"].ToString()), DateTime.Parse(Application["SalesSession"].ToString()));
+                    ClearForm();
+                    LtrMessage.Text = Status == 1 ? "Offer " + TxtName.Text + " Updated Successfully." : "Error Occurred.";
+                }
             }
             else
                 LtrMessage.Text = "Please Select An Offer.";
 
-            ClearForm();
         }
         else if (Action == "Delete")
         {
@@ -195,6 +204,7 @@ public partial class Controls_Offer : System.Web.UI.UserControl
         else
             LtrMessage.Text = "No offer selected / entered.";
     }
+
     protected void DgMenu_DeleteCommand(object source, DataGridCommandEventArgs e)
     {
         Checkers = new CheckersDataContext();

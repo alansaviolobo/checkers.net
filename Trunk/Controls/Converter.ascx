@@ -104,13 +104,21 @@
         <b>1 Unit&nbsp;<asp:Literal ID="LtrMenuName" runat="server" />&nbsp;Contains :</b><br />
         <br />
         <asp:DataGrid ID="DgConverterList" runat="server" AutoGenerateColumns="False" OnDeleteCommand="DgConverterList_DeleteCommand"
-            Visible="False">
+            Visible="False" BackColor="White" BorderColor="#E7E7FF" BorderStyle="None" 
+            BorderWidth="1px" CellPadding="3" GridLines="Horizontal">
+            <FooterStyle BackColor="#B5C7DE" ForeColor="#4A3C8C" />
+            <SelectedItemStyle BackColor="#738A9C" Font-Bold="True" ForeColor="#F7F7F7" />
+            <PagerStyle BackColor="#E7E7FF" ForeColor="#4A3C8C" HorizontalAlign="Right" 
+                Mode="NumericPages" />
+            <AlternatingItemStyle BackColor="#F7F7F7" />
+            <ItemStyle BackColor="#E7E7FF" ForeColor="#4A3C8C" />
             <Columns>
                 <asp:BoundColumn DataField="Converter_Id" Visible="False"></asp:BoundColumn>
                 <asp:BoundColumn DataField="Inventory_Name" HeaderText="Ingredient"></asp:BoundColumn>
                 <asp:BoundColumn DataField="Converter_InventoryQuantity" HeaderText="Quantity"></asp:BoundColumn>
                 <asp:ButtonColumn CommandName="Delete" Text="X"></asp:ButtonColumn>
             </Columns>
+            <HeaderStyle BackColor="#4A3C8C" Font-Bold="True" ForeColor="#F7F7F7" />
         </asp:DataGrid></p>
 </div>
 <asp:HiddenField ID="HdnConverterId" runat="server" />

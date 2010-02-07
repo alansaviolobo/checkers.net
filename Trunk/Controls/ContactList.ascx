@@ -39,8 +39,15 @@
     </table>
     <br />
     <asp:DataGrid ID="DgUser" runat="server" AllowPaging="True" AllowSorting="True" AutoGenerateColumns="False"
-        OnDeleteCommand="DgUser_DeleteCommand" OnEditCommand="DgUser_EditCommand" PageSize="15">
-        <PagerStyle Mode="NumericPages" />
+        OnDeleteCommand="DgUser_DeleteCommand" OnEditCommand="DgUser_EditCommand" 
+        PageSize="15" BackColor="White" BorderColor="#E7E7FF" BorderStyle="None" 
+        BorderWidth="1px" CellPadding="3" GridLines="Horizontal">
+        <FooterStyle BackColor="#B5C7DE" ForeColor="#4A3C8C" />
+        <SelectedItemStyle BackColor="#738A9C" Font-Bold="True" ForeColor="#F7F7F7" />
+        <PagerStyle Mode="NumericPages" BackColor="#E7E7FF" ForeColor="#4A3C8C" 
+            HorizontalAlign="Right" />
+        <AlternatingItemStyle BackColor="#F7F7F7" />
+        <ItemStyle BackColor="#E7E7FF" ForeColor="#4A3C8C" />
         <Columns>
             <asp:BoundColumn DataField="Contact_Id" HeaderText="Id" Visible="False"></asp:BoundColumn>
             <asp:BoundColumn DataField="Contact_Name" HeaderText="Name"></asp:BoundColumn>
@@ -50,6 +57,7 @@
             <asp:ButtonColumn CommandName="Delete" Text="Del"></asp:ButtonColumn>
             <asp:ButtonColumn CommandName="Edit" Text="Edit"></asp:ButtonColumn>
         </Columns>
+        <HeaderStyle BackColor="#4A3C8C" Font-Bold="True" ForeColor="#F7F7F7" />
     </asp:DataGrid>
 </div>
 <asp:HiddenField ID="HdnUserId" runat="server" />

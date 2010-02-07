@@ -51,7 +51,15 @@
         </tr>
     </table>
     <asp:DataGrid ID="DgMenuRequired" runat="server" AutoGenerateColumns="False" 
-        ondeletecommand="DgMenu_DeleteCommand">
+        ondeletecommand="DgMenu_DeleteCommand" BackColor="White" 
+        BorderColor="#E7E7FF" BorderStyle="None" BorderWidth="1px" CellPadding="3" 
+        GridLines="Horizontal">
+        <FooterStyle BackColor="#B5C7DE" ForeColor="#4A3C8C" />
+        <SelectedItemStyle BackColor="#738A9C" Font-Bold="True" ForeColor="#F7F7F7" />
+        <PagerStyle BackColor="#E7E7FF" ForeColor="#4A3C8C" HorizontalAlign="Right" 
+            Mode="NumericPages" />
+        <AlternatingItemStyle BackColor="#F7F7F7" />
+        <ItemStyle BackColor="#E7E7FF" ForeColor="#4A3C8C" />
         <Columns>
             <asp:BoundColumn DataField="Offer_Id" HeaderText="Id" Visible="False"></asp:BoundColumn>
             <asp:BoundColumn DataField="Menu_Name" HeaderText="Name"></asp:BoundColumn>
@@ -59,6 +67,7 @@
             <asp:BoundColumn DataField="Offer_Cost" HeaderText="Cost"></asp:BoundColumn>
             <asp:ButtonColumn CommandName="Delete" Text="X"></asp:ButtonColumn>
         </Columns>
+        <HeaderStyle BackColor="#4A3C8C" Font-Bold="True" ForeColor="#F7F7F7" />
     </asp:DataGrid>
 </div>
 <div style="float: left; margin-left: 20px; margin-top: 15px; border: 1px dotted black;
@@ -91,7 +100,15 @@
             </td>
         </tr>
     </table>
-    <asp:DataGrid ID="DgMenuOffer" runat="server" AutoGenerateColumns="False" ondeletecommand="DgMenu_DeleteCommand">
+    <asp:DataGrid ID="DgMenuOffer" runat="server" AutoGenerateColumns="False" 
+        ondeletecommand="DgMenu_DeleteCommand" BackColor="White" BorderColor="#E7E7FF" 
+        BorderStyle="None" BorderWidth="1px" CellPadding="3" GridLines="Horizontal">
+        <FooterStyle BackColor="#B5C7DE" ForeColor="#4A3C8C" />
+        <SelectedItemStyle BackColor="#738A9C" Font-Bold="True" ForeColor="#F7F7F7" />
+        <PagerStyle BackColor="#E7E7FF" ForeColor="#4A3C8C" HorizontalAlign="Right" 
+            Mode="NumericPages" />
+        <AlternatingItemStyle BackColor="#F7F7F7" />
+        <ItemStyle BackColor="#E7E7FF" ForeColor="#4A3C8C" />
         <Columns>
             <asp:BoundColumn DataField="Offer_Id" HeaderText="Id" Visible="False"></asp:BoundColumn>
             <asp:BoundColumn DataField="Menu_Name" HeaderText="Name"></asp:BoundColumn>
@@ -99,6 +116,7 @@
             <asp:BoundColumn DataField="Offer_Cost" HeaderText="Cost"></asp:BoundColumn>
             <asp:ButtonColumn CommandName="Delete" Text="X"></asp:ButtonColumn>
         </Columns>
+        <HeaderStyle BackColor="#4A3C8C" Font-Bold="True" ForeColor="#F7F7F7" />
     </asp:DataGrid>
 </div>
 <div style="clear: both; padding-top: 10px;">
