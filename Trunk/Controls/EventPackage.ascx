@@ -110,10 +110,10 @@
             <AlternatingItemStyle BackColor="#F7F7F7" />
             <ItemStyle BackColor="#E7E7FF" ForeColor="#4A3C8C" />
             <Columns>
-                <asp:BoundColumn DataField="Package_Id" Visible="false"></asp:BoundColumn>
+                <asp:BoundColumn DataField="EventPackage_Id" Visible="false"></asp:BoundColumn>
                 <asp:BoundColumn DataField="Package_Name" HeaderText="Name"></asp:BoundColumn>
-                <asp:BoundColumn DataField="Package_Type" HeaderText="Type"></asp:BoundColumn>
-                <asp:BoundColumn DataField="Package_Cost" HeaderText="Cost"></asp:BoundColumn>
+                <asp:BoundColumn DataField="EventPackage_Quantity" HeaderText="Quantity"></asp:BoundColumn>
+                <asp:BoundColumn DataField="EventPackage_Cost" HeaderText="Cost"></asp:BoundColumn>
                 <asp:ButtonColumn CommandName="Delete" Text="X"></asp:ButtonColumn>
             </Columns>
             <HeaderStyle BackColor="#4A3C8C" Font-Bold="True" ForeColor="#F7F7F7" />

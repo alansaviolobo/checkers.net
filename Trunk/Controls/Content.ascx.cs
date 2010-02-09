@@ -30,16 +30,20 @@ public partial class Controls_Content : System.Web.UI.UserControl
 
         ((AjaxControlToolkit.Accordion)Page.Master.FindControl("AccMenu")).SelectedIndex = 7;
     }
+
     protected void BtnAdd_Click(object sender, EventArgs e)
     {
         Checkers = new CheckersDataContext();
         int Status;
 
-        Status = Checkers.ContentNew(0, int.Parse(HdnMenuId.Value), decimal.Parse(TxtQuantity.Text), decimal.Parse(TxtSpecialUnitPrice.Text), (decimal.Parse(TxtQuantity.Text) * decimal.Parse(TxtSpecialUnitPrice.Text)), PackageId, 1, DateTime.Parse(Application["SalesSession"].ToString()));
+        //Status = Checkers.ContentNew(0, int.Parse(HdnMenuId.Value), decimal.Parse(TxtQuantity.Text), decimal.Parse(TxtSpecialUnitPrice.Text), (decimal.Parse(TxtQuantity.Text) * decimal.Parse(TxtSpecialUnitPrice.Text)), PackageId, 1, DateTime.Parse(Application["SalesSession"].ToString()));
+        Status = Checkers.ContentNew(0, int.Parse(HdnMenuId.Value), decimal.Parse(TxtQuantity.Text), decimal.Parse(TxtSpecialUnitPrice.Text), PackageId, 1, DateTime.Parse(Application["SalesSession"].ToString()));
         LtrMessage.Text = Status == 1 ? "Content Associated With Package " + LtrPackageName.Text : "Error Occurred";
 
+        ClearForm();
         FillData();
     }
+
     protected void DgContent_DeleteCommand(object source, DataGridCommandEventArgs e)
     {
         Checkers = new CheckersDataContext();
@@ -50,19 +54,27 @@ public partial class Controls_Content : System.Web.UI.UserControl
 
         FillData();
     }
+
     public void FillData()
     {
         Checkers = new CheckersDataContext();
-
-        DgContent.DataSource = null;
-        DgContent.DataBind();
 
         var PackageContents = from C in Checkers.Contents
                               from M in Checkers.Menus
                               where C.Content_Package == PackageId && C.Content_Status == 1 && C.Content_Menu == M.Menu_Id
                               select new { C.Content_Id, C.Content_Quantity, C.Content_Cost, M.Menu_Name, C.Content_UnitPrice };
+        if (PackageContents.Count() > 0)
+            DgContent.DataSource = PackageContents;
+        else
+            DgContent.DataSource = null;
 
-        DgContent.DataSource = PackageContents;
         DgContent.DataBind();
+    }
+
+    public void ClearForm()
+    {
+        TxtName.Text = "";
+        TxtQuantity.Text = "";
+        TxtSpecialUnitPrice.Text = "";
     }
 }

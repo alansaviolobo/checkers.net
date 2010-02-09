@@ -5,3 +5,12 @@ VALUES ('Administrator','Administrator','Checkers','Administrator',null,null,nul
 
 INSERT INTO [Checkers].[dbo].[Miscellaneous] ([Miscellaneous_Key],[Miscellaneous_Value]) VALUES('SalesSession','0');
 INSERT INTO [Checkers].[dbo].[Miscellaneous] ([Miscellaneous_Key],[Miscellaneous_Value]) VALUES('UserLogged','0');
+
+BULK INSERT Menu
+FROM 'c:\menu.csv'
+WITH
+(
+	FIELDTERMINATOR = ',',
+	ROWTERMINATOR = '\n'
+)
+GO

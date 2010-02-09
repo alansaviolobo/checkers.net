@@ -89,8 +89,20 @@
       <Column Name="Event_ToTimeStamp" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
       <Column Name="Event_Organizer" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="Event_Venue" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="Event_Cost" Type="System.Decimal" DbType="Decimal(10,2)" CanBeNull="true" />
       <Column Name="Event_Status" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="Event_TimeStamp" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.EventPackage" Member="EventPackages">
+    <Type Name="EventPackage">
+      <Column Name="EventPackage_Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="EventPackage_Event" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="EventPackage_Package" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="EventPackage_Quantity" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="EventPackage_Cost" Type="System.Decimal" DbType="Decimal(10,2)" CanBeNull="true" />
+      <Column Name="EventPackage_Status" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="EventPackage_TimeStamp" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
     </Type>
   </Table>
   <Table Name="dbo.Inventory" Member="Inventories">
@@ -160,6 +172,7 @@
       <Column Name="Package_Name" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
       <Column Name="Package_Type" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
       <Column Name="Package_Comments" Type="System.String" DbType="VarChar(200)" CanBeNull="true" />
+      <Column Name="Package_Cost" Type="System.Decimal" DbType="Decimal(10,2)" CanBeNull="true" />
       <Column Name="Package_Status" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="Package_TimeStamp" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
     </Type>
@@ -320,7 +333,6 @@
     <Parameter Name="Menu" Parameter="menu" Type="System.Int32" DbType="Int" />
     <Parameter Name="Quantity" Parameter="quantity" Type="System.Decimal" DbType="Decimal" />
     <Parameter Name="UnitPrice" Parameter="unitPrice" Type="System.Decimal" DbType="Decimal" />
-    <Parameter Name="Cost" Parameter="cost" Type="System.Decimal" DbType="Decimal" />
     <Parameter Name="Package" Parameter="package" Type="System.Int32" DbType="Int" />
     <Parameter Name="Status" Parameter="status" Type="System.Int32" DbType="Int" />
     <Parameter Name="TimeStamp" Parameter="timeStamp" Type="System.DateTime" DbType="DateTime" />
@@ -628,6 +640,16 @@
     <Parameter Name="Quantity" Parameter="quantity" Type="System.Decimal" DbType="Decimal" />
     <Parameter Name="Source" Parameter="source" Type="System.Int32" DbType="Int" />
     <Parameter Name="TimeStamp" Parameter="timeStamp" Type="System.DateTime" DbType="DateTime" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.EventPackageNew" Method="EventPackageNew">
+    <Parameter Name="Event" Parameter="event" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Package" Parameter="package" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Quantity" Parameter="quantity" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.EventPackageDelete" Method="EventPackageDelete">
+    <Parameter Name="Id" Parameter="id" Type="System.Int32" DbType="Int" />
     <Return Type="System.Int32" />
   </Function>
 </Database>

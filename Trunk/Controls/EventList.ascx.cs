@@ -66,7 +66,7 @@ public partial class Controls_EventList : System.Web.UI.UserControl
         Checkers = new CheckersDataContext();
         var Event = from E in Checkers.Events
                     from C in Checkers.Contacts
-                    where E.Event_Status.Equals(1) && E.Event_Organizer == C.Contact_Id && E.Event_Name.Equals(EventName[0]) 
+                    where E.Event_Status.Equals(1) && E.Event_Organizer == C.Contact_Id && E.Event_Name.Equals(EventName[0])
                     select new { E.Event_Id, E.Event_Name, E.Event_Venue, E.Event_ToTimeStamp, E.Event_FromTimeStamp, C.Contact_Name };
 
         if (Event.Count() > 0)
@@ -102,8 +102,8 @@ public partial class Controls_EventList : System.Web.UI.UserControl
     protected void DgEvent_ItemCommand(object source, DataGridCommandEventArgs e)
     {
         if (e.CommandName == "Package")
-            Response.Redirect("Operation.aspx?Section=EventPackage");
+            Response.Redirect("Operation.aspx?Section=EventPackage&EventId=" + e.Item.Cells[0].Text);
         else if (e.CommandName == "Details")
-            Response.Redirect("Operation.aspx?Section=EventDetails");
+            Response.Redirect("Operation.aspx?Section=EventDetails&EventId=" + e.Item.Cells[0].Text);
     }
 }

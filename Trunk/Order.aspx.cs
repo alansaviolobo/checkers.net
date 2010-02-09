@@ -188,7 +188,7 @@ public partial class Order : System.Web.UI.Page
                 var OfferItems = Checkers.Offers.Where(O => O.Offer_Status == 1 && O.Offer_Name == DdlOffer.SelectedItem.Text).Select(O => O);
                 foreach (var O in OfferItems)
                 {
-                    Status = Checkers.SalesOffer(0, O.Offer_Menu, 1, int.Parse(HdnTableId.Value), "Table", O.Offer_Cost, 0, DateTime.Parse(Application["SalesSession"].ToString()));
+                    Status = Checkers.SalesOffer(0, O.Offer_Menu, O.Offer_Quantity, int.Parse(HdnTableId.Value), "Table", O.Offer_Cost, 0, DateTime.Parse(Application["SalesSession"].ToString()));
                     LtrMessage.Text = Status == 1 ? "Offer " + DdlOffer.Text + " Ordered Successfully." : "Error Occurred";
 
                     var MenuConverter = Checkers.Converters.Where(C => C.Converter_Menu == O.Offer_Menu && C.Converter_Status == 1).Select(C => C);
@@ -202,13 +202,6 @@ public partial class Order : System.Web.UI.Page
 
                     Status = Checkers.TokenNew(TokenTitle, O.Offer_Menu, O.Offer_Quantity, int.Parse(TableSource().ToString()), DateTime.Parse(Application["SalesSession"].ToString()));
                 }
-                //LblOt.Text = MenuCategory;
-
-                //Ot.InnerHtml = "<br /><br /><strong>Table No: </strong>" + HdnTableId.Value + "<br /><br />";
-                //Ot.InnerHtml += "<hr>";
-                //Ot.InnerHtml += "<strong>Item: </strong>" + DdlItem.SelectedItem.Text + "<br />";
-                //Ot.InnerHtml += "<strong>Quantity: </strong>" + decimal.Parse(DdlQuantity.SelectedItem.Text);
-                //ScriptManager.RegisterStartupScript(Page, Page.GetType(), "Print", "javascript:CallPrint('PrintOt');", true);
 
                 ShowOrders();
                 OrderInformation();
@@ -275,19 +268,24 @@ public partial class Order : System.Web.UI.Page
         int SalesId = int.Parse(e.Item.Cells[0].Text); ;
         int Menu = (from S in Checkers.Sales where S.Sales_Id == SalesId select S.Sales_Menu.Value).Single();
 
-        Status = Checkers.SalesDelete(SalesId, Menu, decimal.Parse(e.Item.Cells[2].Text), int.Parse(HdnTableId.Value), "Table", DateTime.Parse(Application["SalesSession"].ToString()));
-        LtrMessage.Text = Status == 1 ? "Item " + e.Item.Cells[1].Text + " For Table No. " + HdnTableId.Value + " Deleted" : "Error Occurred";
-
-        var MenuConverter = Checkers.Converters.Where(C => C.Converter_Menu == Menu && C.Converter_Status == 1).Select(C => C);
-        foreach (var M in MenuConverter)
+        if (Checkers.Sources.Where(S => S.Source_Type == "Table" && S.Source_Number == int.Parse(HdnTableId.Value) && S.Source_Status == 2).Any().Equals(true))
+            LtrMessage.Text = "Cannot delete item. Table already billed. Please close the bill.";
+        else
         {
-            decimal Quantity = M.Converter_InventoryQuantity.Value * decimal.Parse(e.Item.Cells[2].Text);
-            Status = Checkers.InventoryAdd(M.Converter_Inventory, Quantity);
-        }
+            Status = Checkers.SalesDelete(SalesId, Menu, decimal.Parse(e.Item.Cells[2].Text), int.Parse(HdnTableId.Value), "Table", DateTime.Parse(Application["SalesSession"].ToString()));
+            LtrMessage.Text = Status == 1 ? "Item " + e.Item.Cells[1].Text + " For Table No. " + HdnTableId.Value + " Deleted" : "Error Occurred";
 
-        FillOt();
-        ShowOrders();
-        OrderInformation();
+            var MenuConverter = Checkers.Converters.Where(C => C.Converter_Menu == Menu && C.Converter_Status == 1).Select(C => C);
+            foreach (var M in MenuConverter)
+            {
+                decimal Quantity = M.Converter_InventoryQuantity.Value * decimal.Parse(e.Item.Cells[2].Text);
+                Status = Checkers.InventoryAdd(M.Converter_Inventory, Quantity);
+            }
+
+            FillOt();
+            ShowOrders();
+            OrderInformation();
+        }
     }
 
     protected void BtnBill_Click(object sender, EventArgs e)
@@ -528,25 +526,13 @@ public partial class Order : System.Web.UI.Page
 
     protected void DgToken_DeleteCommand(object source, DataGridCommandEventArgs e)
     {
-        if (DgToken.Items.Count == 0) LtrMessage.Text = "No Tokens To Delete.";
-        else if (DgToken.Items.Count > 0)
-        {
-            for (int i = 0; i < DgToken.Items.Count; i++)
-            {
-                if (((System.Web.UI.WebControls.CheckBox)DgToken.Items[i].Cells[0].FindControl("ChkBox")).Checked == true)
-                {
-                    LtrMessage.Text = "Please Enter A Reason For Token Cancellation.";
-                    LtrTokenCancel.Visible = true;
-                    BtnTokenCancel.Visible = true;
-                    TxtTokenCancel.Visible = true;
-                    BtnTokenReset.Visible = true;
-                    Context.Items["TokenId"] = e.Item.Cells[1].Text;
-                    break;
-                }
-                else
-                    LtrMessage.Text = "No Tokens Selected For Deleting.";
-            }
-        }
+        LtrMessage.Text = "Please Enter A Reason For Token Cancellation.";
+        LtrTokenCancel.Visible = true;
+        BtnTokenCancel.Visible = true;
+        TxtTokenCancel.Visible = true;
+        BtnTokenReset.Visible = true;
+        TxtTokenCancel.Focus();
+        Context.Items["TokenId"] = e.Item.Cells[1].Text;
     }
 
     protected void BtnTokenCancel_Click(object sender, EventArgs e)
@@ -559,7 +545,7 @@ public partial class Order : System.Web.UI.Page
         {
             Status = Checkers.TokenDelete(int.Parse(Context.Items["TokenId"].ToString()), TxtTokenCancel.Text);
             LtrMessage.Text = Status == 1 ? "Token " + Context.Items["TokenId"].ToString() + " Canceled" : "Error Occurred.";
-            Session.Clear();
+            Context.Items.Clear();
         }
         else
         {
@@ -595,6 +581,7 @@ public partial class Order : System.Web.UI.Page
         LtrMessage.Text = Status == 1 ? "Table No. " + LtrBillTableNumber.Text + " Transfered To Table No. " + DdlTransfer.SelectedItem.Text : "Error Occurred.";
 
         TransferTable();
+        FillTables();
     }
 
     protected void BtnPrintSelectedToken_Click(object sender, EventArgs e)
@@ -751,6 +738,11 @@ public partial class Order : System.Web.UI.Page
         }
     }
 
+    protected void MenuOrder_MenuItemClick(object sender, MenuEventArgs e)
+    {
+        MultiViewOrder.ActiveViewIndex = Convert.ToInt32(e.Item.Value);
+    }
+
     #endregion
 
     #region Custom Functions
@@ -870,6 +862,7 @@ public partial class Order : System.Web.UI.Page
             }
             ImgBtnList[TableCount] = ImgBtnTable;
             ImgBtnList[TableCount].Click += new ImageClickEventHandler(BtnTable_Click);
+
             List.Controls.Add(ImgBtnTable);
             Number++;
         }

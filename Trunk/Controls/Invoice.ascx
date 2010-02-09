@@ -27,7 +27,8 @@
         <td>
             <asp:TextBox ID="TxtBillNumber" runat="server" />
             <asp:RequiredFieldValidator ID="ReqVldNumber" runat="server" Display="None" 
-                ErrorMessage="Please Enter A Bill Number"></asp:RequiredFieldValidator>
+                ErrorMessage="Please Enter A Bill Number" 
+                ControlToValidate="TxtBillNumber"></asp:RequiredFieldValidator>
             <cc1:ValidatorCalloutExtender ID="ReqVldNumberExtender" runat="server" 
                 Enabled="True" TargetControlID="ReqVldNumber">
             </cc1:ValidatorCalloutExtender>

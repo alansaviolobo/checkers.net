@@ -14,11 +14,11 @@ public partial class Report : System.Web.UI.Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        DdlInventory.Items.Clear();
+        DdlMenu.Items.Clear();
         Checkers = new CheckersDataContext();
-        var Items = Checkers.Inventories.Where(I => I.Inventory_Status.Equals(1)).Select(I => I);
-        foreach (var I in Items)
-            DdlInventory.Items.Add(new ListItem(I.Inventory_Name, I.Inventory_Id.ToString()));
+        var Items = Checkers.Menus.Where(M => M.Menu_Status.Equals(1)).Select(M => M);
+        foreach (var M in Items)
+            DdlMenu.Items.Add(new ListItem(M.Menu_Name, M.Menu_Id.ToString()));
         ((AjaxControlToolkit.Accordion)Page.Master.FindControl("AccMenu")).SelectedIndex = 8;
     }
 
@@ -77,6 +77,7 @@ public partial class Report : System.Web.UI.Page
 
         HttpContext.Current.Response.End();
     }
+
     protected void BtnPettyExpense_Click(object sender, EventArgs e)
     {
         Checkers = new CheckersDataContext();
@@ -102,6 +103,7 @@ public partial class Report : System.Web.UI.Page
 
         HttpContext.Current.Response.End();
     }
+
     protected void BtnPurchaseTotal_Click(object sender, EventArgs e)
     {
         Checkers = new CheckersDataContext();
@@ -126,6 +128,7 @@ public partial class Report : System.Web.UI.Page
 
         HttpContext.Current.Response.End();
     }
+
     protected void BtnSalesTotal_Click(object sender, EventArgs e)
     {
         Checkers = new CheckersDataContext();
@@ -154,6 +157,7 @@ public partial class Report : System.Web.UI.Page
 
         HttpContext.Current.Response.End();
     }
+
     protected void BtnReceipts_Click(object sender, EventArgs e)
     {
         Checkers = new CheckersDataContext();
@@ -179,6 +183,7 @@ public partial class Report : System.Web.UI.Page
 
         HttpContext.Current.Response.End();
     }
+
     protected void BtnCancelledTokens_Click(object sender, EventArgs e)
     {
         Checkers = new CheckersDataContext();
@@ -197,7 +202,10 @@ public partial class Report : System.Web.UI.Page
             var Menu = Checkers.Menus.Where(M => M.Menu_Id == T.Token_Menu).Select(M => M.Menu_Name).Single();
             AddComma(Menu.ToString(), StrData);
             AddComma(T.Token_Quantity.ToString(), StrData);
-            var Invoice = Checkers.Invoices.Where(I => I.Invoice_Source.Value == T.Token_Source.Value).Select(I => I.Invoice_Id.ToString()).Single();
+            var Invoice = "";
+            if (Checkers.Invoices.Where(I => I.Invoice_Source.Value == T.Token_Source.Value).Select(I => I).Any())
+                Invoice = Checkers.Invoices.Where(I => I.Invoice_Source.Value == T.Token_Source.Value).Select(I => I.Invoice_Id.ToString()).Single();
+            else Invoice = "Nill";
             AddComma(Invoice.ToString(), StrData);
             AddComma(T.Token_Reason.ToString(), StrData);
             AddComma(T.Token_TimeStamp.ToString(), StrData);
@@ -207,38 +215,15 @@ public partial class Report : System.Web.UI.Page
 
         HttpContext.Current.Response.End();
     }
-    protected void BtnPurchaseItem_Click(object sender, EventArgs e)
-    {
-        Checkers = new CheckersDataContext();
 
-        ReportHeader("Purchase Item - " + DdlInventory.SelectedItem.Text);
-        ReportColumns("Purchase Item - " + DdlInventory.SelectedItem.Text, ",Item, Quantity, Cost(Rs.), Date");
-
-        var Purchase = Checkers.ExecuteQuery<Purchase>("select * from purchase where purchase_inventory = " + int.Parse(DdlInventory.SelectedItem.Value) + " and (convert(char(10), purchase_timestamp, 103) between '" + FromDate + "' and '" + ToDate + "')");
-
-        foreach (var P in Purchase)
-        {
-            StringBuilder StrData = new StringBuilder();
-            var InventoryDetails = Checkers.Inventories.Where(I => I.Inventory_Id == P.Purchase_Inventory).Select(I => I).Single();
-            AddComma("", StrData);
-            AddComma(InventoryDetails.Inventory_Name.ToString(), StrData);
-            AddComma(P.Purchase_Quantity.ToString(), StrData);
-            AddComma((InventoryDetails.Inventory_BuyingPrice * P.Purchase_Quantity).ToString(), StrData);
-            AddComma(P.Purchase_TimeStamp.ToString(), StrData);
-            HttpContext.Current.Response.Write(StrData.ToString());
-            HttpContext.Current.Response.Write(Environment.NewLine);
-        }
-
-        HttpContext.Current.Response.End();
-    }
     protected void BtnSalesItem_Click(object sender, EventArgs e)
     {
         Checkers = new CheckersDataContext();
 
-        ReportHeader("Sales Item - " + DdlInventory.SelectedItem.Text);
-        ReportColumns("Sales Item - " + DdlInventory.SelectedItem.Text, ",Name, Quantity, Invoice No., Date");
+        ReportHeader("Sales Item - " + DdlMenu.SelectedItem.Text);
+        ReportColumns("Sales Item - " + DdlMenu.SelectedItem.Text, ",Name, Quantity, Invoice No., Date");
 
-        var Sale = Checkers.ExecuteQuery<Sale>("select * from sales where sales_status = 1 and (convert(char(10), sales_timestamp, 103) between '" + FromDate + "' and '" + ToDate + "')");
+        var Sale = Checkers.ExecuteQuery<Sale>("select * from sales where sales_menu = " + DdlMenu.SelectedItem.Value + " and sales_status = 0 and (convert(char(10), sales_timestamp, 103) between '" + FromDate + "' and '" + ToDate + "')");
 
         foreach (var S in Sale)
         {
@@ -247,7 +232,10 @@ public partial class Report : System.Web.UI.Page
             var Menu = Checkers.Menus.Where(M => M.Menu_Id == S.Sales_Menu).Select(M => M.Menu_Name).Single();
             AddComma(Menu.ToString(), StrData);
             AddComma(S.Sales_Quantity.ToString(), StrData);
-            var Invoice = Checkers.Invoices.Where(I => I.Invoice_Source == S.Sales_Source && I.Invoice_Status == 0).Select(I => I.Invoice_Id).Single();
+            var Invoice = "";
+            if (Checkers.Invoices.Where(I => I.Invoice_Source == S.Sales_Source).Select(I => I).Any())
+                Invoice = Checkers.Invoices.Where(I => I.Invoice_Source == S.Sales_Source && I.Invoice_Status == 0).Select(I => I.Invoice_Id.ToString()).Single();
+            else Invoice = "Nill";
             AddComma(Invoice.ToString(), StrData);
             AddComma(S.Sales_TimeStamp.ToString(), StrData);
             HttpContext.Current.Response.Write(StrData.ToString());
@@ -256,6 +244,7 @@ public partial class Report : System.Web.UI.Page
 
         HttpContext.Current.Response.End();
     }
+
     protected void BtnSalesCategory_Click(object sender, EventArgs e)
     {
         Checkers = new CheckersDataContext();
@@ -291,6 +280,7 @@ public partial class Report : System.Web.UI.Page
         StrData.Append(Value.Replace(',', ' '));
         StrData.Append(", ");
     }
+
     protected void BtnCreditCard_Click(object sender, EventArgs e)
     {
         Checkers = new CheckersDataContext();
@@ -319,6 +309,7 @@ public partial class Report : System.Web.UI.Page
 
         HttpContext.Current.Response.End();
     }
+
     protected void BtnCredit_Click(object sender, EventArgs e)
     {
         Checkers = new CheckersDataContext();
@@ -347,6 +338,7 @@ public partial class Report : System.Web.UI.Page
 
         HttpContext.Current.Response.End();
     }
+
     protected void BtnCash_Click(object sender, EventArgs e)
     {
         Checkers = new CheckersDataContext();
@@ -375,6 +367,7 @@ public partial class Report : System.Web.UI.Page
 
         HttpContext.Current.Response.End();
     }
+
     protected void BtnCheque_Click(object sender, EventArgs e)
     {
         Checkers = new CheckersDataContext();
@@ -403,6 +396,7 @@ public partial class Report : System.Web.UI.Page
 
         HttpContext.Current.Response.End();
     }
+
     protected void BtnZeroBilling_Click(object sender, EventArgs e)
     {
         Checkers = new CheckersDataContext();

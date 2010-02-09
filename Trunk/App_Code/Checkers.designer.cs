@@ -53,6 +53,9 @@ public partial class CheckersDataContext : System.Data.Linq.DataContext
   partial void InsertEvent(Event instance);
   partial void UpdateEvent(Event instance);
   partial void DeleteEvent(Event instance);
+  partial void InsertEventPackage(EventPackage instance);
+  partial void UpdateEventPackage(EventPackage instance);
+  partial void DeleteEventPackage(EventPackage instance);
   partial void InsertInventory(Inventory instance);
   partial void UpdateInventory(Inventory instance);
   partial void DeleteInventory(Inventory instance);
@@ -179,6 +182,14 @@ public partial class CheckersDataContext : System.Data.Linq.DataContext
 		get
 		{
 			return this.GetTable<Event>();
+		}
+	}
+	
+	public System.Data.Linq.Table<EventPackage> EventPackages
+	{
+		get
+		{
+			return this.GetTable<EventPackage>();
 		}
 	}
 	
@@ -370,9 +381,9 @@ public partial class CheckersDataContext : System.Data.Linq.DataContext
 	}
 	
 	[Function(Name="dbo.ContentNew")]
-	public int ContentNew([Parameter(Name="Id", DbType="Int")] System.Nullable<int> id, [Parameter(Name="Menu", DbType="Int")] System.Nullable<int> menu, [Parameter(Name="Quantity", DbType="Decimal")] System.Nullable<decimal> quantity, [Parameter(Name="UnitPrice", DbType="Decimal")] System.Nullable<decimal> unitPrice, [Parameter(Name="Cost", DbType="Decimal")] System.Nullable<decimal> cost, [Parameter(Name="Package", DbType="Int")] System.Nullable<int> package, [Parameter(Name="Status", DbType="Int")] System.Nullable<int> status, [Parameter(Name="TimeStamp", DbType="DateTime")] System.Nullable<System.DateTime> timeStamp)
+	public int ContentNew([Parameter(Name="Id", DbType="Int")] System.Nullable<int> id, [Parameter(Name="Menu", DbType="Int")] System.Nullable<int> menu, [Parameter(Name="Quantity", DbType="Decimal")] System.Nullable<decimal> quantity, [Parameter(Name="UnitPrice", DbType="Decimal")] System.Nullable<decimal> unitPrice, [Parameter(Name="Package", DbType="Int")] System.Nullable<int> package, [Parameter(Name="Status", DbType="Int")] System.Nullable<int> status, [Parameter(Name="TimeStamp", DbType="DateTime")] System.Nullable<System.DateTime> timeStamp)
 	{
-		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id, menu, quantity, unitPrice, cost, package, status, timeStamp);
+		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id, menu, quantity, unitPrice, package, status, timeStamp);
 		return ((int)(result.ReturnValue));
 	}
 	
@@ -688,6 +699,20 @@ public partial class CheckersDataContext : System.Data.Linq.DataContext
 	public int TokenNew([Parameter(Name="Type", DbType="VarChar(50)")] string type, [Parameter(Name="Menu", DbType="Int")] System.Nullable<int> menu, [Parameter(Name="Quantity", DbType="Decimal")] System.Nullable<decimal> quantity, [Parameter(Name="Source", DbType="Int")] System.Nullable<int> source, [Parameter(Name="TimeStamp", DbType="DateTime")] System.Nullable<System.DateTime> timeStamp)
 	{
 		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), type, menu, quantity, source, timeStamp);
+		return ((int)(result.ReturnValue));
+	}
+	
+	[Function(Name="dbo.EventPackageNew")]
+	public int EventPackageNew([Parameter(Name="Event", DbType="Int")] System.Nullable<int> @event, [Parameter(Name="Package", DbType="Int")] System.Nullable<int> package, [Parameter(Name="Quantity", DbType="Int")] System.Nullable<int> quantity)
+	{
+		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), @event, package, quantity);
+		return ((int)(result.ReturnValue));
+	}
+	
+	[Function(Name="dbo.EventPackageDelete")]
+	public int EventPackageDelete([Parameter(Name="Id", DbType="Int")] System.Nullable<int> id)
+	{
+		IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id);
 		return ((int)(result.ReturnValue));
 	}
 }
@@ -2224,6 +2249,8 @@ public partial class Event : INotifyPropertyChanging, INotifyPropertyChanged
 	
 	private string _Event_Venue;
 	
+	private System.Nullable<decimal> _Event_Cost;
+	
 	private System.Nullable<int> _Event_Status;
 	
 	private System.Nullable<System.DateTime> _Event_TimeStamp;
@@ -2244,6 +2271,8 @@ public partial class Event : INotifyPropertyChanging, INotifyPropertyChanged
     partial void OnEvent_OrganizerChanged();
     partial void OnEvent_VenueChanging(string value);
     partial void OnEvent_VenueChanged();
+    partial void OnEvent_CostChanging(System.Nullable<decimal> value);
+    partial void OnEvent_CostChanged();
     partial void OnEvent_StatusChanging(System.Nullable<int> value);
     partial void OnEvent_StatusChanged();
     partial void OnEvent_TimeStampChanging(System.Nullable<System.DateTime> value);
@@ -2375,6 +2404,26 @@ public partial class Event : INotifyPropertyChanging, INotifyPropertyChanged
 		}
 	}
 	
+	[Column(Storage="_Event_Cost", DbType="Decimal(10,2)")]
+	public System.Nullable<decimal> Event_Cost
+	{
+		get
+		{
+			return this._Event_Cost;
+		}
+		set
+		{
+			if ((this._Event_Cost != value))
+			{
+				this.OnEvent_CostChanging(value);
+				this.SendPropertyChanging();
+				this._Event_Cost = value;
+				this.SendPropertyChanged("Event_Cost");
+				this.OnEvent_CostChanged();
+			}
+		}
+	}
+	
 	[Column(Storage="_Event_Status", DbType="Int")]
 	public System.Nullable<int> Event_Status
 	{
@@ -2411,6 +2460,212 @@ public partial class Event : INotifyPropertyChanging, INotifyPropertyChanged
 				this._Event_TimeStamp = value;
 				this.SendPropertyChanged("Event_TimeStamp");
 				this.OnEvent_TimeStampChanged();
+			}
+		}
+	}
+	
+	public event PropertyChangingEventHandler PropertyChanging;
+	
+	public event PropertyChangedEventHandler PropertyChanged;
+	
+	protected virtual void SendPropertyChanging()
+	{
+		if ((this.PropertyChanging != null))
+		{
+			this.PropertyChanging(this, emptyChangingEventArgs);
+		}
+	}
+	
+	protected virtual void SendPropertyChanged(String propertyName)
+	{
+		if ((this.PropertyChanged != null))
+		{
+			this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+		}
+	}
+}
+
+[Table(Name="dbo.EventPackage")]
+public partial class EventPackage : INotifyPropertyChanging, INotifyPropertyChanged
+{
+	
+	private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+	
+	private int _EventPackage_Id;
+	
+	private System.Nullable<int> _EventPackage_Event;
+	
+	private System.Nullable<int> _EventPackage_Package;
+	
+	private System.Nullable<int> _EventPackage_Quantity;
+	
+	private System.Nullable<decimal> _EventPackage_Cost;
+	
+	private System.Nullable<int> _EventPackage_Status;
+	
+	private System.Nullable<System.DateTime> _EventPackage_TimeStamp;
+	
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnEventPackage_IdChanging(int value);
+    partial void OnEventPackage_IdChanged();
+    partial void OnEventPackage_EventChanging(System.Nullable<int> value);
+    partial void OnEventPackage_EventChanged();
+    partial void OnEventPackage_PackageChanging(System.Nullable<int> value);
+    partial void OnEventPackage_PackageChanged();
+    partial void OnEventPackage_QuantityChanging(System.Nullable<int> value);
+    partial void OnEventPackage_QuantityChanged();
+    partial void OnEventPackage_CostChanging(System.Nullable<decimal> value);
+    partial void OnEventPackage_CostChanged();
+    partial void OnEventPackage_StatusChanging(System.Nullable<int> value);
+    partial void OnEventPackage_StatusChanged();
+    partial void OnEventPackage_TimeStampChanging(System.Nullable<System.DateTime> value);
+    partial void OnEventPackage_TimeStampChanged();
+    #endregion
+	
+	public EventPackage()
+	{
+		OnCreated();
+	}
+	
+	[Column(Storage="_EventPackage_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+	public int EventPackage_Id
+	{
+		get
+		{
+			return this._EventPackage_Id;
+		}
+		set
+		{
+			if ((this._EventPackage_Id != value))
+			{
+				this.OnEventPackage_IdChanging(value);
+				this.SendPropertyChanging();
+				this._EventPackage_Id = value;
+				this.SendPropertyChanged("EventPackage_Id");
+				this.OnEventPackage_IdChanged();
+			}
+		}
+	}
+	
+	[Column(Storage="_EventPackage_Event", DbType="Int")]
+	public System.Nullable<int> EventPackage_Event
+	{
+		get
+		{
+			return this._EventPackage_Event;
+		}
+		set
+		{
+			if ((this._EventPackage_Event != value))
+			{
+				this.OnEventPackage_EventChanging(value);
+				this.SendPropertyChanging();
+				this._EventPackage_Event = value;
+				this.SendPropertyChanged("EventPackage_Event");
+				this.OnEventPackage_EventChanged();
+			}
+		}
+	}
+	
+	[Column(Storage="_EventPackage_Package", DbType="Int")]
+	public System.Nullable<int> EventPackage_Package
+	{
+		get
+		{
+			return this._EventPackage_Package;
+		}
+		set
+		{
+			if ((this._EventPackage_Package != value))
+			{
+				this.OnEventPackage_PackageChanging(value);
+				this.SendPropertyChanging();
+				this._EventPackage_Package = value;
+				this.SendPropertyChanged("EventPackage_Package");
+				this.OnEventPackage_PackageChanged();
+			}
+		}
+	}
+	
+	[Column(Storage="_EventPackage_Quantity", DbType="Int")]
+	public System.Nullable<int> EventPackage_Quantity
+	{
+		get
+		{
+			return this._EventPackage_Quantity;
+		}
+		set
+		{
+			if ((this._EventPackage_Quantity != value))
+			{
+				this.OnEventPackage_QuantityChanging(value);
+				this.SendPropertyChanging();
+				this._EventPackage_Quantity = value;
+				this.SendPropertyChanged("EventPackage_Quantity");
+				this.OnEventPackage_QuantityChanged();
+			}
+		}
+	}
+	
+	[Column(Storage="_EventPackage_Cost", DbType="Decimal(10,2)")]
+	public System.Nullable<decimal> EventPackage_Cost
+	{
+		get
+		{
+			return this._EventPackage_Cost;
+		}
+		set
+		{
+			if ((this._EventPackage_Cost != value))
+			{
+				this.OnEventPackage_CostChanging(value);
+				this.SendPropertyChanging();
+				this._EventPackage_Cost = value;
+				this.SendPropertyChanged("EventPackage_Cost");
+				this.OnEventPackage_CostChanged();
+			}
+		}
+	}
+	
+	[Column(Storage="_EventPackage_Status", DbType="Int")]
+	public System.Nullable<int> EventPackage_Status
+	{
+		get
+		{
+			return this._EventPackage_Status;
+		}
+		set
+		{
+			if ((this._EventPackage_Status != value))
+			{
+				this.OnEventPackage_StatusChanging(value);
+				this.SendPropertyChanging();
+				this._EventPackage_Status = value;
+				this.SendPropertyChanged("EventPackage_Status");
+				this.OnEventPackage_StatusChanged();
+			}
+		}
+	}
+	
+	[Column(Storage="_EventPackage_TimeStamp", DbType="DateTime")]
+	public System.Nullable<System.DateTime> EventPackage_TimeStamp
+	{
+		get
+		{
+			return this._EventPackage_TimeStamp;
+		}
+		set
+		{
+			if ((this._EventPackage_TimeStamp != value))
+			{
+				this.OnEventPackage_TimeStampChanging(value);
+				this.SendPropertyChanging();
+				this._EventPackage_TimeStamp = value;
+				this.SendPropertyChanged("EventPackage_TimeStamp");
+				this.OnEventPackage_TimeStampChanged();
 			}
 		}
 	}
@@ -3583,6 +3838,8 @@ public partial class Package : INotifyPropertyChanging, INotifyPropertyChanged
 	
 	private string _Package_Comments;
 	
+	private System.Nullable<decimal> _Package_Cost;
+	
 	private System.Nullable<int> _Package_Status;
 	
 	private System.Nullable<System.DateTime> _Package_TimeStamp;
@@ -3599,6 +3856,8 @@ public partial class Package : INotifyPropertyChanging, INotifyPropertyChanged
     partial void OnPackage_TypeChanged();
     partial void OnPackage_CommentsChanging(string value);
     partial void OnPackage_CommentsChanged();
+    partial void OnPackage_CostChanging(System.Nullable<decimal> value);
+    partial void OnPackage_CostChanged();
     partial void OnPackage_StatusChanging(System.Nullable<int> value);
     partial void OnPackage_StatusChanged();
     partial void OnPackage_TimeStampChanging(System.Nullable<System.DateTime> value);
@@ -3686,6 +3945,26 @@ public partial class Package : INotifyPropertyChanging, INotifyPropertyChanged
 				this._Package_Comments = value;
 				this.SendPropertyChanged("Package_Comments");
 				this.OnPackage_CommentsChanged();
+			}
+		}
+	}
+	
+	[Column(Storage="_Package_Cost", DbType="Decimal(10,2)")]
+	public System.Nullable<decimal> Package_Cost
+	{
+		get
+		{
+			return this._Package_Cost;
+		}
+		set
+		{
+			if ((this._Package_Cost != value))
+			{
+				this.OnPackage_CostChanging(value);
+				this.SendPropertyChanging();
+				this._Package_Cost = value;
+				this.SendPropertyChanged("Package_Cost");
+				this.OnPackage_CostChanged();
 			}
 		}
 	}

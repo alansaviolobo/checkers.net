@@ -25,7 +25,8 @@
         <td>
             <asp:TextBox ID="TxtReceiptNumber" runat="server" />
             <asp:RequiredFieldValidator ID="ReqVldNumber" runat="server" Display="None" 
-                ErrorMessage="Please Enter A Receipt Number"></asp:RequiredFieldValidator>
+                ErrorMessage="Please Enter A Receipt Number" 
+                ControlToValidate="TxtReceiptNumber"></asp:RequiredFieldValidator>
             <Ajax:ValidatorCalloutExtender ID="ReqVldNumberExtender" runat="server" 
                 Enabled="True" TargetControlID="ReqVldNumber">
             </Ajax:ValidatorCalloutExtender>

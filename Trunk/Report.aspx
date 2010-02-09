@@ -59,9 +59,8 @@
             <Ajax:TabPanel runat="server" HeaderText="Item" ID="TabItem">
                 <ContentTemplate>
                     Select Item :
-                    <asp:DropDownList ID="DdlInventory" runat="server" />
+                    <asp:DropDownList ID="DdlMenu" runat="server" />
                     &nbsp;&nbsp;
-                    <asp:Button ID="BtnPurchaseItem" runat="server" Text="Purchase" OnClick="BtnPurchaseItem_Click" />&nbsp;&nbsp;
                     <asp:Button ID="BtnSalesItem" runat="server" Text="Sales" OnClick="BtnSalesItem_Click" />
                 </ContentTemplate>
             </Ajax:TabPanel>

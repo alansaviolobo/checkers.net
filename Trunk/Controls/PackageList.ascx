@@ -55,7 +55,7 @@
             <asp:BoundColumn DataField="Package_Id" HeaderText="Id" Visible="False"></asp:BoundColumn>
             <asp:BoundColumn DataField="Package_Name" HeaderText="Name"></asp:BoundColumn>
             <asp:BoundColumn DataField="Package_Type" HeaderText="Type"></asp:BoundColumn>
-            <asp:BoundColumn DataField="Package_Comments" HeaderText="Comments"></asp:BoundColumn>
+            <asp:BoundColumn DataField="Package_Cost" HeaderText="Cost"></asp:BoundColumn>
             <asp:ButtonColumn CommandName="Delete" Text="Del"></asp:ButtonColumn>
             <asp:ButtonColumn CommandName="Edit" Text="Edit"></asp:ButtonColumn>
             <asp:ButtonColumn CommandName="Content" Text="Content"></asp:ButtonColumn>
